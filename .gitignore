@@ -1,0 +1,17 @@
+# 环境与缓存
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# 运行数据（含研报解析全文与数据库，数据来源敏感，不入库）
+data/rag.db
+data/raw_md/
+data/chunks/
+data/backups/
+data/spike/
+
+# 本地自用（不进开源仓库）
+article_draft.md
+plans/snapshots/
+LOCAL_OPS.md

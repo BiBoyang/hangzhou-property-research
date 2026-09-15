@@ -1,0 +1,648 @@
+{
+ "task": "Step 2B-2B-Preflight（正式预检 + 正式备份，只读+备份，无任何正式写入）",
+ "generated_at": "2026-09-08T06:23:14",
+ "code_version": "step2b2b-preflight-2026-09-08",
+ "plan_version": "2b2b-plan/1",
+ "db": {
+  "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+  "exists": true,
+  "fingerprint_before": {
+   "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+   "size": 23150592,
+   "mtime": 1788609358.9935865,
+   "sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+   "inode": 139590186,
+   "device": 16777232,
+   "wal_exists": false,
+   "shm_exists": false
+  },
+  "fingerprint_after": {
+   "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+   "size": 23150592,
+   "mtime": 1788609358.9935865,
+   "sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+   "inode": 139590186,
+   "device": 16777232,
+   "wal_exists": false,
+   "shm_exists": false
+  },
+  "journal_mode": "delete",
+  "data_dir_stray_journal_files": [],
+  "table_row_counts": {
+   "docs": 61,
+   "chunks": 1671,
+   "chunks_fts": 1671,
+   "chunks_vec": 1671,
+   "metrics": 3369
+  },
+  "metrics_schema": [
+   "metric_id",
+   "doc_id",
+   "institution",
+   "period",
+   "city",
+   "segment",
+   "metric_name",
+   "value",
+   "unit",
+   "comparison_type",
+   "comparison_value",
+   "is_forecast",
+   "source_page",
+   "source_quote",
+   "source_url",
+   "value_text"
+  ],
+  "metrics_has_source_file_column": false,
+  "metrics_content_sha256": "cdf166f8eb575d041d31693deb7a9f5a961f79922b2ba1c6e7e3bddf9f469186",
+  "other_tables_digest": {
+   "docs": {
+    "rows": 61,
+    "sha256": "f63adbcb60702dcb7e80afd0aafd46c8c9cca9456adc5b427e93cfd7b04c2846"
+   },
+   "chunks": {
+    "rows": 1671,
+    "sha256": "f9d2fd6b610f3b9ab0636a3e69db6a7fa2cb275e959f297d3da1523f70d48f2f"
+   },
+   "chunks_fts": {
+    "rows": 1671,
+    "sha256": "2dd2af718b25974de6d816f9a87f9ad6bc5e20395169c79a5b68ad3f9ef9b0f7"
+   },
+   "chunks_vec": {
+    "rows": 1671,
+    "sha256": "32f7509e4350384e5423a7de40c4b303bd8a3c13c3ccdd0bde16fa23dd9dbbb3"
+   }
+  }
+ },
+ "sources": {
+  "metrics_root": "/Users/boyang/Desktop/房地产研报/rag-app/metrics",
+  "file_count": 61,
+  "aggregate_sha256_before": "9987476ff3db2f82794a2fd20d138465c50aa39419561316e44c834eb8c4a489",
+  "aggregate_sha256_after": "9987476ff3db2f82794a2fd20d138465c50aa39419561316e44c834eb8c4a489",
+  "files": [
+   {
+    "name": "external_hangzhou.csv",
+    "size": 4994,
+    "mtime": 1788576216.4466164,
+    "sha256": "0a72064c1735d80e1bf4b16cfa5cee268ed5a6c27491d3868e5dafd33658c7ee"
+   },
+   {
+    "name": "report_中指院百城_202603.csv",
+    "size": 4143,
+    "mtime": 1788576364.3783243,
+    "sha256": "0e61d77204f25326e1a561b6a911cfb0e5f366026a6edef3abedb668b39260a4"
+   },
+   {
+    "name": "report_cn_inventory_2026.jsonl",
+    "size": 6091,
+    "mtime": 1788580134.9306064,
+    "sha256": "0b510888656c869916c6df7f06415a7f40d621d364cddcc20dc2151d01c9ee05"
+   },
+   {
+    "name": "report_cn_policy_tools_2026.jsonl",
+    "size": 4360,
+    "mtime": 1788580044.8032126,
+    "sha256": "90f86a2d1a6fd1749914d066474a05bf13e990b6fa637103bd97a107bcc65418"
+   },
+   {
+    "name": "report_db_rmb_202605.jsonl",
+    "size": 403,
+    "mtime": 1788577341.8238435,
+    "sha256": "df9696228202c5da5ba9d8ebbab38e1c90e94d95cd5fa93f6cbd55a9db87113e"
+   },
+   {
+    "name": "report_gs_cio_202604.jsonl",
+    "size": 535,
+    "mtime": 1788577141.801288,
+    "sha256": "a571a8a29071dea54640be94ebcdcefa9692f0a0f371695cdff62c72eeb15c39"
+   },
+   {
+    "name": "report_gs_divergence_202606.jsonl",
+    "size": 3452,
+    "mtime": 1788577255.0526495,
+    "sha256": "f56133756cb06b034effaa941f9f70b281fd2aa0c6e965cc78ff0c9058191af5"
+   },
+   {
+    "name": "report_gs_expert_202603.jsonl",
+    "size": 2496,
+    "mtime": 1788578569.4531355,
+    "sha256": "17e2023693e9080a5e1d6524bf6f92bdf10a9eaa792c5cce45994861dfdd0a5e"
+   },
+   {
+    "name": "report_gs_hk_lessons_202604.jsonl",
+    "size": 10536,
+    "mtime": 1788577341.8247404,
+    "sha256": "5a0a6a07423b4dd92646a3b1bfe17eae3deb41bc0f6af923f1ff5d7b5b89682b"
+   },
+   {
+    "name": "report_gs_lny_202602.jsonl",
+    "size": 0,
+    "mtime": 1788580544.885119,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_gs_neg_equity_202602.jsonl",
+    "size": 1904,
+    "mtime": 1788576875.4221015,
+    "sha256": "8423bfb2bdfb684e8c75f37ba1c01b7a5ed97f1bddb68a9cc76e7cc4747b07f9"
+   },
+   {
+    "name": "report_gs_q1gdp_202604.jsonl",
+    "size": 3067,
+    "mtime": 1788580537.0966215,
+    "sha256": "4705696e0936ad3c3c84569f86ea7ab807dc0d21bb1a683b68a61153f039a0c2"
+   },
+   {
+    "name": "report_gs_tier1_202604.jsonl",
+    "size": 4117,
+    "mtime": 1788577359.073159,
+    "sha256": "f85d24b9b1778d707e058163e81795a685fbfa6e6cd84287e392b575f59bf145"
+   },
+   {
+    "name": "report_gs_tracker_202604.jsonl",
+    "size": 6978,
+    "mtime": 1788576860.146701,
+    "sha256": "1a5def449fc088c7da94da2b050a80eb063411673786dd87800dd9c949f32719"
+   },
+   {
+    "name": "report_gs_wrap13_202603.jsonl",
+    "size": 4687,
+    "mtime": 1788577359.073158,
+    "sha256": "1a3a70de49e7e57eb5d3b363b785e1ba8b189bdaf8be3fa6eefcc9f5a3e5f704"
+   },
+   {
+    "name": "report_gs_wrap32_202608.jsonl",
+    "size": 2824,
+    "mtime": 1788580496.2823563,
+    "sha256": "7340a6c3af50aeff1391b8506b2c2390e8895d352fba88b9c46a31711f93f13d"
+   },
+   {
+    "name": "report_jpm_bj_202608.jsonl",
+    "size": 1988,
+    "mtime": 1788577429.9353514,
+    "sha256": "019313b816ed6056c1c01492ad4b2bcc6d68a058a77448d85b97681ece6e83a0"
+   },
+   {
+    "name": "report_jpm_chartbook_202606.jsonl",
+    "size": 64760,
+    "mtime": 1788580949.7582996,
+    "sha256": "5b8dbecfc67d6fa3b17206957443ef5dcb361db59ea98545c811d204871cb034"
+   },
+   {
+    "name": "report_jpm_feb_202603.jsonl",
+    "size": 81861,
+    "mtime": 1788577692.174247,
+    "sha256": "2d2d872186e8bd4013aa928022809f2a2c79cff042bd1e3da5ffc5135db2fd77"
+   },
+   {
+    "name": "report_jpm_feedback_202608.jsonl",
+    "size": 0,
+    "mtime": 1788577102.9524314,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_jpm_goldenweek_202605.jsonl",
+    "size": 90727,
+    "mtime": 1788579388.1920102,
+    "sha256": "d3d266377ed3f1a21807084ee6b84c808e1ef94709f88dd0806f28ba3a5492c9"
+   },
+   {
+    "name": "report_jpm_iceberg_202604.jsonl",
+    "size": 9040,
+    "mtime": 1788577584.3538978,
+    "sha256": "b00bf97f9c291ecddea917d30ab78c241d6b33708963029a7d8a5204a4eae6fd"
+   },
+   {
+    "name": "report_jpm_iceberg_202607.jsonl",
+    "size": 19718,
+    "mtime": 1788577811.961792,
+    "sha256": "6cc8afb7b21f70ebe77a9d69b4078ef27f6b46ad285012b68b5bd4e0a8018062"
+   },
+   {
+    "name": "report_jpm_jan_202602.jsonl",
+    "size": 3638,
+    "mtime": 1788577457.1371012,
+    "sha256": "c5c29127c373396bcd0b59728fe20b8ff9d46f7301c38915e1639982e7c2ec15"
+   },
+   {
+    "name": "report_jpm_kshape_202606.jsonl",
+    "size": 4525,
+    "mtime": 1788579317.9120376,
+    "sha256": "50f794790c1f78e2a71e18f35afe3654e34fa95e02c2518ddb87c85e642c4014"
+   },
+   {
+    "name": "report_jpm_summit_202605.jsonl",
+    "size": 7341,
+    "mtime": 1788577692.1734064,
+    "sha256": "84f8cbef7ccdcf7c0772e116bd0d22875ee7cfd378dbc0238a7597bfc21dcee5"
+   },
+   {
+    "name": "report_jpm_tier1_202604.jsonl",
+    "size": 26697,
+    "mtime": 1788580605.6230736,
+    "sha256": "4ade11ce286c384f628496ff6d96618ea86d1c295639e30f803181d1b861bba2"
+   },
+   {
+    "name": "report_jpm_weakness_202606.jsonl",
+    "size": 9173,
+    "mtime": 1788580677.914749,
+    "sha256": "dc27d04991cf441e80f95d7099ac719980193c3faa15f2bf1ef03fca0207d8fd"
+   },
+   {
+    "name": "report_ms_bj_202608.jsonl",
+    "size": 0,
+    "mtime": 1788577267.7694361,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_inflection_202605.jsonl",
+    "size": 154478,
+    "mtime": 1788578569.4626465,
+    "sha256": "726fc666079de07973266481f81eda6ba8846940be5073ee42c92050aa3b6d31"
+   },
+   {
+    "name": "report_ms_june_202606.jsonl",
+    "size": 14533,
+    "mtime": 1788580949.7585595,
+    "sha256": "0bef4184a7415ef2e44e8a095c55c9adac2e00ffda31eeef0f0dab5c637087ae"
+   },
+   {
+    "name": "report_ms_mar_202604.jsonl",
+    "size": 4762,
+    "mtime": 1788577259.0278275,
+    "sha256": "3ecf12691408a1caac453123b77d8c25bad5c83ca0b02d134e70627302eec38d"
+   },
+   {
+    "name": "report_ms_pulse_202604.jsonl",
+    "size": 0,
+    "mtime": 1788579496.225745,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_thoughts_202606.jsonl",
+    "size": 0,
+    "mtime": 1788580500.9398515,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_weakening_202606.jsonl",
+    "size": 2043,
+    "mtime": 1788579337.8352952,
+    "sha256": "2290887a454913f1a6f9a3a023720af4e6b585b89ada61393edb99e31ad9e97a"
+   },
+   {
+    "name": "report_nomura_apr_202604.jsonl",
+    "size": 2255,
+    "mtime": 1788580618.5556276,
+    "sha256": "90013e5ad31fcbfbc60fad504a690c91aae603b8c3ccfe91f79ed9f4de3c4546"
+   },
+   {
+    "name": "report_nomura_auto1_202605.jsonl",
+    "size": 0,
+    "mtime": 1788581120.443251,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_nomura_auto2_202605.jsonl",
+    "size": 0,
+    "mtime": 1788581120.4433737,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_nomura_feb_202603.jsonl",
+    "size": 2260,
+    "mtime": 1788580618.5556657,
+    "sha256": "2b929f0dcc34f4bedff1f7ec743f0f14d2aec4bf2a47789643fee9f8dba711f2"
+   },
+   {
+    "name": "report_nomura_gdp_202604.jsonl",
+    "size": 6582,
+    "mtime": 1788580571.7447639,
+    "sha256": "ebea991fd8427c870c0ddc3d3514863f920abf3e482bbbf4568f9205983a8f90"
+   },
+   {
+    "name": "report_ubs_ai_202605.jsonl",
+    "size": 20570,
+    "mtime": 1788579496.225627,
+    "sha256": "ede14246e4761aea1ecf298c396af4adbea16d2e4cc39bdfe8352071626fb519"
+   },
+   {
+    "name": "report_ubs_downcycle_202603.jsonl",
+    "size": 2846,
+    "mtime": 1788579432.1772861,
+    "sha256": "7b0fe12c9ccf1386820a5e792d72ebf904e22c0338084db981d70835d70734f9"
+   },
+   {
+    "name": "report_ubs_gdp_202604.jsonl",
+    "size": 5305,
+    "mtime": 1788579264.0590537,
+    "sha256": "52d9d1b233b062c096fdb1c2447b6e77b655f70ce4711910190d1904c64fbfef"
+   },
+   {
+    "name": "report_ubs_hpf_202608.jsonl",
+    "size": 6004,
+    "mtime": 1788579396.5117335,
+    "sha256": "259f802f9fc64c08d32d166fe87a1c1dc9574f9d662b4aceeb5320910870e105"
+   },
+   {
+    "name": "report_ubs_rally_202601.jsonl",
+    "size": 412,
+    "mtime": 1788579224.043934,
+    "sha256": "04e7d8f6f94c78791a1db030626a88e441a1091ff091b19c7b212a9aace86712"
+   },
+   {
+    "name": "report_ubs_shsz_202605.jsonl",
+    "size": 0,
+    "mtime": 1788579403.3134732,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ubs_survey_202601.jsonl",
+    "size": 2382,
+    "mtime": 1788579396.5113626,
+    "sha256": "dc855f65e3aab8735914986d533cf948297b53c78aeaea158f3a73c88e40fa11"
+   },
+   {
+    "name": "report_ubs_survey_202606.jsonl",
+    "size": 791,
+    "mtime": 1788577811.9612968,
+    "sha256": "7f543a562f16ba37481d64ef786d1593fcdeab42e08971c19f6ad777bd389cbb"
+   },
+   {
+    "name": "report_ubs_top100_202603.jsonl",
+    "size": 37601,
+    "mtime": 1788581120.4398346,
+    "sha256": "eab5ad775c78816cf71ff1805e472e585540d118cff41b92adcffe37d6b7999b"
+   },
+   {
+    "name": "report_ubs_tour_202603.jsonl",
+    "size": 0,
+    "mtime": 1788579432.1649928,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_zhongzhi_100cities_202602.jsonl",
+    "size": 22367,
+    "mtime": 1788579916.027714,
+    "sha256": "ef8346a9b89be9b79166e5048402b6298268ff5d805fc78feafb9b7f819a609b"
+   },
+   {
+    "name": "report_zhongzhi_annual_2026.jsonl",
+    "size": 1240,
+    "mtime": 1788577424.057621,
+    "sha256": "12053a1185a1e6a2280793afa06a39e2c53aa55f5fcabccf60467b74857584d0"
+   },
+   {
+    "name": "report_zhongzhi_mar_202603.jsonl",
+    "size": 28803,
+    "mtime": 1788580044.8043709,
+    "sha256": "8014332008766973e07cf20ea85ea5b98068a67f64d0770325351248c7a3c813"
+   },
+   {
+    "name": "web_cih_index_202608.jsonl",
+    "size": 12297,
+    "mtime": 1788609280.900858,
+    "sha256": "bd3b3ffd9048f641726db68955af12ec3abdbf1db782ba65ff1f32039bef4d09"
+   },
+   {
+    "name": "web_cric_bj_2026h1.jsonl",
+    "size": 7319,
+    "mtime": 1788609202.1708038,
+    "sha256": "c52573c4c92ba4a0334487d5d89ffe83d65d95200e10fbf48b20f360584cd5a3"
+   },
+   {
+    "name": "web_cric_dev_2026h1.jsonl",
+    "size": 11283,
+    "mtime": 1788609186.7607644,
+    "sha256": "828ef583cd87245082de4a172040d703d5c14fb06c61a94b44fe35cdba5c8844"
+   },
+   {
+    "name": "web_cric_hz_202605.jsonl",
+    "size": 1346,
+    "mtime": 1788609207.0657015,
+    "sha256": "e34ad63f2cacf48c5b7d9dd45c2c1b4cf6a2bf4fa2f5740d0487b834dc4cec81"
+   },
+   {
+    "name": "web_cric_hz_202607.jsonl",
+    "size": 1793,
+    "mtime": 1788609207.065715,
+    "sha256": "38f4b7dafae6091b0edb6ae7c455a40d0c9f57916decc5b56b4cff98ff38beea"
+   },
+   {
+    "name": "web_cric_hz_2026h1.jsonl",
+    "size": 10271,
+    "mtime": 1788609186.7605424,
+    "sha256": "09f9fa98cba371817b92ed1d42556de36ba45e1cddabcff7fb08a7f5c6040d5b"
+   },
+   {
+    "name": "web_cric_sh_2026h1.jsonl",
+    "size": 6551,
+    "mtime": 1788609145.2453725,
+    "sha256": "e560e5ce23f3a7ae1788571606d63973be708facffbda119a31e050fad12fb96"
+   },
+   {
+    "name": "web_cric_sz_2026h1.jsonl",
+    "size": 14793,
+    "mtime": 1788609187.731282,
+    "sha256": "e17e6db7924a7bf8a9ed31b2f29f009b3ca9b0817344be218b22d33527f8d29b"
+   }
+  ],
+  "parse_errors": {},
+  "converted_record_count": 1478
+ },
+ "processes": {
+  "web": {
+   "running": true,
+   "pid": 71847,
+   "command": ".venv/bin/python web/app.py"
+  },
+  "writer_scripts": [],
+  "other_db_related": [],
+  "scan_error": null,
+  "writer_running": false
+ },
+ "plan": {
+  "path": "/Users/boyang/Desktop/房地产研报/rag-app/plans/reports/step2b2b-plan-formal-20260908-062312.json",
+  "plan_version": "2b2b-plan/1",
+  "code_version": "step2b2b-preflight-2026-09-08",
+  "allocation_algorithm": "det-pinned-sort-v1",
+  "generated_at": "2026-09-08T06:23:13",
+  "db_sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+  "db_inode": 139590186,
+  "db_device": 16777232,
+  "source_aggregate_sha256": "9987476ff3db2f82794a2fd20d138465c50aa39419561316e44c834eb8c4a489",
+  "data_stats": {
+   "db_total_rows": 3369,
+   "db_distinct_contents": 1464,
+   "exact_dup_groups": 1273,
+   "exact_dup_extra_rows": 1905,
+   "source_total_rows": 1478,
+   "distinct_file_content_combos": 1477,
+   "within_file_dup_extra_rows": 1,
+   "cross_file_content_groups": 13,
+   "unique_match_contents": 1451,
+   "ambiguous_match_contents": 13,
+   "db_unmatched_rows": 0,
+   "source_unmatched_contents": 0,
+   "existing_source_file": {
+    "status": "source_file 列不存在（未迁移），全部记录视为未归属"
+   }
+  },
+  "targets": {
+   "keep": 1477,
+   "delete": 1892,
+   "technical_assignments": 1477,
+   "keep_existing": 0,
+   "cross_file_groups_retained": 13
+  },
+  "blockers": [],
+  "allowed_to_execute": true,
+  "technical_assignment_note": "技术分配，非历史事实恢复：按 source_file POSIX 升序 × metric_id 升序配对（尊重已有一致归属），不代表数据库历史中的真实来源。",
+  "transaction_strategy": "direct-metrics-v1（候选一）：单事务（BEGIN IMMEDIATE）内 显式 ALTER（仅缺列时）+ UPDATE source_file + DELETE 同文件重复，失败整体回滚，不改 docs/chunks/FTS/vec",
+  "idempotency": "计划与生成时的库/源文件状态指纹绑定；执行后旧计划立即失效（指纹不一致会被拒绝），必须重新生成计划，重新生成的计划为 no-op（0 分配 0 删除），执行后状态稳定"
+ },
+ "backup": {
+  "ok": true,
+  "problems": [],
+  "warnings": [],
+  "embedding_verified": true,
+  "disclaimer": "本操作只创建正式数据库备份并验证，未修改正式库内容；备份授权不构成正式迁移/回填/删除的写入授权。",
+  "created_at": "2026-09-08T06:23:14",
+  "source_path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+  "source_fingerprint": {
+   "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+   "size": 23150592,
+   "mtime": 1788609358.9935865,
+   "sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+   "inode": 139590186,
+   "device": 16777232,
+   "wal_exists": false,
+   "shm_exists": false
+  },
+  "source_after_fingerprint": {
+   "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+   "size": 23150592,
+   "mtime": 1788609358.9935865,
+   "sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+   "inode": 139590186,
+   "device": 16777232,
+   "wal_exists": false,
+   "shm_exists": false
+  },
+  "backup_path": "/Users/boyang/Desktop/房地产研报/rag-app/data/backups/rag-2b2-preflight-20260908-062313.db",
+  "backup_fingerprint": {
+   "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/backups/rag-2b2-preflight-20260908-062313.db",
+   "size": 23150592,
+   "mtime": 1788819793.8173983,
+   "sha256": "257f764851b92293835be7c6b642533d0ae57002faa21dc7f19d8122eb0aa1e8",
+   "inode": 142036146,
+   "device": 16777232,
+   "wal_exists": false,
+   "shm_exists": false
+  },
+  "integrity_check": "ok",
+  "source_table_stats": {
+   "docs": 61,
+   "chunks": 1671,
+   "chunks_fts": 1671,
+   "chunks_vec": 1671,
+   "metrics": 3369,
+   "metrics_columns": [
+    "metric_id",
+    "doc_id",
+    "institution",
+    "period",
+    "city",
+    "segment",
+    "metric_name",
+    "value",
+    "unit",
+    "comparison_type",
+    "comparison_value",
+    "is_forecast",
+    "source_page",
+    "source_quote",
+    "source_url",
+    "value_text"
+   ],
+   "metrics_content_sha256": "cdf166f8eb575d041d31693deb7a9f5a961f79922b2ba1c6e7e3bddf9f469186",
+   "journal_mode": "delete"
+  },
+  "backup_table_stats": {
+   "docs": 61,
+   "chunks": 1671,
+   "chunks_fts": 1671,
+   "chunks_vec": 1671,
+   "metrics": 3369,
+   "metrics_columns": [
+    "metric_id",
+    "doc_id",
+    "institution",
+    "period",
+    "city",
+    "segment",
+    "metric_name",
+    "value",
+    "unit",
+    "comparison_type",
+    "comparison_value",
+    "is_forecast",
+    "source_page",
+    "source_quote",
+    "source_url",
+    "value_text"
+   ],
+   "metrics_content_sha256": "cdf166f8eb575d041d31693deb7a9f5a961f79922b2ba1c6e7e3bddf9f469186",
+   "journal_mode": "delete"
+  },
+  "source_other_tables": {
+   "docs": {
+    "rows": 61,
+    "sha256": "f63adbcb60702dcb7e80afd0aafd46c8c9cca9456adc5b427e93cfd7b04c2846"
+   },
+   "chunks": {
+    "rows": 1671,
+    "sha256": "f9d2fd6b610f3b9ab0636a3e69db6a7fa2cb275e959f297d3da1523f70d48f2f"
+   },
+   "chunks_fts": {
+    "rows": 1671,
+    "sha256": "2dd2af718b25974de6d816f9a87f9ad6bc5e20395169c79a5b68ad3f9ef9b0f7"
+   },
+   "chunks_vec": {
+    "rows": 1671,
+    "sha256": "32f7509e4350384e5423a7de40c4b303bd8a3c13c3ccdd0bde16fa23dd9dbbb3"
+   }
+  },
+  "backup_other_tables": {
+   "docs": {
+    "rows": 61,
+    "sha256": "f63adbcb60702dcb7e80afd0aafd46c8c9cca9456adc5b427e93cfd7b04c2846"
+   },
+   "chunks": {
+    "rows": 1671,
+    "sha256": "f9d2fd6b610f3b9ab0636a3e69db6a7fa2cb275e959f297d3da1523f70d48f2f"
+   },
+   "chunks_fts": {
+    "rows": 1671,
+    "sha256": "2dd2af718b25974de6d816f9a87f9ad6bc5e20395169c79a5b68ad3f9ef9b0f7"
+   },
+   "chunks_vec": {
+    "rows": 1671,
+    "sha256": "32f7509e4350384e5423a7de40c4b303bd8a3c13c3ccdd0bde16fa23dd9dbbb3"
+   }
+  },
+  "note": "备份文件 sha256 与源库文件 sha256 不要求相等（SQLite 页面布局可不同），一致性以内容摘要与关键表行数为准。"
+ },
+ "fingerprint_diff": [],
+ "blockers": [],
+ "ready_for_next_step": true,
+ "declarations": {
+  "no_formal_migration": true,
+  "no_source_file_backfill": true,
+  "no_metrics_deletion": true,
+  "no_docs_chunks_fts_vec_modification": true,
+  "no_source_file_modification": true,
+  "no_external_api_calls": true
+ },
+ "disclaimer": "allowed_to_execute=True 只表示当前目标集可计算，不表示本轮获得正式写入授权；正式迁移/回填/删除需后续单独批准。 本操作只创建正式数据库备份并验证，未修改正式库内容；备份授权不构成正式迁移/回填/删除的写入授权。"
+}

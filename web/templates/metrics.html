@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房地产研报研判 · 指标看板</title>
+<!-- ECharts 使用 Step 3E 本地固定资源，页面不依赖外部 CDN -->
+<script src="/static/echarts.min.js"></script>
+<style>
+  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:1100px;margin:0 auto;padding:16px;color:#222}
+  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
+  select{padding:8px;font-size:15px;margin-right:8px}
+  #chart{width:100%;height:420px;border:1px solid #e2e8f0;border-radius:8px;margin-top:12px}
+  table{border-collapse:collapse;width:100%;margin-top:16px;font-size:13px}
+  th,td{border:1px solid #e2e8f0;padding:6px 8px;text-align:left}
+  th{background:#f1f5f9}
+  .fc{color:#b45309}
+  .muted{color:#64748b;font-size:12px}
+</style>
+</head>
+<body>
+<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<h2>指标看板</h2>
+<select id="m"><option value="">选择指标</option>{% for n in metric_names %}<option value="{{n}}">{{n}}</option>{% endfor %}</select>
+<select id="c"><option value="">全部城市</option>{% for c in cities %}<option>{{c}}</option>{% endfor %}</select>
+<div id="minfo" class="muted" style="margin-top:8px"></div>
+<div id="chart"></div>
+<table id="tbl" data-metric=""></table>
+<script>
+// ===== 展示层中文化映射：只改显示，查询仍用原英文 code；LABELS-MAPS-BEGIN 供契约测试按 JSON 提取 =====
+const METRIC_LABELS = {
+  "secondary_home_price_index": "二手房价格指数",
+  "new_home_price_index": "新房价格指数",
+  "avg_price": "成交均价",
+  "mom_change_pct": "环比涨跌幅",
+  "yoy_change_pct": "同比涨跌幅",
+  "secondary_volume_units": "二手房成交套数",
+  "new_home_volume_units": "新房成交套数",
+  "new_home_volume_area": "新房成交面积",
+  "developer_sales_amount": "房企销售额",
+  "inventory_months": "新房库存去化周期",
+  "listing_units": "挂牌量",
+  "rent_level": "租金水平",
+  "rental_yield": "租金回报率",
+  "land_transaction_value": "土地成交金额",
+  "premium_rate_pct": "土地溢价率",
+  "mortgage_rate": "房贷利率",
+  "provident_fund_rate": "公积金贷款利率",
+  "price_bottom_timing": "房价触底时点预测",
+  "price_change_forecast_pct": "房价涨跌幅预测"
+};
+const METRIC_DESCRIPTIONS = {
+  "secondary_home_price_index": "二手住宅价格变化指数",
+  "new_home_price_index": "新建商品住宅价格变化指数",
+  "avg_price": "统计期内平均成交价格",
+  "mom_change_pct": "与上一个统计期相比的变化",
+  "yoy_change_pct": "与去年同期相比的变化",
+  "secondary_volume_units": "统计期内二手住宅成交套数",
+  "new_home_volume_units": "统计期内新建商品住宅成交套数",
+  "new_home_volume_area": "统计期内新房成交面积",
+  "developer_sales_amount": "房地产开发企业合同销售金额",
+  "inventory_months": "按当前销售速度消化库存所需月份",
+  "listing_units": "正在挂牌出售的房源数量",
+  "rent_level": "单位面积或指定口径的月租金",
+  "rental_yield": "租金收入相对房价的比例",
+  "land_transaction_value": "土地出让或成交金额",
+  "premium_rate_pct": "土地成交价相对起始价的溢价比例",
+  "mortgage_rate": "商业住房贷款利率",
+  "provident_fund_rate": "住房公积金贷款利率",
+  "price_bottom_timing": "机构对未来价格底部时间的预测",
+  "price_change_forecast_pct": "机构对未来价格变化的预测"
+};
+const UNIT_LABELS = {
+  "CNY_per_sqm": "元/平方米",
+  "CNY_100m": "亿元",
+  "10k_sqm": "万平方米",
+  "units": "套",
+  "months": "个月",
+  "pct": "%",
+  "index": "指数",
+  "CNY_per_sqm_month": "元/平方米·月",
+  "text": "文本"
+};
+const SEGMENT_LABELS = {
+  "new_home": "新房",
+  "secondary_home": "二手房",
+  "land": "土地",
+  "rental": "租赁",
+  "macro": "宏观",
+  "developer": "房企"
+};
+const COMPARISON_LABELS = {
+  "mom": "环比",
+  "yoy": "同比"
+};
+const FORECAST_LABELS = {
+  "0": "实际观测",
+  "1": "预测"
+};
+// 未知 code 一律回退显示原值，页面不报错；原始 code 保留在括号小字 / title / data-* 中供排查
+const metricLabel = (code) => METRIC_LABELS[code] ?? code;
+const metricDescription = (code) => METRIC_DESCRIPTIONS[code] ?? '';
+const unitLabel = (code) => UNIT_LABELS[code] ?? code;
+const segmentLabel = (code) => SEGMENT_LABELS[code] ?? code;
+const comparisonLabel = (code) => COMPARISON_LABELS[code] ?? code;
+const forecastLabel = (v) => FORECAST_LABELS[String(v)] ?? String(v ?? '');
+// 空城市不写成"全国"：数据库未归一化的空城市显示"未归一化城市"
+const cityLabel = (c) => (c ? c : '未归一化城市');
+// ===== LABELS-MAPS-END =====
+
+const chart = echarts.init(document.getElementById('chart'));
+// 数据库字段一律转义后再进 innerHTML，防止 source_quote/institution 等文本注入 HTML
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+// 指标下拉框：option 的 value 保持英文 code（查询用），显示文本改为"中文名称（code）"
+document.querySelectorAll('#m option').forEach(o => {
+  if (!o.value) return;
+  o.textContent = metricLabel(o.value) + '（' + o.value + '）';
+});
+async function load() {
+  const m = document.getElementById('m').value, c = document.getElementById('c').value;
+  if (!m) return;
+  document.getElementById('minfo').textContent =
+    metricLabel(m) + '（' + m + '）：' + metricDescription(m);
+  document.getElementById('tbl').setAttribute('data-metric', m);
+  const r = await fetch(`/api/metrics?metric=${encodeURIComponent(m)}&city=${encodeURIComponent(c)}`);
+  const d = await r.json();
+  const rows = d.rows.filter(x => typeof x.value === 'number');
+  // 趋势图只画月度点：剔除 H1/Q1 等累计期，并按 (series,period) 去重
+  const monthly = rows.filter(x => /^\d{4}-\d{2}$/.test(x.period));
+  const series = {};
+  const seen = new Set();
+  monthly.forEach(x => {
+    const key = cityLabel(x.city) + '·' + (x.institution || '外部') + (x.is_forecast ? '(预测)' : '');
+    const dedup = key + x.period;
+    if (seen.has(dedup)) return;
+    seen.add(dedup);
+    (series[key] = series[key] || []).push([x.period, x.value]);
+  });
+  chart.setOption({
+    title: {text: metricLabel(m) + '（' + m + '）', left: 'center', textStyle: {fontSize: 14}},
+    tooltip: {trigger: 'axis'},
+    legend: {type: 'scroll', top: 24},
+    xAxis: {type: 'category'},
+    yAxis: {type: 'value'},
+    series: Object.entries(series).map(([name, data]) => ({
+      name, type: 'line', data, connectNulls: true,
+      lineStyle: name.includes('预测') ? {type: 'dashed'} : {}
+    }))
+  }, true);
+  document.getElementById('tbl').innerHTML =
+    '<tr><th>期</th><th>城市</th><th>数值</th><th>单位</th><th>市场类型</th><th>环比/同比</th><th>类型</th><th>机构</th><th>来源摘录</th></tr>' +
+    rows.map(x => `<tr${x.is_forecast ? ' class="fc"' : ''}><td>${esc(x.period)}</td><td title="${esc(x.city ?? '')}">${esc(cityLabel(x.city))}</td><td>${x.value}</td><td title="${esc(x.unit ?? '')}">${esc(unitLabel(x.unit))}</td><td title="${esc(x.segment ?? '')}">${esc(segmentLabel(x.segment ?? ''))}</td><td>${esc(comparisonLabel(x.comparison_type))} ${esc(x.comparison_value ?? '')}</td><td>${esc(forecastLabel(x.is_forecast))}</td><td>${esc(x.institution)}</td><td>${esc((x.source_quote||'').slice(0,80))}</td></tr>`).join('');
+}
+document.getElementById('m').onchange = load;
+document.getElementById('c').onchange = load;
+</script>
+</body>
+</html>

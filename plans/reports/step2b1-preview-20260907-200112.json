@@ -1,0 +1,1075 @@
+{
+ "db_file_fingerprint": {
+  "path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+  "size": 23150592,
+  "mtime": 1788609358.9935865,
+  "sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+  "wal_exists": false,
+  "shm_exists": false
+ },
+ "source_fingerprint": {
+  "metrics_root": "/Users/boyang/Desktop/房地产研报/rag-app/metrics",
+  "file_count": 61,
+  "aggregate_sha256": "9987476ff3db2f82794a2fd20d138465c50aa39419561316e44c834eb8c4a489",
+  "files": [
+   {
+    "name": "external_hangzhou.csv",
+    "size": 4994,
+    "mtime": 1788576216.4466164,
+    "sha256": "0a72064c1735d80e1bf4b16cfa5cee268ed5a6c27491d3868e5dafd33658c7ee"
+   },
+   {
+    "name": "report_中指院百城_202603.csv",
+    "size": 4143,
+    "mtime": 1788576364.3783243,
+    "sha256": "0e61d77204f25326e1a561b6a911cfb0e5f366026a6edef3abedb668b39260a4"
+   },
+   {
+    "name": "report_cn_inventory_2026.jsonl",
+    "size": 6091,
+    "mtime": 1788580134.9306064,
+    "sha256": "0b510888656c869916c6df7f06415a7f40d621d364cddcc20dc2151d01c9ee05"
+   },
+   {
+    "name": "report_cn_policy_tools_2026.jsonl",
+    "size": 4360,
+    "mtime": 1788580044.8032126,
+    "sha256": "90f86a2d1a6fd1749914d066474a05bf13e990b6fa637103bd97a107bcc65418"
+   },
+   {
+    "name": "report_db_rmb_202605.jsonl",
+    "size": 403,
+    "mtime": 1788577341.8238435,
+    "sha256": "df9696228202c5da5ba9d8ebbab38e1c90e94d95cd5fa93f6cbd55a9db87113e"
+   },
+   {
+    "name": "report_gs_cio_202604.jsonl",
+    "size": 535,
+    "mtime": 1788577141.801288,
+    "sha256": "a571a8a29071dea54640be94ebcdcefa9692f0a0f371695cdff62c72eeb15c39"
+   },
+   {
+    "name": "report_gs_divergence_202606.jsonl",
+    "size": 3452,
+    "mtime": 1788577255.0526495,
+    "sha256": "f56133756cb06b034effaa941f9f70b281fd2aa0c6e965cc78ff0c9058191af5"
+   },
+   {
+    "name": "report_gs_expert_202603.jsonl",
+    "size": 2496,
+    "mtime": 1788578569.4531355,
+    "sha256": "17e2023693e9080a5e1d6524bf6f92bdf10a9eaa792c5cce45994861dfdd0a5e"
+   },
+   {
+    "name": "report_gs_hk_lessons_202604.jsonl",
+    "size": 10536,
+    "mtime": 1788577341.8247404,
+    "sha256": "5a0a6a07423b4dd92646a3b1bfe17eae3deb41bc0f6af923f1ff5d7b5b89682b"
+   },
+   {
+    "name": "report_gs_lny_202602.jsonl",
+    "size": 0,
+    "mtime": 1788580544.885119,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_gs_neg_equity_202602.jsonl",
+    "size": 1904,
+    "mtime": 1788576875.4221015,
+    "sha256": "8423bfb2bdfb684e8c75f37ba1c01b7a5ed97f1bddb68a9cc76e7cc4747b07f9"
+   },
+   {
+    "name": "report_gs_q1gdp_202604.jsonl",
+    "size": 3067,
+    "mtime": 1788580537.0966215,
+    "sha256": "4705696e0936ad3c3c84569f86ea7ab807dc0d21bb1a683b68a61153f039a0c2"
+   },
+   {
+    "name": "report_gs_tier1_202604.jsonl",
+    "size": 4117,
+    "mtime": 1788577359.073159,
+    "sha256": "f85d24b9b1778d707e058163e81795a685fbfa6e6cd84287e392b575f59bf145"
+   },
+   {
+    "name": "report_gs_tracker_202604.jsonl",
+    "size": 6978,
+    "mtime": 1788576860.146701,
+    "sha256": "1a5def449fc088c7da94da2b050a80eb063411673786dd87800dd9c949f32719"
+   },
+   {
+    "name": "report_gs_wrap13_202603.jsonl",
+    "size": 4687,
+    "mtime": 1788577359.073158,
+    "sha256": "1a3a70de49e7e57eb5d3b363b785e1ba8b189bdaf8be3fa6eefcc9f5a3e5f704"
+   },
+   {
+    "name": "report_gs_wrap32_202608.jsonl",
+    "size": 2824,
+    "mtime": 1788580496.2823563,
+    "sha256": "7340a6c3af50aeff1391b8506b2c2390e8895d352fba88b9c46a31711f93f13d"
+   },
+   {
+    "name": "report_jpm_bj_202608.jsonl",
+    "size": 1988,
+    "mtime": 1788577429.9353514,
+    "sha256": "019313b816ed6056c1c01492ad4b2bcc6d68a058a77448d85b97681ece6e83a0"
+   },
+   {
+    "name": "report_jpm_chartbook_202606.jsonl",
+    "size": 64760,
+    "mtime": 1788580949.7582996,
+    "sha256": "5b8dbecfc67d6fa3b17206957443ef5dcb361db59ea98545c811d204871cb034"
+   },
+   {
+    "name": "report_jpm_feb_202603.jsonl",
+    "size": 81861,
+    "mtime": 1788577692.174247,
+    "sha256": "2d2d872186e8bd4013aa928022809f2a2c79cff042bd1e3da5ffc5135db2fd77"
+   },
+   {
+    "name": "report_jpm_feedback_202608.jsonl",
+    "size": 0,
+    "mtime": 1788577102.9524314,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_jpm_goldenweek_202605.jsonl",
+    "size": 90727,
+    "mtime": 1788579388.1920102,
+    "sha256": "d3d266377ed3f1a21807084ee6b84c808e1ef94709f88dd0806f28ba3a5492c9"
+   },
+   {
+    "name": "report_jpm_iceberg_202604.jsonl",
+    "size": 9040,
+    "mtime": 1788577584.3538978,
+    "sha256": "b00bf97f9c291ecddea917d30ab78c241d6b33708963029a7d8a5204a4eae6fd"
+   },
+   {
+    "name": "report_jpm_iceberg_202607.jsonl",
+    "size": 19718,
+    "mtime": 1788577811.961792,
+    "sha256": "6cc8afb7b21f70ebe77a9d69b4078ef27f6b46ad285012b68b5bd4e0a8018062"
+   },
+   {
+    "name": "report_jpm_jan_202602.jsonl",
+    "size": 3638,
+    "mtime": 1788577457.1371012,
+    "sha256": "c5c29127c373396bcd0b59728fe20b8ff9d46f7301c38915e1639982e7c2ec15"
+   },
+   {
+    "name": "report_jpm_kshape_202606.jsonl",
+    "size": 4525,
+    "mtime": 1788579317.9120376,
+    "sha256": "50f794790c1f78e2a71e18f35afe3654e34fa95e02c2518ddb87c85e642c4014"
+   },
+   {
+    "name": "report_jpm_summit_202605.jsonl",
+    "size": 7341,
+    "mtime": 1788577692.1734064,
+    "sha256": "84f8cbef7ccdcf7c0772e116bd0d22875ee7cfd378dbc0238a7597bfc21dcee5"
+   },
+   {
+    "name": "report_jpm_tier1_202604.jsonl",
+    "size": 26697,
+    "mtime": 1788580605.6230736,
+    "sha256": "4ade11ce286c384f628496ff6d96618ea86d1c295639e30f803181d1b861bba2"
+   },
+   {
+    "name": "report_jpm_weakness_202606.jsonl",
+    "size": 9173,
+    "mtime": 1788580677.914749,
+    "sha256": "dc27d04991cf441e80f95d7099ac719980193c3faa15f2bf1ef03fca0207d8fd"
+   },
+   {
+    "name": "report_ms_bj_202608.jsonl",
+    "size": 0,
+    "mtime": 1788577267.7694361,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_inflection_202605.jsonl",
+    "size": 154478,
+    "mtime": 1788578569.4626465,
+    "sha256": "726fc666079de07973266481f81eda6ba8846940be5073ee42c92050aa3b6d31"
+   },
+   {
+    "name": "report_ms_june_202606.jsonl",
+    "size": 14533,
+    "mtime": 1788580949.7585595,
+    "sha256": "0bef4184a7415ef2e44e8a095c55c9adac2e00ffda31eeef0f0dab5c637087ae"
+   },
+   {
+    "name": "report_ms_mar_202604.jsonl",
+    "size": 4762,
+    "mtime": 1788577259.0278275,
+    "sha256": "3ecf12691408a1caac453123b77d8c25bad5c83ca0b02d134e70627302eec38d"
+   },
+   {
+    "name": "report_ms_pulse_202604.jsonl",
+    "size": 0,
+    "mtime": 1788579496.225745,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_thoughts_202606.jsonl",
+    "size": 0,
+    "mtime": 1788580500.9398515,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ms_weakening_202606.jsonl",
+    "size": 2043,
+    "mtime": 1788579337.8352952,
+    "sha256": "2290887a454913f1a6f9a3a023720af4e6b585b89ada61393edb99e31ad9e97a"
+   },
+   {
+    "name": "report_nomura_apr_202604.jsonl",
+    "size": 2255,
+    "mtime": 1788580618.5556276,
+    "sha256": "90013e5ad31fcbfbc60fad504a690c91aae603b8c3ccfe91f79ed9f4de3c4546"
+   },
+   {
+    "name": "report_nomura_auto1_202605.jsonl",
+    "size": 0,
+    "mtime": 1788581120.443251,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_nomura_auto2_202605.jsonl",
+    "size": 0,
+    "mtime": 1788581120.4433737,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_nomura_feb_202603.jsonl",
+    "size": 2260,
+    "mtime": 1788580618.5556657,
+    "sha256": "2b929f0dcc34f4bedff1f7ec743f0f14d2aec4bf2a47789643fee9f8dba711f2"
+   },
+   {
+    "name": "report_nomura_gdp_202604.jsonl",
+    "size": 6582,
+    "mtime": 1788580571.7447639,
+    "sha256": "ebea991fd8427c870c0ddc3d3514863f920abf3e482bbbf4568f9205983a8f90"
+   },
+   {
+    "name": "report_ubs_ai_202605.jsonl",
+    "size": 20570,
+    "mtime": 1788579496.225627,
+    "sha256": "ede14246e4761aea1ecf298c396af4adbea16d2e4cc39bdfe8352071626fb519"
+   },
+   {
+    "name": "report_ubs_downcycle_202603.jsonl",
+    "size": 2846,
+    "mtime": 1788579432.1772861,
+    "sha256": "7b0fe12c9ccf1386820a5e792d72ebf904e22c0338084db981d70835d70734f9"
+   },
+   {
+    "name": "report_ubs_gdp_202604.jsonl",
+    "size": 5305,
+    "mtime": 1788579264.0590537,
+    "sha256": "52d9d1b233b062c096fdb1c2447b6e77b655f70ce4711910190d1904c64fbfef"
+   },
+   {
+    "name": "report_ubs_hpf_202608.jsonl",
+    "size": 6004,
+    "mtime": 1788579396.5117335,
+    "sha256": "259f802f9fc64c08d32d166fe87a1c1dc9574f9d662b4aceeb5320910870e105"
+   },
+   {
+    "name": "report_ubs_rally_202601.jsonl",
+    "size": 412,
+    "mtime": 1788579224.043934,
+    "sha256": "04e7d8f6f94c78791a1db030626a88e441a1091ff091b19c7b212a9aace86712"
+   },
+   {
+    "name": "report_ubs_shsz_202605.jsonl",
+    "size": 0,
+    "mtime": 1788579403.3134732,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_ubs_survey_202601.jsonl",
+    "size": 2382,
+    "mtime": 1788579396.5113626,
+    "sha256": "dc855f65e3aab8735914986d533cf948297b53c78aeaea158f3a73c88e40fa11"
+   },
+   {
+    "name": "report_ubs_survey_202606.jsonl",
+    "size": 791,
+    "mtime": 1788577811.9612968,
+    "sha256": "7f543a562f16ba37481d64ef786d1593fcdeab42e08971c19f6ad777bd389cbb"
+   },
+   {
+    "name": "report_ubs_top100_202603.jsonl",
+    "size": 37601,
+    "mtime": 1788581120.4398346,
+    "sha256": "eab5ad775c78816cf71ff1805e472e585540d118cff41b92adcffe37d6b7999b"
+   },
+   {
+    "name": "report_ubs_tour_202603.jsonl",
+    "size": 0,
+    "mtime": 1788579432.1649928,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "name": "report_zhongzhi_100cities_202602.jsonl",
+    "size": 22367,
+    "mtime": 1788579916.027714,
+    "sha256": "ef8346a9b89be9b79166e5048402b6298268ff5d805fc78feafb9b7f819a609b"
+   },
+   {
+    "name": "report_zhongzhi_annual_2026.jsonl",
+    "size": 1240,
+    "mtime": 1788577424.057621,
+    "sha256": "12053a1185a1e6a2280793afa06a39e2c53aa55f5fcabccf60467b74857584d0"
+   },
+   {
+    "name": "report_zhongzhi_mar_202603.jsonl",
+    "size": 28803,
+    "mtime": 1788580044.8043709,
+    "sha256": "8014332008766973e07cf20ea85ea5b98068a67f64d0770325351248c7a3c813"
+   },
+   {
+    "name": "web_cih_index_202608.jsonl",
+    "size": 12297,
+    "mtime": 1788609280.900858,
+    "sha256": "bd3b3ffd9048f641726db68955af12ec3abdbf1db782ba65ff1f32039bef4d09"
+   },
+   {
+    "name": "web_cric_bj_2026h1.jsonl",
+    "size": 7319,
+    "mtime": 1788609202.1708038,
+    "sha256": "c52573c4c92ba4a0334487d5d89ffe83d65d95200e10fbf48b20f360584cd5a3"
+   },
+   {
+    "name": "web_cric_dev_2026h1.jsonl",
+    "size": 11283,
+    "mtime": 1788609186.7607644,
+    "sha256": "828ef583cd87245082de4a172040d703d5c14fb06c61a94b44fe35cdba5c8844"
+   },
+   {
+    "name": "web_cric_hz_202605.jsonl",
+    "size": 1346,
+    "mtime": 1788609207.0657015,
+    "sha256": "e34ad63f2cacf48c5b7d9dd45c2c1b4cf6a2bf4fa2f5740d0487b834dc4cec81"
+   },
+   {
+    "name": "web_cric_hz_202607.jsonl",
+    "size": 1793,
+    "mtime": 1788609207.065715,
+    "sha256": "38f4b7dafae6091b0edb6ae7c455a40d0c9f57916decc5b56b4cff98ff38beea"
+   },
+   {
+    "name": "web_cric_hz_2026h1.jsonl",
+    "size": 10271,
+    "mtime": 1788609186.7605424,
+    "sha256": "09f9fa98cba371817b92ed1d42556de36ba45e1cddabcff7fb08a7f5c6040d5b"
+   },
+   {
+    "name": "web_cric_sh_2026h1.jsonl",
+    "size": 6551,
+    "mtime": 1788609145.2453725,
+    "sha256": "e560e5ce23f3a7ae1788571606d63973be708facffbda119a31e050fad12fb96"
+   },
+   {
+    "name": "web_cric_sz_2026h1.jsonl",
+    "size": 14793,
+    "mtime": 1788609187.731282,
+    "sha256": "e17e6db7924a7bf8a9ed31b2f29f009b3ca9b0817344be218b22d33527f8d29b"
+   }
+  ]
+ },
+ "table_stats": {
+  "journal_mode": "delete",
+  "docs": 61,
+  "chunks": 1671,
+  "chunks_fts": 1671,
+  "metrics": 3369,
+  "chunks_vec": 1671,
+  "metrics_columns": [
+   "metric_id",
+   "doc_id",
+   "institution",
+   "period",
+   "city",
+   "segment",
+   "metric_name",
+   "value",
+   "unit",
+   "comparison_type",
+   "comparison_value",
+   "is_forecast",
+   "source_page",
+   "source_quote",
+   "source_url",
+   "value_text"
+  ],
+  "metrics_has_source_file_column": false,
+  "metrics_content_sha256": "cdf166f8eb575d041d31693deb7a9f5a961f79922b2ba1c6e7e3bddf9f469186"
+ },
+ "generated_at": "2026-09-07T20:01:12",
+ "db_path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+ "metrics_root": "/Users/boyang/Desktop/房地产研报/rag-app/metrics",
+ "disclaimer": "source_file 只表示记录与本地源文件内容对应，不代表原始机构来源已核实，不代表同内容出现在两个文件就是两条独立证据；本报告为只读预览，未修改任何数据。",
+ "accounting": {
+  "db_total_rows": [
+   3369,
+   "DB 直接统计"
+  ],
+  "db_distinct_contents": [
+   1464,
+   "DB 直接统计"
+  ],
+  "exact_dup_groups": [
+   1273,
+   "DB 直接统计"
+  ],
+  "exact_dup_extra_rows": [
+   1905,
+   "DB 直接统计"
+  ],
+  "source_total_rows": [
+   1478,
+   "源文件直接统计"
+  ],
+  "source_distinct_contents": [
+   1464,
+   "源文件转换后统计"
+  ],
+  "within_file_dup_extra_rows": [
+   1,
+   "源文件转换后统计"
+  ],
+  "distinct_file_content_combos": [
+   1477,
+   "源文件转换后统计"
+  ],
+  "cross_file_content_groups": [
+   13,
+   "源文件转换后统计"
+  ],
+  "db_rows_matched": [
+   3369,
+   "预览推断（精确匹配）"
+  ],
+  "db_rows_unmatched": [
+   0,
+   "预览推断（精确匹配）"
+  ],
+  "source_rows_unmatched": [
+   0,
+   "预览推断（精确匹配）"
+  ],
+  "unique_match_rows": [
+   3317,
+   "预览推断"
+  ],
+  "ambiguous_match_rows": [
+   52,
+   "预览推断"
+  ],
+  "theoretical_keep": [
+   1477,
+   "预览推断"
+  ],
+  "theoretical_delete": [
+   1892,
+   "预览推断"
+  ],
+  "formula": "保留 = Σ_内容(该内容出现的不同源文件数)，未匹配 DB 行原样保留；删除 = db_total_rows − 保留。参考值仅绑定本次快照，执行时须重新计算。"
+ },
+ "matching": {
+  "unique_match_contents": 1451,
+  "ambiguous_match_contents": 13,
+  "unmatched_db_contents": 0,
+  "source_file_errors": {},
+  "existing_source_file": {
+   "status": "source_file 列不存在（未迁移），全部记录视为未归属"
+  }
+ },
+ "anomalies": [],
+ "within_file_duplicate": [
+  {
+   "source_file": "report_ms_june_202606.jsonl",
+   "fingerprint": "7cba190561d1",
+   "linenos": [
+    3,
+    4
+   ],
+   "dup_count_in_file": 2,
+   "db_rows": 4,
+   "future_keep": 1,
+   "future_deletable": 3,
+   "sample": {
+    "institution": "Morgan Stanley",
+    "period": "2026-05",
+    "city": "",
+    "segment": "developer",
+    "metric_name": "yoy_change_pct",
+    "value": -2.0,
+    "value_text": null,
+    "source_quote": "Major developers' sales weakened, as we …",
+    "metric_ids": [
+     1780,
+     1781,
+     3110,
+     3111
+    ]
+   }
+  }
+ ],
+ "cross_file_same_content": [
+  {
+   "fingerprint": "b871e54c312b",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     16
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     1
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "北京",
+    "segment": "new_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.0,
+    "value_text": null,
+    "source_quote": "| Beijing                      | 0.1%   …",
+    "metric_ids": [
+     1173,
+     1449,
+     2503,
+     2779
+    ]
+   }
+  },
+  {
+   "fingerprint": "73a7e216e41e",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     28
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     2
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "上海",
+    "segment": "new_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.3,
+    "value_text": null,
+    "source_quote": "| Shanghai                     | 0.5%   …",
+    "metric_ids": [
+     1185,
+     1450,
+     2515,
+     2780
+    ]
+   }
+  },
+  {
+   "fingerprint": "484b66d5dc9a",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     40
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     3
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "广州",
+    "segment": "new_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.3,
+    "value_text": null,
+    "source_quote": "| Guangzhou                    | -0.2%  …",
+    "metric_ids": [
+     1197,
+     1451,
+     2527,
+     2781
+    ]
+   }
+  },
+  {
+   "fingerprint": "8126f2ca2bf0",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     52
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     4
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "深圳",
+    "segment": "new_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.2,
+    "value_text": null,
+    "source_quote": "| Shenzhen                     | -0.1%  …",
+    "metric_ids": [
+     1209,
+     1452,
+     2539,
+     2782
+    ]
+   }
+  },
+  {
+   "fingerprint": "740104de03e8",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     64
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     5
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "一线",
+    "segment": "new_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.2,
+    "value_text": null,
+    "source_quote": "| Tier-1 Primary (NBS)         | 0.1%   …",
+    "metric_ids": [
+     1221,
+     1453,
+     2551,
+     2783
+    ]
+   }
+  },
+  {
+   "fingerprint": "d07ee6df7e1b",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     76
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     6
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "北京",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.6,
+    "value_text": null,
+    "source_quote": "| Beijing                      | -0.6%  …",
+    "metric_ids": [
+     1233,
+     1454,
+     2563,
+     2784
+    ]
+   }
+  },
+  {
+   "fingerprint": "656b959447ff",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     100
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     8
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "广州",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.2,
+    "value_text": null,
+    "source_quote": "| Guangzhou                    | 0.0%   …",
+    "metric_ids": [
+     1257,
+     1456,
+     2587,
+     2786
+    ]
+   }
+  },
+  {
+   "fingerprint": "c0b2c6d2ea7f",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     112
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     9
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "深圳",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.4,
+    "value_text": null,
+    "source_quote": "| Shenzhen                     | -0.3%  …",
+    "metric_ids": [
+     1269,
+     1457,
+     2599,
+     2787
+    ]
+   }
+  },
+  {
+   "fingerprint": "47e68613ed16",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     124
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     10
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "一线",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.4,
+    "value_text": null,
+    "source_quote": "| Tier-1 Secondary (NBS)       | -0.2%  …",
+    "metric_ids": [
+     1281,
+     1458,
+     2611,
+     2788
+    ]
+   }
+  },
+  {
+   "fingerprint": "41cdcd767b78",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     136
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     11
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "北京",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 1.5,
+    "value_text": null,
+    "source_quote": "| Beijing                      | -0.5%  …",
+    "metric_ids": [
+     1293,
+     1459,
+     2623,
+     2789
+    ]
+   }
+  },
+  {
+   "fingerprint": "a5b3ca4ef73b",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     148
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     12
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "上海",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 1.0,
+    "value_text": null,
+    "source_quote": "| Shanghai                     | 0.2%   …",
+    "metric_ids": [
+     1305,
+     1460,
+     2635,
+     2790
+    ]
+   }
+  },
+  {
+   "fingerprint": "120db5d7558a",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     160
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     13
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "广州",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.8,
+    "value_text": null,
+    "source_quote": "| Guangzhou                    | -1.5%  …",
+    "metric_ids": [
+     1317,
+     1461,
+     2647,
+     2791
+    ]
+   }
+  },
+  {
+   "fingerprint": "b2749f50edcf",
+   "source_files": {
+    "report_jpm_goldenweek_202605.jsonl": [
+     184
+    ],
+    "report_jpm_tier1_202604.jsonl": [
+     15
+    ]
+   },
+   "db_rows": 4,
+   "note": "这些来源内容完全相同，不能视为独立证据",
+   "sample": {
+    "institution": "J.P. Morgan",
+    "period": "2026-03",
+    "city": "一线",
+    "segment": "secondary_home",
+    "metric_name": "mom_change_pct",
+    "value": 0.9,
+    "value_text": null,
+    "source_quote": "| Tier-1 Secondary (Centaline) | -0.7%  …",
+    "metric_ids": [
+     1341,
+     1463,
+     2671,
+     2793
+    ]
+   }
+  }
+ ],
+ "unmatched_source_rows": [],
+ "unmatched_db_rows": [],
+ "samples": {
+  "exact_dup": [
+   {
+    "fingerprint": "f2f840d974d6",
+    "count": 4,
+    "metric_ids": [
+     68,
+     206,
+     851,
+     2181
+    ],
+    "sample": {
+     "institution": "Goldman Sachs",
+     "period": "2025",
+     "city": "北京",
+     "segment": "secondary_home",
+     "metric_name": "avg_price",
+     "value": 37300.0,
+     "value_text": null,
+     "source_quote": "| Beijing   | 21.8                 | -0.…",
+     "metric_ids": [
+      68,
+      206,
+      851,
+      2181
+     ]
+    }
+   },
+   {
+    "fingerprint": "3017c8c344a6",
+    "count": 4,
+    "metric_ids": [
+     69,
+     207,
+     852,
+     2182
+    ],
+    "sample": {
+     "institution": "Goldman Sachs",
+     "period": "2025",
+     "city": "上海",
+     "segment": "secondary_home",
+     "metric_name": "avg_price",
+     "value": 29000.0,
+     "value_text": null,
+     "source_quote": "| Shanghai  | 24.8                 | 0.0…",
+     "metric_ids": [
+      69,
+      207,
+      852,
+      2182
+     ]
+    }
+   },
+   {
+    "fingerprint": "4416f4577fba",
+    "count": 4,
+    "metric_ids": [
+     70,
+     208,
+     853,
+     2183
+    ],
+    "sample": {
+     "institution": "Goldman Sachs",
+     "period": "2025",
+     "city": "广州",
+     "segment": "secondary_home",
+     "metric_name": "avg_price",
+     "value": 21300.0,
+     "value_text": null,
+     "source_quote": "| Guangzhou | 19.0                 | 0.7…",
+     "metric_ids": [
+      70,
+      208,
+      853,
+      2183
+     ]
+    }
+   }
+  ],
+  "cross_file": [
+   {
+    "fingerprint": "b871e54c312b",
+    "source_files": {
+     "report_jpm_goldenweek_202605.jsonl": [
+      16
+     ],
+     "report_jpm_tier1_202604.jsonl": [
+      1
+     ]
+    },
+    "db_rows": 4,
+    "note": "这些来源内容完全相同，不能视为独立证据",
+    "sample": {
+     "institution": "J.P. Morgan",
+     "period": "2026-03",
+     "city": "北京",
+     "segment": "new_home",
+     "metric_name": "mom_change_pct",
+     "value": 0.0,
+     "value_text": null,
+     "source_quote": "| Beijing                      | 0.1%   …",
+     "metric_ids": [
+      1173,
+      1449,
+      2503,
+      2779
+     ]
+    }
+   },
+   {
+    "fingerprint": "73a7e216e41e",
+    "source_files": {
+     "report_jpm_goldenweek_202605.jsonl": [
+      28
+     ],
+     "report_jpm_tier1_202604.jsonl": [
+      2
+     ]
+    },
+    "db_rows": 4,
+    "note": "这些来源内容完全相同，不能视为独立证据",
+    "sample": {
+     "institution": "J.P. Morgan",
+     "period": "2026-03",
+     "city": "上海",
+     "segment": "new_home",
+     "metric_name": "mom_change_pct",
+     "value": 0.3,
+     "value_text": null,
+     "source_quote": "| Shanghai                     | 0.5%   …",
+     "metric_ids": [
+      1185,
+      1450,
+      2515,
+      2780
+     ]
+    }
+   },
+   {
+    "fingerprint": "484b66d5dc9a",
+    "source_files": {
+     "report_jpm_goldenweek_202605.jsonl": [
+      40
+     ],
+     "report_jpm_tier1_202604.jsonl": [
+      3
+     ]
+    },
+    "db_rows": 4,
+    "note": "这些来源内容完全相同，不能视为独立证据",
+    "sample": {
+     "institution": "J.P. Morgan",
+     "period": "2026-03",
+     "city": "广州",
+     "segment": "new_home",
+     "metric_name": "mom_change_pct",
+     "value": 0.3,
+     "value_text": null,
+     "source_quote": "| Guangzhou                    | -0.2%  …",
+     "metric_ids": [
+      1197,
+      1451,
+      2527,
+      2781
+     ]
+    }
+   }
+  ],
+  "ambiguous_note": "ambiguous_match = 内容出现在多个源文件，不按机构/城市/数值猜归属"
+ }
+}

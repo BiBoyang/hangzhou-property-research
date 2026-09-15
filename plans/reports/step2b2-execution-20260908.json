@@ -1,0 +1,98 @@
+{
+ "plan_path": "/Users/boyang/Desktop/房地产研报/rag-app/plans/reports/step2b2-execute-plan-20260908.json",
+ "backup_path": "/Users/boyang/Desktop/房地产研报/rag-app/data/backups/rag-2b2-preflight-20260908-062313.db",
+ "execution": {
+  "executed_at": "2026-09-08T06:58:26",
+  "db_path": "/Users/boyang/Desktop/房地产研报/rag-app/data/rag.db",
+  "plan_version": "2b2b-plan/1",
+  "code_version": "step2b2b-preflight-r2-2026-09-08",
+  "allocation_algorithm": "det-pinned-sort-v1",
+  "assigned": 1477,
+  "kept_existing": 0,
+  "deleted": 1892,
+  "before": {
+   "metrics_rows": 3369,
+   "metrics_content_sha256": "cdf166f8eb575d041d31693deb7a9f5a961f79922b2ba1c6e7e3bddf9f469186",
+   "db_file_sha256": "d6350016ca7a2acc641ab09eb267708647cd59ccc77a0071bc0563dca859f52f",
+   "table_row_counts": {
+    "docs": 61,
+    "chunks": 1671,
+    "chunks_fts": 1671,
+    "chunks_vec": 1671,
+    "metrics": 3369
+   },
+   "other_tables": {
+    "docs": {
+     "rows": 61,
+     "sha256": "f63adbcb60702dcb7e80afd0aafd46c8c9cca9456adc5b427e93cfd7b04c2846"
+    },
+    "chunks": {
+     "rows": 1671,
+     "sha256": "f9d2fd6b610f3b9ab0636a3e69db6a7fa2cb275e959f297d3da1523f70d48f2f"
+    },
+    "chunks_fts": {
+     "rows": 1671,
+     "sha256": "2dd2af718b25974de6d816f9a87f9ad6bc5e20395169c79a5b68ad3f9ef9b0f7"
+    },
+    "chunks_vec": {
+     "rows": 1671,
+     "sha256": "32f7509e4350384e5423a7de40c4b303bd8a3c13c3ccdd0bde16fa23dd9dbbb3"
+    }
+   }
+  },
+  "after": {
+   "metrics_rows": 1477,
+   "metrics_content_sha256": "c2538260b94b83c3df2aa7b6a5b2dbb39690d67fe96f28c0063874f4a38b8b40",
+   "db_file_sha256": "1e46e0164c6dfaf67cdc4adc881d1087314e0c2c07186c9f540c1764094a19fb",
+   "table_row_counts": {
+    "docs": 61,
+    "chunks": 1671,
+    "chunks_fts": 1671,
+    "chunks_vec": 1671,
+    "metrics": 1477
+   },
+   "other_tables": {
+    "docs": {
+     "rows": 61,
+     "sha256": "f63adbcb60702dcb7e80afd0aafd46c8c9cca9456adc5b427e93cfd7b04c2846"
+    },
+    "chunks": {
+     "rows": 1671,
+     "sha256": "f9d2fd6b610f3b9ab0636a3e69db6a7fa2cb275e959f297d3da1523f70d48f2f"
+    },
+    "chunks_fts": {
+     "rows": 1671,
+     "sha256": "2dd2af718b25974de6d816f9a87f9ad6bc5e20395169c79a5b68ad3f9ef9b0f7"
+    },
+    "chunks_vec": {
+     "rows": 1671,
+     "sha256": "32f7509e4350384e5423a7de40c4b303bd8a3c13c3ccdd0bde16fa23dd9dbbb3"
+    }
+   },
+   "source_file_nonempty": 1477,
+   "distinct_source_file_content_combos": 1477,
+   "same_file_duplicates": 0,
+   "cross_file_contents_retained": 13,
+   "cross_file_retention_verified": true
+  },
+  "other_tables_unchanged": {
+   "docs": true,
+   "chunks": true,
+   "chunks_fts": true,
+   "chunks_vec": true
+  },
+  "technical_assignment_note": "技术分配，非历史事实恢复：按 source_file POSIX 升序 × metric_id 升序配对（尊重已有一致归属），不代表数据库历史中的真实来源。"
+ },
+ "post_integrity_check": "ok",
+ "post_counts": {
+  "docs": 61,
+  "chunks": 1671,
+  "chunks_fts": 1671,
+  "metrics": 1477
+ },
+ "source_file_nonempty": 1477,
+ "source_file_empty": 0,
+ "same_source_content_duplicate_groups": 0,
+ "backup_after_integrity_check": "ok",
+ "backup_after_metrics_rows": 3369
+}

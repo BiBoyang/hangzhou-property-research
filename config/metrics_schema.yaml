@@ -1,0 +1,105 @@
+version: "1.0"
+description: "房地产研判指标库 schema —— 覆盖中文机构报告 + 英文投行研报 + 外部公开数据"
+
+# 抽取单位：一条 metric 记录 = 某指标 × 某城市(或全国/房企) × 某统计期 的一个数值
+record_fields:
+  required: [doc_id_or_source, institution, period, metric_name, value, unit, source_quote]
+  optional: [city, segment, comparison_type, comparison_value, is_forecast, source_page, note]
+
+# 城市归一化：全文出现的别名统一归到这些标准值
+cities:
+  全国: ["全国", "national", "china", "百城", "70城", "100 cities"]
+  上海: ["上海", "shanghai"]
+  北京: ["北京", "beijing"]
+  深圳: ["深圳", "shenzhen"]
+  广州: ["广州", "guangzhou"]
+  杭州: ["杭州", "hangzhou"]
+  香港: ["香港", "hong kong", "hk"]
+  一线: ["tier-1", "tier 1", "一线城市", "tier~1"]
+  二线: ["tier-2", "tier 2", "二线城市"]
+
+segments: [new_home, secondary_home, land, rental, macro, developer]
+
+metrics:
+  # 价格
+  - name: secondary_home_price_index   # 二手房价格指数
+    aliases: ["二手房价格指数", "secondary home price index", "resale price"]
+    unit: index
+  - name: new_home_price_index
+    aliases: ["新房价格指数", "new home price index"]
+    unit: index
+  - name: avg_price                    # 成交均价
+    aliases: ["成交均价", "均价", "average price", "asp"]
+    unit: CNY_per_sqm
+  - name: mom_change_pct
+    aliases: ["环比", "mom", "month-on-month"]
+    unit: pct
+  - name: yoy_change_pct
+    aliases: ["同比", "yoy", "year-on-year"]
+    unit: pct
+  # 成交量
+  - name: secondary_volume_units       # 二手房成交套数
+    aliases: ["二手房成交套数", "网签套数", "secondary sales volume", "secondary transactions"]
+    unit: units
+  - name: new_home_volume_area         # 新房成交面积
+    aliases: ["新房成交面积", "商品房销售面积", "new home sales", "contract sales area"]
+    unit: 10k_sqm
+  - name: developer_sales_amount       # 房企销售额
+    aliases: ["销售额", "操盘金额", "contracted sales", "contract sales"]
+    unit: CNY_100m
+  # 库存与去化
+  - name: inventory_months             # 去化周期
+    aliases: ["去化周期", "库存去化周期", "inventory months", "months of inventory"]
+    unit: months
+  - name: listing_units                # 挂牌量
+    aliases: ["挂牌量", "挂牌套数", "listings", "active listings"]
+    unit: units
+  # 租赁
+  - name: rent_level
+    aliases: ["租金", "rent"]
+    unit: CNY_per_sqm_month
+  - name: rental_yield                 # 租金回报率
+    aliases: ["租金回报率", "租售比", "rental yield", "gross yield"]
+    unit: pct
+  # 土地
+  - name: land_transaction_value
+    aliases: ["土地成交金额", "土拍金额", "land sales value"]
+    unit: CNY_100m
+  - name: premium_rate_pct
+    aliases: ["溢价率", "premium rate"]
+    unit: pct
+  # 宏观与政策
+  - name: mortgage_rate                # 房贷利率
+    aliases: ["房贷利率", "mortgage rate"]
+    unit: pct
+  - name: provident_fund_rate          # 公积金利率
+    aliases: ["公积金贷款利率", "housing provident fund rate"]
+    unit: pct
+  # 机构预测（is_forecast=1）
+  - name: price_bottom_timing          # 房价触底时点预测
+    aliases: ["房价触底", "bottom out", "stabilization timing"]
+    unit: text                        # 文本型：如 "2026Q4"
+  - name: price_change_forecast_pct    # 房价涨跌幅预测
+    aliases: ["房价预期", "price forecast"]
+    unit: pct
+
+normalization:
+  units:
+    亿元: CNY_100m
+    万平方米: 10k_sqm
+    "%": pct
+    元/平方米: CNY_per_sqm
+  period_patterns:
+    - "YYYY年M月"      # 2026年8月
+    - "YYYY-MM"
+    - "YYYYQq"
+    - "26MMM"          # Mar~26 类英文缩写另做映射
+
+quality_rules:
+  hard:
+    - "value 必须是数值（text 型指标除外）"
+    - "period 必须可解析"
+    - "source_quote 必须是原文摘录，用于人审比对"
+  soft:
+    - "comparison_type 存在时 comparison_value 应存在"
+    - "预测类指标 is_forecast=1 且必须有 institution"

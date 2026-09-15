@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{doc.title}}</title>
+<style>
+  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:900px;margin:0 auto;padding:16px;color:#222}
+  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
+  pre{white-space:pre-wrap;line-height:1.65;background:#f8fafc;padding:16px;border-radius:8px;font-size:14px}
+</style>
+</head>
+<body>
+<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<h3>{{doc.title}}</h3>
+<p>{{doc.institution}} · {{doc.report_date}} · {{doc.lang}}</p>
+<pre>{{md}}</pre>
+</body>
+</html>

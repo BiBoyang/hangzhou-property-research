@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房地产研报研判 · 报告库</title>
+<style>
+  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:1000px;margin:0 auto;padding:16px;color:#222}
+  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{border-bottom:1px solid #e2e8f0;padding:8px;text-align:left}
+  .tag{background:#eff6ff;color:#1d4ed8;border-radius:4px;padding:1px 6px;font-size:12px;margin-right:4px}
+</style>
+</head>
+<body>
+<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<h2>报告库（{{docs|length}} 份）</h2>
+<table>
+<tr><th>日期</th><th>机构</th><th>标题</th><th>城市</th><th>语言</th></tr>
+{% for d in docs %}
+<tr>
+  <td>{{d.report_date}}</td><td>{{d.institution}}</td>
+  <td><a href="/docs/{{d.doc_id}}">{{d.title}}</a></td>
+  <td>{% for c in d.cities %}<span class="tag">{{c}}</span>{% endfor %}</td>
+  <td>{{d.lang}}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

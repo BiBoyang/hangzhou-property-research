@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房地产研报研判 · 市场总览</title>
+<!-- 本地固定资源：不依赖外部 CDN；加载失败时页面降级为纯表格/状态卡，仍完整可用 -->
+<script src="/static/echarts.min.js"></script>
+<style>
+  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:1200px;margin:0 auto;padding:16px;color:#222;font-size:14px}
+  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
+  h2{margin:14px 0 8px}
+  h3{margin:20px 0 8px;border-left:4px solid #2563eb;padding-left:8px}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+  select,input{padding:6px 8px;font-size:14px}
+  button{padding:6px 16px;font-size:14px;cursor:pointer}
+  .card{border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff}
+  .dim{color:#64748b;font-size:12px}
+  .warn{color:#92400e;font-size:12px;margin-top:2px}
+  .quote{color:#475569;font-size:12px;background:#f8fafc;border-left:3px solid #cbd5e1;padding:2px 6px;margin:2px 0 2px 12px}
+  .err{color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:6px 10px;margin:6px 0;display:none}
+  .disclaimer{margin-top:8px;padding:6px 8px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;font-size:12px;color:#78350f}
+  .conf{font-weight:bold;padding:1px 8px;border-radius:10px}
+  .conf-low{background:#fee2e2;color:#b91c1c}
+  .conf-medium{background:#dbeafe;color:#1d4ed8}
+  .conf-high{background:#dcfce7;color:#15803d}
+  .phase-line{font-size:18px;margin-bottom:6px}
+  .phase-meta{margin:3px 0}
+  details.sig{border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;margin:6px 0}
+  details.sig summary{cursor:pointer;font-size:13px}
+  .sig-body{font-size:13px;padding:4px 2px}
+  .ev{margin:6px 0;border-top:1px dashed #e2e8f0;padding-top:4px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:800px){.grid2{grid-template-columns:1fr}}
+  .risk{border-radius:6px;padding:8px 10px;margin:6px 0;font-size:13px}
+  .r-red{background:#fef2f2;border:1px solid #fca5a5}
+  .r-yellow{background:#fffbeb;border:1px solid #fcd34d}
+  .r-gray{background:#f1f5f9;border:1px solid #cbd5e1;color:#475569}
+  .r-blue{background:#eff6ff;border:1px solid #93c5fd}
+  .risk-code{font-weight:bold;margin-bottom:2px}
+  .trigger{background:rgba(255,255,255,.6);font-size:11px;padding:4px 6px;margin-top:4px;white-space:pre-wrap;word-break:break-all}
+  .legend{font-size:12px;color:#475569;margin:4px 0}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 10px;vertical-align:middle}
+  .chart{width:100%;height:340px;border:1px solid #e2e8f0;border-radius:8px;margin:8px 0}
+  table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12px}
+  th,td{border:1px solid #e2e8f0;padding:4px 6px;text-align:left}
+  th{background:#f1f5f9}
+  .fc{color:#b45309}
+  .cf{background:#fef2f2}
+  .stat{display:inline-block;border:1px solid #e2e8f0;border-radius:8px;padding:8px 14px;margin:4px 8px 4px 0;background:#fff}
+  .stat b{font-size:20px;display:block}
+  .notice{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:6px 10px;margin:6px 0;font-size:13px}
+  .limited-band{background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;margin:8px 0 4px;font-weight:bold;font-size:13px}
+  .sub{border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;margin:10px 0}
+  details.warnings{font-size:12px;color:#64748b;margin:4px 0}
+  footer{margin:24px 0 12px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<h2><span id="pageTitle">市场总览</span></h2>
+
+<div class="bar">
+  <label>城市 <select id="city">{% for c in cities %}<option value="{{ c }}">{{ c }}</option>{% endfor %}</select></label>
+  <label>截止期 as_of <input id="asOf" size="10" placeholder="如 2026-08（可选）"></label>
+  <label><input type="checkbox" id="withNat"> 城市比较含全国</label>
+  <button id="loadBtn">加载</button>
+  <span id="status" class="dim"></span>
+</div>
+<div id="globalErr" class="err"></div>
+
+<h3>市场阶段（规则整理，非事实本身）</h3>
+<div id="phaseCard" class="card">加载中…</div>
+
+<h3>支持证据 与 反向证据</h3>
+<div class="grid2">
+  <div id="supportBox" class="card"></div>
+  <div id="counterBox" class="card"></div>
+</div>
+
+<h3>风险信号</h3>
+<div class="legend">
+  颜色含义：<span class="dot" style="background:#fca5a5"></span>红色＝实际反向信号
+  <span class="dot" style="background:#fcd34d"></span>黄色＝数据不足 / 来源冲突 / 比较受限（limited）
+  <span class="dot" style="background:#cbd5e1"></span>灰色＝指标未覆盖（数据缺失≠市场高风险，仅表示无法评估）
+  <span class="dot" style="background:#93c5fd"></span>蓝色＝下一步观察项（见“覆盖与观察项”）
+</div>
+<div id="riskBox"></div>
+
+<h3>核心指标趋势（多来源原始序列）</h3>
+<div class="dim" style="margin:4px 0">每条线＝一个机构的一个来源文件（预测另成虚线）；缺失期在图上断线、不填 0、不插值；同期冲突以红色菱形标出并全部保留，不求平均。</div>
+<div id="trendBox"></div>
+
+<h3>城市比较</h3>
+<div class="bar">
+  <label>指标 <select id="cmpMetric">
+    <option value="secondary_volume_units">二手房成交量</option>
+    <option value="avg_price">均价</option>
+    <option value="yoy_change_pct">同比涨幅 %</option>
+    <option value="rent_level">租金</option>
+  </select></label>
+  <span class="dim">严格可比组进主图；不同来源仅并列（limited），不计算差值、倍数、排名或强弱结论。</span>
+</div>
+<div id="cmpBox"></div>
+
+<h3>覆盖与观察项</h3>
+<div id="covBox"></div>
+
+<footer>
+  <div>数据来源：本地研报指标库（只读查询，mode=ro）；页面不调用外部模型 API，不依赖外部 CDN。</div>
+  <div>本页只展示事实、规则结果与风险提示，不输出购房结论类表述；观察项只说明继续关注什么数据。</div>
+</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+// 数据库字段一律转义后再进 innerHTML，防止 source_quote/institution 等文本注入 HTML
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const HAS_CHART = typeof window.echarts !== 'undefined';
+let charts = [];
+
+const TREND_METRICS = [
+  {m: 'secondary_volume_units', label: '二手房成交量'},
+  {m: 'mom_change_pct', label: '价格环比 %'},
+  {m: 'yoy_change_pct', label: '价格同比 %'},
+  {m: 'inventory_months', label: '库存去化月数'},
+  {m: 'listing_units', label: '挂牌量'},
+];
+
+const DIR_TXT = {improving: '改善方向', deteriorating: '恶化方向', mixed: '方向混合', stable: '平稳'};
+const STATUS_TXT = {available: '数据可用', conflicted: '来源冲突', insufficient: '数据不足', unavailable: '数据缺失'};
+
+function periodKey(p) {
+  let m = /^(\d{4})-(\d{2})$/.exec(p);
+  if (m) return [+m[1], +m[2], 0];
+  m = /^(\d{4})[Qq]([1-4])$/.exec(p);
+  if (m) return [+m[1], +m[2], 1];
+  m = /^(\d{4})-H([12])$/.exec(p);
+  if (m) return [+m[1], +m[2], 2];
+  m = /^(\d{4})$/.exec(p);
+  if (m) return [+m[1], 0, 3];
+  return [9999, 99, 4];
+}
+const cmpPeriod = (a, b) => {
+  const ka = periodKey(a), kb = periodKey(b);
+  return (ka[0] - kb[0]) || (ka[1] - kb[1]) || (ka[2] - kb[2]) || String(a).localeCompare(String(b));
+};
+
+// x 轴补位：只补“时期类别”，绝不补数据——缺失期在轴上占位、线上留空，
+// 配合 connectNulls:false 形成断线；范围过大（>240 期）时不展开。
+function expandAxis(periods) {
+  const set = new Set(periods);
+  const fill = (list, fmt, next) => {
+    if (list.length < 2 || set.size > 240) return;
+    let cur = list[0];
+    const end = list[list.length - 1];
+    while (set.size <= 240 && cmpPeriod(cur, end) < 0) {
+      cur = next(cur);
+      if (cur === null) break;
+      set.add(cur);
+    }
+  };
+  const nm = p => p.split('-').map(Number);
+  fill(periods.filter(p => /^\d{4}-\d{2}$/.test(p)).sort(cmpPeriod),
+       null,
+       p => { let [y, m] = nm(p); m++; if (m > 12) { m = 1; y++; } return `${y}-${String(m).padStart(2, '0')}`; });
+  fill(periods.filter(p => /^\d{4}[Qq][1-4]$/.test(p)).sort(cmpPeriod),
+       null,
+       p => { const m = /^(\d{4})[Qq]([1-4])$/.exec(p); let y = +m[1], q = +m[2] + 1; if (q > 4) { q = 1; y++; } return `${y}Q${q}`; });
+  fill(periods.filter(p => /^\d{4}-H[12]$/.test(p)).sort(cmpPeriod),
+       null,
+       p => { const m = /^(\d{4})-H([12])$/.exec(p); let y = +m[1], h = +m[2] + 1; if (h > 2) { h = 1; y++; } return `${y}-H${h}`; });
+  fill(periods.filter(p => /^\d{4}$/.test(p)).sort(cmpPeriod),
+       null,
+       p => String(+p + 1));
+  return [...set].sort(cmpPeriod);
+}
+
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  let d = null;
+  try { d = await r.json(); } catch (e) { /* 非 JSON 响应 */ }
+  if (!r.ok) {
+    const msg = (d && d.error && d.error.message) ? d.error.message
+      : (d && typeof d.detail === 'string') ? d.detail : `请求失败（HTTP ${r.status}）`;
+    throw new Error(msg);
+  }
+  return d;
+}
+
+function query(extra) {
+  const city = $('city').value || '杭州';
+  const asOf = $('asOf').value.trim();
+  let q = `city=${encodeURIComponent(city)}`;
+  if (asOf) q += `&as_of=${encodeURIComponent(asOf)}`;
+  return q + (extra || '');
+}
+
+function sectionError(el, e) {
+  el.innerHTML = `<div class="err" style="display:block">加载失败：${esc(e.message)}</div>`;
+}
+
+function warningsBox(ws) {
+  if (!ws || !ws.length) return '';
+  return `<details class="warnings"><summary>数据提示（${ws.length} 条）</summary>${ws.map(w => `<div class="warn">· ${esc(w)}</div>`).join('')}</details>`;
+}
+
+function disposeCharts() { charts.forEach(c => { try { c.dispose(); } catch (e) {} }); charts = []; }
+function drawChart(el, option) {
+  if (!HAS_CHART) {
+    el.innerHTML = '<div class="dim" style="padding:8px">（本地图表组件不可用：本组数据请看下方表格，信息完整。）</div>';
+    return;
+  }
+  const inst = echarts.init(el);
+  inst.setOption(option, true);
+  charts.push(inst);
+}
+
+// ---------------------------------------------------------------------------
+// 市场阶段
+// ---------------------------------------------------------------------------
+function renderPhase(ov) {
+  const ph = ov.phase || {};
+  const conf = ph.confidence || '—';
+  const confTxt = {low: '低', medium: '中', high: '高'}[conf] || conf;
+  $('phaseCard').innerHTML = `
+    <div class="phase-line">当前结构化证据更接近：<strong>${esc(ph.label || '—')}</strong>
+      <span class="dim">（阶段代码 ${esc(ph.code || '—')}）</span></div>
+    <div class="phase-meta">置信度：<span class="conf conf-${esc(conf)}">${esc(confTxt)}（${esc(conf)}）</span>
+      <span class="dim">—— 置信度只表示证据充分程度，不代表判断正确的概率；低置信度时阶段名称仅供参考</span></div>
+    <div class="phase-meta">数据截止期（as_of，实际观测最新期）：${esc(ov.as_of || '—')}</div>
+    <div class="phase-meta">规则版本：${esc(ph.rule_version || '—')}　依据：${esc(ph.basis || '—')}</div>
+    <div class="disclaimer">${esc(ov.disclaimer || '')}　本页只整理事实、规则结果与风险提示，不输出任何购房结论类表述。</div>
+    ${warningsBox(ov.warnings)}`;
+}
+
+// ---------------------------------------------------------------------------
+// 支持证据 / 反向证据（来自 3D 信号，每条可展开）
+// ---------------------------------------------------------------------------
+function signalCard(s) {
+  const dir = DIR_TXT[s.direction] || '无法判断方向';
+  const evid = (s.evidence || []).map(e => `
+    <div class="ev">
+      <div><b>${esc(e.period)}</b>：${esc(e.value ?? e.value_text ?? '—')}${e.unit ? '' : ''}
+        ${e.comparison_type ? `　（${esc(e.comparison_type)} ${esc(e.comparison_value ?? '—')}）` : ''}
+        —— ${esc(e.institution || '未知机构')}（${esc(e.source_file || '未知来源文件')}）</div>
+      ${e.source_quote ? `<div class="quote">摘录：${esc(e.source_quote)}</div>` : ''}
+    </div>`).join('');
+  const warns = (s.warnings || []).map(w => `<div class="warn">⚠ ${esc(w)}</div>`).join('');
+  const confs = (s.conflict_series || []).map(c => `
+    <div class="warn">⚠ 同期多值冲突：${esc(c.metric_name || '')} @ ${esc((c.periods || []).join('、'))}，取值 ${esc(JSON.stringify(c.values))}（全部保留，未平均、未取舍）</div>`).join('');
+  return `<details class="sig">
+    <summary><b>${esc(s.code)}</b> · ${esc(dir)} · ${esc(STATUS_TXT[s.status] || s.status || '—')}</summary>
+    <div class="sig-body">
+      <div>指标：${esc(s.metric_name || '—')}　子市场：${esc(s.sub_market || s.segment || '—')}　强度：${esc(s.strength || '—')}</div>
+      <div>涉及时期：${esc((s.periods || []).join('、') || '—')}</div>
+      ${evid || '<div class="dim">（本信号无证据点）</div>'}
+      ${warns}${confs}
+    </div>
+  </details>`;
+}
+
+function renderEvidence(ov) {
+  const signals = (ov.signals || []).filter(s => s.family !== 'forecast');
+  const sup = signals.filter(s => s.direction === 'improving');
+  const cnt = signals.filter(s => s.direction === 'deteriorating' || s.direction === 'mixed');
+  $('supportBox').innerHTML = `<b>支持证据（改善方向，${sup.length} 条）</b>` +
+    (sup.length ? sup.map(signalCard).join('') : '<div class="dim" style="margin-top:6px">当前无改善方向信号。</div>');
+  $('counterBox').innerHTML = `<b>反向证据（恶化 / 混合方向，${cnt.length} 条）</b>` +
+    (cnt.length ? cnt.map(signalCard).join('') : '<div class="dim" style="margin-top:6px">当前无恶化或混合方向信号。</div>');
+}
+
+// ---------------------------------------------------------------------------
+// 风险信号：红＝实际反向；黄＝数据不足/来源冲突/limited；灰＝指标未覆盖
+// ---------------------------------------------------------------------------
+const RISK_GROUPS = {
+  red: {cls: 'r-red', name: '实际反向信号',
+        codes: ['price_volume_divergence', 'new_secondary_divergence', 'inventory_pressure', 'listing_pressure']},
+  yellow: {cls: 'r-yellow', name: '数据不足 / 来源冲突 / 比较受限',
+           codes: ['source_conflict', 'low_sample_size', 'forecast_dominant', 'city_comparison_limited',
+                   'granularity_mismatch', 'source_coverage_asymmetry']},
+  gray: {cls: 'r-gray', name: '指标未覆盖（缺失≠市场高风险）', codes: ['data_gap']},
+};
+const RISK_OF = {};
+Object.entries(RISK_GROUPS).forEach(([k, g]) => g.codes.forEach(c => RISK_OF[c] = k));
+
+function renderRisks(ov) {
+  const risks = ov.risk_signals || [];
+  if (!risks.length) {
+    $('riskBox').innerHTML = '<div class="card dim">当前无风险信号（不代表无风险，仅表示规则未触发）。</div>';
+    return;
+  }
+  $('riskBox').innerHTML = risks.map(r => {
+    const g = RISK_GROUPS[RISK_OF[r.code] || 'yellow'];
+    return `<div class="risk ${g.cls}">
+      <div class="risk-code">${esc(r.code)} <span class="dim">（${esc(g.name)}）</span></div>
+      <div>${esc(r.warning || '')}</div>
+      <pre class="trigger">触发数据：${esc(JSON.stringify(r.trigger ?? {}, null, 1))}</pre>
+    </div>`;
+  }).join('') +
+  `<div class="dim" style="margin-top:6px">蓝色＝下一步观察项，见“覆盖与观察项”；数据缺失类（灰色）只表示无法评估，不等于市场高风险。</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// 核心指标趋势：来源分线 + 缺失断线 + 冲突散点 + 全量表格
+// ---------------------------------------------------------------------------
+function lineName(s, mixedGran) {
+  const sf = s.source_file ? String(s.source_file).split('/').pop() : '未知来源文件';
+  // 线名只进入 canvas（echarts 图例/悬浮），不进 innerHTML，无需转义
+  let n = (s.institution || '未知机构') + '·' + sf;
+  if (s.segment) n += '·' + s.segment;
+  if (s.is_forecast) n += '（预测）';
+  if (mixedGran) n += '【' + s.period_granularity + '】';
+  return n;
+}
+
+function trendOption(periods, lines, scatters) {
+  return {
+    tooltip: {trigger: 'axis'},
+    legend: {type: 'scroll', top: 0},
+    grid: {top: 60, left: 50, right: 20, bottom: 60},
+    xAxis: {type: 'category', data: periods},
+    yAxis: {type: 'value'},
+    series: [
+      ...lines.map(l => ({
+        name: l.name, type: 'line', data: l.data,
+        connectNulls: false,  // 缺失期必须断线，绝不跨缺口连接
+        lineStyle: l.isForecast ? {type: 'dashed'} : {},
+        symbolSize: 5,
+      })),
+      ...scatters.map(sc => ({
+        name: sc.name, type: 'scatter', data: sc.pts,
+        itemStyle: {color: '#dc2626'}, symbol: 'diamond', symbolSize: 12,
+        connectNulls: false,
+      })),
+    ],
+  };
+}
+
+function seriesTable(res) {
+  const rows = [];
+  for (const s of res.series || []) {
+    for (const p of s.points) rows.push({period: p.period, s, p, conflict: false});
+    for (const c of s.conflicts) for (const p of c.points) rows.push({period: c.period, s, p, conflict: true});
+  }
+  rows.sort((a, b) => cmpPeriod(a.period, b.period)
+    || String(a.s.institution || '').localeCompare(String(b.s.institution || ''))
+    || String(a.p.value ?? '').localeCompare(String(b.p.value ?? '')));
+  if (!rows.length) return '<div class="dim">（无数据点）</div>';
+  const head = '<tr><th>期</th><th>值</th><th>单位</th><th>环比/同比</th><th>类型</th><th>机构</th><th>来源文件</th><th>粒度</th><th>摘录</th></tr>';
+  return '<table>' + head + rows.map(r => {
+    const s = r.s, p = r.p;
+    return `<tr class="${r.conflict ? 'cf' : (s.is_forecast ? 'fc' : '')}">`
+      + `<td>${esc(r.period)}</td><td>${esc(p.value ?? p.value_text ?? '—')}</td>`
+      + `<td>${esc(s.unit || '—')}</td>`
+      + `<td>${p.comparison_type ? esc(p.comparison_type) + ' ' + esc(p.comparison_value ?? '—') : '—'}</td>`
+      + `<td>${s.is_forecast ? '预测' : '实际'}</td>`
+      + `<td>${esc(s.institution || '—')}</td><td>${esc(s.source_file || '—')}</td>`
+      + `<td>${esc(s.period_granularity || '—')}</td>`
+      + `<td>${esc((p.source_quote || '').slice(0, 60))}</td></tr>`;
+  }).join('') + '</table>';
+}
+
+function renderTrend(metric, label, res, host) {
+  const series = res.series || [];
+  const periods = expandAxis([...new Set(
+    series.flatMap(s => s.points.map(p => p.period))
+      .concat(series.flatMap(s => s.conflicts.map(c => c.period)))
+  )]);
+  const mixedGran = new Set(series.map(s => s.period_granularity)).size > 1;
+  const lines = [], scatters = [], conflictNotes = [];
+  for (const s of series) {
+    const vmap = {};
+    s.points.forEach(p => { vmap[p.period] = p.value; });
+    const name = lineName(s, mixedGran);
+    lines.push({name, data: periods.map(p => (p in vmap) ? vmap[p] : null), isForecast: s.is_forecast});
+    if (s.conflicts.length) {
+      scatters.push({name: name + ' 同期冲突值',
+                     pts: s.conflicts.flatMap(c => c.points.map(pt => [c.period, pt.value]))});
+      conflictNotes.push(`<div class="warn">⚠ 同期冲突：${esc(name)} 于 ${esc(s.conflicts.map(c => c.period).join('、'))} 有多个值（${esc(s.conflicts.flatMap(c => c.points.map(p => p.value)).join(' / '))}）——全部保留在表格与图中，未平均、未取舍。</div>`);
+    }
+  }
+  const missing = [...new Set(series.flatMap(s => s.missing_periods || []))].sort(cmpPeriod);
+  const grans = [...new Set(series.map(s => s.period_granularity).filter(Boolean))];
+  const units = [...new Set(series.map(s => s.unit).filter(Boolean))];
+  const chartId = `chart_${metric}`;
+  host.insertAdjacentHTML('beforeend', `<div class="sub">
+    <b>${esc(label)}</b> <span class="dim">（metric=${esc(metric)}　单位：${esc(units.join(' / ') || '—')}　粒度：${esc(grans.join(' / ') || '—')}　来源线 ${series.length} 条）</span>
+    <div id="${chartId}" class="chart"></div>
+    <div id="tbl_${metric}"></div>
+  </div>`);
+  drawChart($(chartId), trendOption(periods, lines, scatters));
+  $(`tbl_${metric}`).innerHTML = (conflictNotes.join('') || '')
+    + (missing.length ? `<div class="warn">缺失期（无数据：图上断线、不填 0、不插值）：${esc(missing.join('、'))}</div>` : '')
+    + (series.some(s => s.is_forecast) ? '<div class="dim">虚线为机构预测线，非实际观测，不参与阶段计算。</div>' : '')
+    + seriesTable(res)
+    + warningsBox(res.warnings);
+}
+
+// ---------------------------------------------------------------------------
+// 城市比较：可比组主图；limited / 单城组只并列
+// ---------------------------------------------------------------------------
+function groupTable(g) {
+  const rows = [];
+  for (const ce of g.cities || []) {
+    for (const p of ce.points) rows.push({period: p.period, ce, p, conflict: false});
+    for (const c of ce.conflicts || []) for (const p of c.points) rows.push({period: c.period, ce, p, conflict: true});
+  }
+  rows.sort((a, b) => cmpPeriod(a.period, b.period)
+    || String(a.ce.city || '').localeCompare(String(b.ce.city || ''))
+    || String(a.p.value ?? '').localeCompare(String(b.p.value ?? '')));
+  if (!rows.length) return '<div class="dim">（无数据点）</div>';
+  const head = '<tr><th>城市</th><th>期</th><th>值</th><th>机构</th><th>来源文件</th><th>单位</th><th>粒度</th><th>摘录</th></tr>';
+  return '<table>' + head + rows.map(r =>
+    `<tr class="${r.conflict ? 'cf' : ''}"><td>${esc(r.ce.city_label || r.ce.city || '—')}</td>`
+    + `<td>${esc(r.period)}</td><td>${esc(r.p.value ?? r.p.value_text ?? '—')}</td>`
+    + `<td>${esc(r.ce.institution || '—')}</td><td>${esc(r.ce.source_file || '—')}</td>`
+    + `<td>${esc(r.ce.unit || '—')}</td><td>${esc(r.ce.period_granularity || '—')}</td>`
+    + `<td>${esc((r.p.source_quote || '').slice(0, 60))}</td></tr>`).join('') + '</table>';
+}
+
+function renderCompare(rep, host) {
+  const sum = rep.summary || {};
+  const pendingCharts = [];
+  let html = `<div class="dim">请求城市：${esc((sum.requested_cities || []).join('、') || '—')}　可比组 ${esc(sum.comparable_group_count ?? 0)} 个　limited 并列组 ${esc(sum.limited_group_count ?? 0)} 个</div>`;
+  if ((sum.status_flags || []).includes('unmatched_metric'))
+    html += '<div class="notice">该指标在请求城市范围内没有任何匹配序列（unmatched_metric）。</div>';
+  if ((rep.uncovered_cities || []).length)
+    html += `<div class="notice">城市 ${esc(rep.uncovered_cities.join('、'))} 在当前筛选下无匹配数据（uncovered_city）：不用其他城市代替，也不推断原因。</div>`;
+  if ((sum.status_flags || []).includes('mixed_granularity'))
+    html += '<div class="notice">存在多种时期粒度：各比较组内粒度一致，跨组不转换、不混比。</div>';
+  if (!(rep.comparison_groups || []).length) {
+    host.innerHTML = html + warningsBox(rep.warnings);
+    return;
+  }
+
+  const comparable = [], limited = [], single = [];
+  for (const g of rep.comparison_groups) {
+    if (g.comparability === 'limited') limited.push(g);
+    else if ((g.status_flags || []).includes('single_city_only')) single.push(g);
+    else comparable.push(g);
+  }
+
+  html += '<div><b>严格可比组（同机构 / 同来源文件 / 同口径 / 同粒度，进主图）</b></div>';
+  if (!comparable.length) html += '<div class="dim" style="margin:4px 0">无严格可比组。</div>';
+  comparable.forEach((g, i) => {
+    const key = g.comparison_key || {};
+    const src = g.cities && g.cities[0] ? g.cities[0] : {};
+    const chartId = `cmp_chart_${i}`;
+    const periods = expandAxis([...new Set((g.cities || []).flatMap(ce => (ce.points || []).map(p => p.period))
+      .concat((g.cities || []).flatMap(ce => (ce.conflicts || []).map(c => c.period))))]);
+    const lines = (g.cities || []).map(ce => {
+      const vmap = {};
+      (ce.points || []).forEach(p => { vmap[p.period] = p.value; });
+      // 线名只进入 canvas（echarts 图例/悬浮），不进 innerHTML，无需转义
+      const nm = (ce.city_label || ce.city || '—') + '·' + (ce.institution || '未知机构');
+      return {name: nm, data: periods.map(p => (p in vmap) ? vmap[p] : null)};
+    });
+    html += `<div class="sub">
+      <b>可比组 ${i + 1}</b> <span class="dim">来源：${esc(src.institution || '—')}·${esc(src.source_file || '—')}　口径：${esc(key.segment || '—')}/${esc(key.unit || '—')}/${esc(key.comparison_type || '—')}　粒度：${esc(key.period_granularity || '—')}　预测：${key.is_forecast ? '是（单独比较）' : '否'}</span>
+      <div>共同覆盖期（${esc(g.common_period_count ?? 0)} 期）：${esc((g.common_periods || []).join('、') || '—')}</div>
+      ${(g.status_flags || []).includes('insufficient_common_periods') || g.insufficient_common_periods
+        ? '<div class="warn">⚠ 共同覆盖期不足 2 期（insufficient_common_periods）：仅并列展示原始点，不比较时间变化。</div>' : ''}
+      ${(g.status_flags || []).includes('conflicted') || g.has_conflicts
+        ? '<div class="warn">⚠ 该组存在同期多值冲突（conflicted）：全部值保留在表格中，未平均、未取舍。</div>' : ''}
+      ${(g.warnings || []).map(w => `<div class="warn">· ${esc(w)}</div>`).join('')}
+      <div id="${chartId}" class="chart"></div>
+      ${groupTable(g)}
+    </div>`;
+    pendingCharts.push({id: chartId, option: trendOption(periods, lines, [])});
+  });
+
+  html += '<div class="limited-band">limited 并列区：不同机构 / 来源仅并列展示（comparability=limited）——不计算差值、倍数、排名、方向或“谁更强”，不进主图。</div>';
+  if (!limited.length) html += '<div class="dim">无 limited 组。</div>';
+  limited.forEach((g, i) => {
+    const key = g.comparison_key || {};
+    html += `<div class="sub"><b>limited 组 ${i + 1}</b> <span class="dim">口径：${esc(key.segment || '—')}/${esc(key.unit || '—')}/${esc(key.comparison_type || '—')}　粒度：${esc(key.period_granularity || '—')}</span>
+      ${groupTable(g)}
+      ${(g.warnings || []).map(w => `<div class="warn">· ${esc(w)}</div>`).join('')}</div>`;
+  });
+
+  if (single.length)
+    html += `<div class="sub"><b>仅单城有数据的组（不构成跨城比较）</b>${single.map(g => groupTable(g)).join('')}</div>`;
+  host.innerHTML = html + warningsBox(rep.warnings);
+  pendingCharts.forEach(pc => drawChart($(pc.id), pc.option));
+}
+
+// ---------------------------------------------------------------------------
+// 覆盖与观察项
+// ---------------------------------------------------------------------------
+function renderCoverage(cov, ov) {
+  const s = (cov && cov.summary) || {};
+  const sc = s.status_counts || {};
+  const ovc = (ov && ov.coverage) || {};
+  const missingCore = ovc.missing_core_metrics || [];
+  const watch = (ov && ov.watch_next) || [];
+  const gaps = sc.multi_point_with_internal_gaps || 0;
+  $('covBox').innerHTML = `
+    <div class="card">
+      <div class="stat"><b>${esc(s.actual_series_count ?? '—')}</b>实际序列数</div>
+      <div class="stat"><b>${esc(s.forecast_series_count ?? '—')}</b>预测序列数</div>
+      <div class="stat"><b>${esc(sc.single_point ?? 0)}</b>单点序列数（不足以谈趋势）</div>
+      <div class="stat"><b>${esc(s.series_with_conflicts ?? 0)}</b>冲突序列数（冲突期 ${esc(s.conflict_period_count ?? 0)} 个，全部保留）</div>
+      <div class="stat"><b>${esc(gaps)}</b>有内部缺口的序列数（缺口断线展示，不填 0）</div>
+      <div class="stat"><b>${esc(s.insufficient_series_count ?? '—')}</b>数据不足序列总数（单点 / 纯预测 / 无观测）</div>
+      <div style="margin-top:6px">核心指标缺失：<b>${missingCore.length ? esc(missingCore.join('、')) : '无'}</b>
+        <span class="dim">（缺失仅表示无法评估，不等于市场高风险）</span></div>
+      <div>覆盖范围：${esc(cov && cov.has_explicit_window ? '指定窗口 ' + (cov.requested_periods || []).join('、') : '全库已有数据（无显式窗口，覆盖率为空是不谎报）')}</div>
+      ${warningsBox(cov && cov.warnings)}
+    </div>
+    <div class="card">
+      <b>下一步观察项（蓝色；只说明继续看什么数据，不构成行动建议）</b>
+      ${watch.length ? watch.map(w => `<div class="risk r-blue">
+        <div class="risk-code">${esc(w.metric || '—')}</div>
+        <div>${esc(w.segment || '')}：${esc(w.reason || '')}</div>
+      </div>`).join('') : '<div class="dim">当前无观察项。</div>'}
+    </div>`;
+}
+
+// ---------------------------------------------------------------------------
+// 主流程
+// ---------------------------------------------------------------------------
+async function loadAll() {
+  disposeCharts();
+  $('globalErr').style.display = 'none';
+  $('status').textContent = '加载中…';
+  const city = $('city').value || '杭州';
+  $('pageTitle').textContent = `${city}市场总览`;
+  const q = query();
+  const natOn = $('withNat').checked;
+  const cities = natOn ? [...OVERVIEW_DEFAULT_CITIES, '全国'] : OVERVIEW_DEFAULT_CITIES;
+  const cmpQ = `${q}&cities=${encodeURIComponent(cities.join(','))}&metric=${encodeURIComponent($('cmpMetric').value)}`;
+  const trendQ = m => `${q}&metric=${encodeURIComponent(m)}&include_forecasts=true`;
+
+  $('trendBox').innerHTML = '';
+  const ovP = fetchJSON(`/api/overview?${q}`).then(d => {
+    ovData = d;
+    renderPhase(d);
+    renderEvidence(d);
+    renderRisks(d);
+    return d;
+  }).catch(e => {
+    ['phaseCard', 'supportBox', 'counterBox', 'riskBox'].forEach(id => sectionError($(id), e));
+    return null;
+  });
+  const covP = fetchJSON(`/api/overview/coverage?${q}`).then(d => d)
+    .catch(e => { sectionError($('covBox'), e); return null; });
+  await Promise.all([ovP, covP]).then(([ov, cov]) => {
+    if (cov) renderCoverage(cov, ov);
+  });
+  await Promise.allSettled([
+    fetchJSON(`/api/overview/compare?${cmpQ}`).then(d => renderCompare(d, $('cmpBox')))
+      .catch(e => sectionError($('cmpBox'), e)),
+    ...TREND_METRICS.map(tm =>
+      fetchJSON(`/api/overview/series?${trendQ(tm.m)}`)
+        .then(d => renderTrend(tm.m, tm.label, d, $('trendBox')))
+        .catch(e => {
+          $('trendBox').insertAdjacentHTML('beforeend',
+            `<div class="sub"><b>${esc(tm.label)}</b><div class="err" style="display:block">加载失败：${esc(e.message)}</div></div>`);
+        })),
+  ]);
+  $('status').textContent = `加载完成 ${new Date().toLocaleTimeString()}${HAS_CHART ? '' : '（图表组件未加载，已降级为表格模式）'}`;
+}
+let ovData = null;
+const OVERVIEW_DEFAULT_CITIES = ['杭州', '上海', '北京', '深圳'];
+
+$('loadBtn').onclick = loadAll;
+$('city').onchange = loadAll;
+$('cmpMetric').onchange = loadAll;
+$('withNat').onchange = loadAll;
+$('asOf').addEventListener('keydown', e => { if (e.key === 'Enter') loadAll(); });
+
+// URL 参数优先：/overview?city=上海&as_of=2026-08
+(function initFromUrl() {
+  const usp = new URLSearchParams(location.search);
+  const c = usp.get('city');
+  if (c) {
+    const opt = [...$('city').options].find(o => o.value === c);
+    if (opt) $('city').value = c;
+  }
+  const a = usp.get('as_of');
+  if (a) $('asOf').value = a;
+})();
+loadAll();
+</script>
+</body>
+</html>
