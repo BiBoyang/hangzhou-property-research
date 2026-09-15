@@ -1,0 +1,6 @@
+# CI 专用最小依赖：测试只 import 到 fastapi/jinja2/jieba/httpx。
+# 完整环境（torch/docling 等，>2GB）见 requirements.txt，不参与单测。
+fastapi==0.141.1
+jinja2==3.1.6
+jieba==0.42.1
+httpx==0.28.1
