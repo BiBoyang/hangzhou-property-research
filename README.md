@@ -1,6 +1,6 @@
 # 房地产研报研判系统（rag-app）
 
-基于 61 份中英文投行/机构研报（53 PDF + 8 网页采集）+ 3369 条结构化指标的本地 RAG 系统：研报问答 + 结构化指标看板。
+基于 61 份中英文投行/机构研报（53 PDF + 8 网页采集）+ 1477 条结构化指标的本地 RAG 系统：研报问答 + 结构化指标看板。
 
 ## 架构
 
@@ -82,8 +82,8 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - 整文件替换后 metric_id 会重新分配——不要把 metric_id 当稳定标识。
 - source_file 只证明内容对应本地文件，不代表原始机构来源已核实，也不代表同内容的两份文件是独立证据。
 - 阻断保护（拒绝且零写入）：旧 schema、存在 source_file 为空的历史行、来源文件在盘上缺失、空文件、校验失败。文件须为合法 UTF-8（不做编码探测，解码失败按文件拒绝并报文件名与字节位置）；校验契约：必填字段非空；period 合法（`2026-08` / `2026Q3` / `2026-H1` / `2026`）；value 只接受数字或字符串（拒绝布尔、对象、数组、纯空白、NaN·Infinity；文本值存 value_text，"2027" 这类数字字符串仍转数值）；is_forecast 只接受确切的 0/1（缺省视为 0，兼容布尔与 "0"/"1"，拒绝 0.9 之类会被截断的值）；JSONL 顶层每条必须是对象，单文件失败不影响批次其余文件。
-- 当前正式库状态：历史行 source_file 全空，指标导入处于阻断态；解除需先完成 Step 2B 历史归属（正式库的迁移/归属/清理均需单独批准），在此之前月度维护的"更新指标"环节暂停。
-- 历史核对（Step 2B-1，只读）：`.venv/bin/python scripts/metrics_maintenance.py preview [--report 路径]`，另有 `fingerprint` / `inspect-source` / `inspect-db` 子命令；全部以 mode=ro 只读打开数据库，无任何写操作入口。当前结论：历史 3369 行全部能按 15 字段精确匹配到现有源文件（唯一匹配 3317 行、跨文件多匹配 52 行、无未匹配行），正式清理与回填待 Step 2B-2 批准。
+- 当前正式库状态：Step 2B 历史归属与清理已于 2026-09-08 完成执行（保留 1477 行 / 删除重复 1892 行，source_file 全部回填，执行与预检报告见 `plans/reports/`），指标导入正常工作。
+- 历史核对与清理（Step 2B，已完成）：`.venv/bin/python scripts/metrics_maintenance.py preview [--report 路径]`，另有 `fingerprint` / `inspect-source` / `inspect-db` 子命令；全部以 mode=ro 只读打开数据库，无任何写操作入口。治理结论：历史 3369 行全部按 15 字段匹配到现有源文件，其中 1905 行为同内容重复导入的重复行，清理后指标库为 1477 条。
 - 正式迁移与清理的安全骨架（Step 2B-2A，2026-09-08，临时库验证完成，正式库未动）：`metrics_maintenance.py` 增加只读 `plan` 子命令与内部执行函数（`execute_plan` 须显式 `confirmed=True` 且按文件身份（os.path.samefile，同 inode）拒绝正式库本体/硬链接/软链接；单事务内显式 ALTER + UPDATE source_file + DELETE 同文件重复，失败整体回滚；执行前重算指纹、事务内重算目标集；执行后旧计划失效须重新生成）。指纹含 docs/chunks/FTS/vec 内容摘要，chunks_vec 覆盖 chunk_id + embedding 原始字节，读不出时计划阻断。跨文件相同内容的 metric_id 归属是确定性技术分配（文件 POSIX 升序 × metric_id 升序，尊重已有一致归属），不代表真实来源，也不代表独立证据。
 - 正式执行前预检与备份（Step 2B-2B-Preflight，2026-09-08，**只读+备份，正式写入仍未批准**）：新增正式备份入口 `formal_backup`（须显式 `formal_backup_confirmed=True`；源 mode=ro；目标必须是不存在的新文件且不得为正式库/源库本体或链接；同秒冲突拒绝不覆盖；备份后自动验证 integrity_check/行数/schema/内容摘要，embedding 不可验证时不声称"已充分验证"）与预检编排 `run_preflight`（指纹→进程→计划→备份→复核→报告；检测到 ingest/build_index/load_external_metrics/run_eval 运行时停止备份并阻断）。本轮产物：正式备份 `data/backups/rag-2b2-preflight-20260908-062313.db`（integrity ok，全部内容摘要与源库一致，含 1671 行 embedding 内容摘要）、最新计划 `plans/reports/step2b2b-plan-formal-20260908-062312.json`（保留 1477/删除 1892/跨文件 13，无阻断）、预检报告 `plans/reports/step2b2b-preflight-20260908-062312.json`；正式库 sha256/mtime/inode 前后不变。备份授权≠写入授权：正式迁移/回填/删除仍需单独批准，`execute_plan` 对正式库依旧无条件拒绝。
 
