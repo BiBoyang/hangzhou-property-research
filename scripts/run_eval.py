@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import time
 
 import yaml  # noqa: E402
@@ -9,6 +10,18 @@ from lib_paths import APP  # noqa: E402
 from lib_search import search  # noqa: E402
 from lib_metrics_query import format_metrics, query_metrics  # noqa: E402
 from lib_llm import chat  # noqa: E402
+
+
+def _norm(s: str) -> str:
+    """期望词归一：去千分位/空格，"下降16%"→"-16%"、"上涨15%"→"+15%"，抑制同义假失败。"""
+    s = s.replace(",", "").replace("，", "").replace(" ", "")
+    s = re.sub(r"下降|下跌|回落|跌", "-", s)
+    s = re.sub(r"上涨|上升|反弹|涨", "+", s)
+    return s
+
+
+def _expect_hit(e: str, answer: str) -> bool:
+    return e in answer or _norm(e) in _norm(answer)
 
 
 def main() -> None:
@@ -30,9 +43,7 @@ def main() -> None:
             answer = chat(q, search(q, k=8), format_metrics(query_metrics(q)))
         except Exception as e:
             answer = f"[ERROR] {e}"
-        missing = [e for e in expect
-                   if e not in answer
-                   and e.replace(",", "") not in answer.replace(",", "").replace("，", "")]
+        missing = [e for e in expect if not _expect_hit(e, answer)]
         status = "PASS" if not missing else ("SKIP" if not expect else "FAIL")
         if status == "PASS":
             passed += 1

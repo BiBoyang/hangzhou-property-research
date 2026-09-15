@@ -23,6 +23,31 @@ DROP_HEADINGS = re.compile(
     re.IGNORECASE,
 )
 
+# 披露页噪声（文本级，2026-09-16 治本）：投行尾页 boilerplate 强特征。
+# 这些模式出现在正文里的概率极低，命中 2 个即判定整段为披露页；
+# 短段（<500 字符）命中 1 个也判——长正文段里单个页脚行不会误伤。
+# lib_search 的查询期过滤保留作兜底，与本表保持一致。
+NOISE_STRONG = (
+    "all rights reserved", "analyst certification", "disclosure statements",
+    "com/disclosures", "attributed to a third party", "global research through",
+    "you are permitted to store", "conflict management policy",
+    "法律声明", "免责声明", "sac registration",
+)
+
+
+def _noise_hits(text: str) -> int:
+    low = text.lower()
+    return sum(1 for m in NOISE_STRONG if m in low)
+
+
+def is_boilerplate(text: str, heading: str = "") -> bool:
+    """整段判定为披露/法律 boilerplate：强特征 ≥2，或短段命中 ≥1。
+    页眉版权行（© 2026 xxx）直接计 1 次强命中。"""
+    hits = _noise_hits(text)
+    if heading.lstrip().startswith("©"):
+        hits += 1
+    return hits >= 2 or (hits >= 1 and len(text) < 500)
+
 
 @dataclass
 class Chunk:
@@ -81,4 +106,8 @@ def split_markdown(md: str) -> list[Chunk]:
             _flush(table_buf, head, out, True)
         if buf:
             _flush(buf, head, out, False)
+    # 3) 披露页噪声整段丢弃（治本；查询期过滤兜底）
+    out = [c for c in out if not is_boilerplate(c.text, c.heading)]
+    for i, c in enumerate(out):
+        c.ord = i
     return out
