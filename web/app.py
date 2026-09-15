@@ -12,6 +12,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+from contextlib import asynccontextmanager  # noqa: E402
+
 from fastapi import FastAPI, HTTPException, Query, Request  # noqa: E402
 from fastapi.responses import HTMLResponse, JSONResponse  # noqa: E402
 from fastapi.staticfiles import StaticFiles  # noqa: E402
@@ -23,15 +25,11 @@ from lib_paths import APP, DB, RAW_MD  # noqa: E402
 import lib_metrics_query as mq  # noqa: E402
 import market_phase  # noqa: E402
 
-app = FastAPI(title="房地产研报研判系统", docs_url="/api-docs")
-templates = Jinja2Templates(directory=str(APP / "web" / "templates"))
-app.mount("/static", StaticFiles(directory=str(APP / "web" / "static")), name="static")
-
 WARM_READY = False
 
 
-@app.on_event("startup")
-def warmup():
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
     """启动时预载 embedding 模型，消除首个查询的 30s 冷启动。"""
     import threading
 
@@ -47,6 +45,12 @@ def warmup():
             print(f"[warmup] 预热失败：{e}", flush=True)
 
     threading.Thread(target=_w, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="房地产研报研判系统", docs_url="/api-docs", lifespan=lifespan)
+templates = Jinja2Templates(directory=str(APP / "web" / "templates"))
+app.mount("/static", StaticFiles(directory=str(APP / "web" / "static")), name="static")
 
 
 @app.get("/api/health")
