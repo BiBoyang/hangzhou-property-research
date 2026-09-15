@@ -155,7 +155,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 - 0.6B embedding 跨语言能力一般：中英混合长查询召回仍可能混入无关中文报告，生成层靠 top-k 冗余 + 强模型兜底
 - 指标库人审尚未完成（当前依赖抽取时的程序化断言：quote 必须是原文子串且含数字）
-- rerank 未上：bge-m3 在 Ollama 里备用，精度不够时再开
+- rerank 已探针否决：bge-reranker-base 在 6 题对比中为负优化（中文中心模型压英文 chunk 分、不理解机构/日期约束），维持现有管线；重试条件与 Ollama 损坏情况见 `plans/rerank-spike.md`
 
 ## 数据更新
 
