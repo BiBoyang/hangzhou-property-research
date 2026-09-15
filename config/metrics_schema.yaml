@@ -55,6 +55,9 @@ metrics:
   - name: new_home_volume_yoy_pct      # 新房成交量同比
     aliases: ["新房成交量同比", "new home sales yoy", "primary sales yoy"]
     unit: pct
+  - name: total_volume_yoy_pct         # 住宅成交总量（新房+二手合计）同比
+    aliases: ["总成交量同比", "total home sales yoy", "total sales volume yoy"]
+    unit: pct
   - name: developer_sales_amount       # 房企销售额
     aliases: ["销售额", "操盘金额", "contracted sales", "contract sales"]
     unit: CNY_100m
