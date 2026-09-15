@@ -144,3 +144,12 @@
 - 指标库 1477 → 1472 条（删 3 价格档 + 2 合理收益率）
 - 280 单测全绿；25 题回归 **25/25 全过**（首次自动全过）
 - market_phase 杭州：底部震荡 → **持续下行**——成交量同比移出价格信号后，"JPM -6.6% vs MS +31% 假冲突"消解，价格信号呈一致负向。阶段输出变化系数据质量提升所致，使用方（看板/指南）需注意
+
+## 2026-09-16 复核与二次治理
+
+- **修后 20 条随机复核**：19/20 机检通过，1 条为 22.8K 缩写未归一（实对）。复核中抓到**扫描脚本 bug**：正式版漏了指标名守卫，把 30 条 units 级记录误转 secondary_volume_yoy_pct，已全部回滚（secondary_volume_yoy_pct 101→71）。
+- **冰山杭州 -19.2% 口径破案**：原表为"春节前 31 天 / 后 55 天**成交量**同比"——又一处量当价，iceberg_202604 14 行改挂 secondary_volume_yoy_pct（含京沪穗深）。这是 market_phase 杭州价格信号里"-6.6%/-19.2%"的来源。
+- **series 结构性问题**：中指院月度报告一城一文件导致价格序列永远单点→数据不足。解法：新建稳定渠道文件 `metrics/creis_100cities_city.csv`（百城五城月度城市表，同 external_hangzhou 模式），迁入 2026-02/03 两期新房+二手记录 64 条；avg_price 的 comparison 字段归一（空）解决同文件被拆两序列问题。
+- **补数**：2026-03 十大城市二手表（表4）30 条 + 新房表 15 条入渠道文件。
+- 治理后杭州信号：price_secondary_home=deteriorating、price_new_home=improving、volume_secondary=deteriorating，阶段=持续下行（数据驱动，非市场变化）。volume_new_home/inventory 仍 insufficient（数据薄，既有缺口）。
+- 注：杭州 2026-03 二手环比存在 -0.14%（正文）vs -0.58%（表4）口径冲突，按系统惯例双值保留进 conflicts。
