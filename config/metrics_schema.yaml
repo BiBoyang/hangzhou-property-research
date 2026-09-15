@@ -37,6 +37,11 @@ metrics:
   - name: yoy_change_pct
     aliases: ["同比", "yoy", "year-on-year"]
     unit: pct
+  - name: price_change_from_peak_pct   # 价格自峰值累计涨跌幅（投行口径 vs. peak）
+    aliases: ["自峰值", "from peak", "vs. peak", "cumulative decline"]
+    unit: pct
+    # 约定：仅用于价格类同比。成交量同比必须用下面的 secondary_volume_yoy_pct /
+    # new_home_volume_yoy_pct，不得混入本字段（2026-09-15 人审模式④治理）
   # 成交量
   - name: secondary_volume_units       # 二手房成交套数
     aliases: ["二手房成交套数", "网签套数", "secondary sales volume", "secondary transactions"]
@@ -44,6 +49,12 @@ metrics:
   - name: new_home_volume_area         # 新房成交面积
     aliases: ["新房成交面积", "商品房销售面积", "new home sales", "contract sales area"]
     unit: 10k_sqm
+  - name: secondary_volume_yoy_pct     # 二手房成交量同比
+    aliases: ["成交量同比", "secondary sales volume yoy", "secondary transactions yoy", "GFA yoy"]
+    unit: pct
+  - name: new_home_volume_yoy_pct      # 新房成交量同比
+    aliases: ["新房成交量同比", "new home sales yoy", "primary sales yoy"]
+    unit: pct
   - name: developer_sales_amount       # 房企销售额
     aliases: ["销售额", "操盘金额", "contracted sales", "contract sales"]
     unit: CNY_100m

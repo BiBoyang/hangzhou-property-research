@@ -1,0 +1,185 @@
+{"metric_id": 3584, "verdict": "pass", "error_type": null, "evidence": "12月口径去化周期8.5个月", "reason": ""}
+{"metric_id": 3586, "verdict": "pass", "error_type": null, "evidence": "成交总价5.5亿元", "reason": ""}
+{"metric_id": 3610, "verdict": "pass", "error_type": null, "evidence": "6亿平⽅⽶或是年化新增商品住宅需求的物理底部", "reason": ""}
+{"metric_id": 3614, "verdict": "suspect", "error_type": null, "evidence": "0.5 |       5.2 |", "reason": "表格缺表头，无法确认5.2所在列是否为去化周期(months)"}
+{"metric_id": 3619, "verdict": "suspect", "error_type": null, "evidence": "| 房租 �     | 88.2", "reason": "表格缺表头，88.2所在列含义/城市/期数均无法确认"}
+{"metric_id": 3625, "verdict": "suspect", "error_type": null, "evidence": "| 模型隐含房价   | 25,167", "reason": "表格缺表头，单位与期数无法确认；25,167与\"模型隐含房价\"行对应"}
+{"metric_id": 3628, "verdict": "pass", "error_type": null, "evidence": "expect no market stabilisation before 2027", "reason": ""}
+{"metric_id": 3629, "verdict": "pass", "error_type": null, "evidence": "property market bottoming this year", "reason": ""}
+{"metric_id": 3635, "verdict": "pass", "error_type": null, "evidence": "underpinned by ~3% rental yields", "reason": ""}
+{"metric_id": 3637, "verdict": "pass", "error_type": null, "evidence": "potentially bottoming out in late 2026", "reason": ""}
+{"metric_id": 3638, "verdict": "pass", "error_type": null, "evidence": "median inventory months standing at 35", "reason": ""}
+{"metric_id": 3639, "verdict": "pass", "error_type": null, "evidence": "expects at least another 2-3 years of downturn", "reason": ""}
+{"metric_id": 3641, "verdict": "fail", "error_type": "口径", "evidence": "declines reaching around 40% from peak levels", "reason": "摘录为自峰值累计跌幅，非同比(yoy)，与metric_name不符"}
+{"metric_id": 3643, "verdict": "suspect", "error_type": "口径", "evidence": "appeared to have bottomed out in mid-2025", "reason": "摘录仅称住宅价格整体，未能确认二手口径；时间/城市/数值均符"}
+{"metric_id": 3659, "verdict": "suspect", "error_type": null, "evidence": "| 4.6%                            | 37.3", "reason": "表格缺表头，37.3所在列是否为均价(千元/平米)无法确认"}
+{"metric_id": 3660, "verdict": "suspect", "error_type": null, "evidence": "| 4.8%                            | 29.0", "reason": "表格缺表头，29.0所在列是否为均价(千元/平米)无法确认"}
+{"metric_id": 3667, "verdict": "pass", "error_type": null, "evidence": "- 17.4% yoy in March", "reason": ""}
+{"metric_id": 3668, "verdict": "pass", "error_type": null, "evidence": "- 23.1% yoy in January-February", "reason": ""}
+{"metric_id": 3671, "verdict": "pass", "error_type": null, "evidence": "likely to see broad recovery by 4Q26", "reason": ""}
+{"metric_id": 3673, "verdict": "pass", "error_type": null, "evidence": "15% property price increase from end-25 to end-28", "reason": ""}
+{"metric_id": 3686, "verdict": "pass", "error_type": null, "evidence": "1Q26 ASP was -7% yoy", "reason": ""}
+{"metric_id": 3690, "verdict": "pass", "error_type": null, "evidence": "-3% yoy in1QM26", "reason": ""}
+{"metric_id": 3701, "verdict": "pass", "error_type": null, "evidence": "GFA sold on median was +74% mom n and -14% yoy", "reason": ""}
+{"metric_id": 3704, "verdict": "pass", "error_type": null, "evidence": "with inventory months at 29.3", "reason": ""}
+{"metric_id": 3707, "verdict": "pass", "error_type": null, "evidence": "New homes sales volume was -22% wow and - 1% yoy", "reason": ""}
+{"metric_id": 3711, "verdict": "pass", "error_type": null, "evidence": "secondary GFA sold on average was +1% yoy", "reason": ""}
+{"metric_id": 3713, "verdict": "pass", "error_type": null, "evidence": "mortgage rate mortgage | 3.05%", "reason": ""}
+{"metric_id": 3716, "verdict": "suspect", "error_type": "数值", "evidence": "overall rental yield is still &lt;2%", "reason": "摘录为\"<2%\"不等式表述，记录为点值2.0"}
+{"metric_id": 3732, "verdict": "suspect", "error_type": "期间", "evidence": " 0.4%     | 0.3%     | 0.4%     | 0.3%     | 0.3% ", "reason": "12列月份序列缺表头，无法定位2026-03对应列（0.3%在行内出现4次）"}
+{"metric_id": 3735, "verdict": "suspect", "error_type": "期间", "evidence": " -0.6%    | 0.0%     | 0.3%     | 0.1%     |", "reason": "12列月份序列缺表头，无法定位2026-02对应列"}
+{"metric_id": 3744, "verdict": "suspect", "error_type": "期间", "evidence": " 0.0%     | 0.2%     | 0.1%     |", "reason": "行标签Tier-1 Primary与一线/new_home对齐，但缺表头无法定位2026-03列"}
+{"metric_id": 3750, "verdict": "suspect", "error_type": "期间", "evidence": " -0.6%    | -0.4%    | 0.2%     | 0.4%     | 0.7% ", "reason": "12列月份序列缺表头，无法定位2026-01对应列"}
+{"metric_id": 3756, "verdict": "suspect", "error_type": "期间", "evidence": " 0.2%     | 0.2%     |", "reason": "缺表头无法定位2026-03列；0.2%仅见于行末两列"}
+{"metric_id": 3757, "verdict": "suspect", "error_type": "期间", "evidence": " 0.2%     | 0.2%     |", "reason": "与3756同一行，2026-03/04两期均取行末0.2%，列映射无法确认"}
+{"metric_id": 3758, "verdict": "suspect", "error_type": "期间", "evidence": " -1.0%    | -0.6%    | -0.6%    | -0.4%    | 0.4% ", "reason": "12列月份序列缺表头，无法定位2026-01对应列（-0.6%出现2次）"}
+{"metric_id": 3772, "verdict": "suspect", "error_type": "期间", "evidence": " 0.9%     | 1.0%     | 1.6%     |", "reason": "12列月份序列缺表头，无法定位2026-03对应列"}
+{"metric_id": 3789, "verdict": "suspect", "error_type": null, "evidence": "          | 1,391          | 5,408 2,694 1,391 13,", "reason": "行内日期31-May-26与期对齐，但行OCR混乱且缺表头，1,391所在列含义无法确认"}
+{"metric_id": 3818, "verdict": "suspect", "error_type": "单位", "evidence": "          | 137                                   ", "reason": "137→137,000套的千套量级换算无表头佐证"}
+{"metric_id": 3823, "verdict": "suspect", "error_type": "口径", "evidence": "Rmb93 bn", "reason": "93bn=930亿换算正确，但摘录无同比表述，comparison_type=yoy无支撑"}
+{"metric_id": 3837, "verdict": "suspect", "error_type": null, "evidence": "华润置地   | Y    | 15        ", "reason": "表头缺失，15所在列含义/量级(十亿?)无法确认"}
+{"metric_id": 3852, "verdict": "suspect", "error_type": null, "evidence": " | -15%   | 2                     | -45%       |", "reason": "取第2列\"2\"(=20亿)而非首列\"5\"，与同表其他记录取列不一致，疑取错列"}
+{"metric_id": 3857, "verdict": "suspect", "error_type": null, "evidence": "中国铁建   | Y    | 4         ", "reason": "表头缺失，4所在列含义/量级无法确认"}
+{"metric_id": 3859, "verdict": "suspect", "error_type": null, "evidence": "中建壹品   | Y    | 4         ", "reason": "表头缺失，4所在列含义/量级无法确认"}
+{"metric_id": 3862, "verdict": "suspect", "error_type": null, "evidence": " | -36%   | 2                     | -36%       |", "reason": "取第2列\"2\"(=20亿)而非首列\"4\"，与同表其他记录取列不一致，疑取错列"}
+{"metric_id": 3863, "verdict": "suspect", "error_type": null, "evidence": "保利置业   | Y    | 4         ", "reason": "表头缺失，4所在列含义/量级无法确认"}
+{"metric_id": 3874, "verdict": "suspect", "error_type": null, "evidence": " | -75%   | 1                     | -77%       |", "reason": "取第2列\"1\"(=10亿)而非首列\"3\"，与同表其他记录取列不一致，疑取错列"}
+{"metric_id": 3882, "verdict": "suspect", "error_type": null, "evidence": "国贸地产   | Y    | 2         ", "reason": "表头缺失，2所在列含义/量级无法确认"}
+{"metric_id": 3898, "verdict": "suspect", "error_type": "单位", "evidence": "          | 10,050                           | -14", "reason": "10,050→100.5亿的百万量级换算无表头佐证；取第2列，与3906取首列不一致"}
+{"metric_id": 3906, "verdict": "suspect", "error_type": "单位", "evidence": "817 HK    | 12,930              | 5,327           ", "reason": "12,930→129.3亿换算合理但无表头；取首列，与3898/3940取第2列不一致"}
+{"metric_id": 3940, "verdict": "suspect", "error_type": "单位", "evidence": "            | 80                               | -", "reason": "80→0.8亿的百万量级换算无表头佐证"}
+{"metric_id": 3958, "verdict": "suspect", "error_type": "单位", "evidence": "          | 430                              | -31", "reason": "430→4.3亿的百万量级换算无表头佐证；取第2列，与3963取首列不一致"}
+{"metric_id": 3963, "verdict": "suspect", "error_type": "单位", "evidence": "3301 HK   | 260                 | 42              ", "reason": "260→2.6亿的百万量级换算无表头佐证；取首列，与3958/3940取第2列不一致"}
+{"metric_id": 3972, "verdict": "suspect", "error_type": "期间", "evidence": " -0.4%    | -0.3%    | 0.0%     | -0.4%    | 0.2% ", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 3973, "verdict": "suspect", "error_type": "期间", "evidence": " -0.3%    | 0.0%     | -0.4%    | 0.2%     | -0.1%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 3980, "verdict": "suspect", "error_type": "期间", "evidence": " -0.4%    | 0.2%     | -0.1%    | -0.5%    | -0.4%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 3991, "verdict": "suspect", "error_type": "期间", "evidence": " 0.2%     | 0.0%     | 0.2%     | 0.3%     |", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 3995, "verdict": "suspect", "error_type": "期间", "evidence": " -0.2%    | -0.8%    | -0.5%    | -0.3%    | -0.2%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4004, "verdict": "suspect", "error_type": "期间", "evidence": " -0.6%    | 0.0%     | 0.3%     |", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4015, "verdict": "suspect", "error_type": "期间", "evidence": " -0.1%    | -0.4%    | -0.6%    | -0.6%    | -0.4%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4017, "verdict": "suspect", "error_type": "期间", "evidence": " -0.3%    | 0.2%     |", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4020, "verdict": "suspect", "error_type": "期间", "evidence": " 0.1%     | -0.2%    | -0.2%    | -0.2%    | -0.2%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4036, "verdict": "suspect", "error_type": "期间", "evidence": " -1.0%    | -1.1%    | -1.2%    | -0.9%    | -1.1%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4043, "verdict": "suspect", "error_type": "期间", "evidence": " 0.1%     | -0.7%    | -0.7%    | -0.9%    | -1.0%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4060, "verdict": "suspect", "error_type": "期间", "evidence": " -1.0%    | -0.9%    | -0.8%    | -0.9%    | -1.2%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4067, "verdict": "suspect", "error_type": "期间", "evidence": " -0.3%    | -0.5%    | -0.5%    | -0.9%    | -0.8%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4070, "verdict": "suspect", "error_type": "期间", "evidence": " -0.9%    | -0.8%    | -1.0%    | -0.9%    | -1.0%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4092, "verdict": "suspect", "error_type": "期间", "evidence": " -0.9%    | -1.6%    | -1.5%    | -1.8%    | -2.1%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4096, "verdict": "suspect", "error_type": "期间", "evidence": " -2.1%    | -1.9%    | -1.9%    | -1.9%    | -0.5%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4107, "verdict": "suspect", "error_type": "期间", "evidence": " -1.7%    | -1.5%    | -2.2%    | -2.0%    | -2.8%", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4135, "verdict": "suspect", "error_type": "期间", "evidence": " -1.6%    | -1.3%    | 0.9%     | 0.1%     |", "reason": "月度网格缺表头，列-月份映射无法从摘录确认（组内自洽于2025-04~2026-03映射）"}
+{"metric_id": 4171, "verdict": "pass", "error_type": null, "evidence": "total price index declines in 2025, nearly 20%", "reason": ""}
+{"metric_id": 4174, "verdict": "suspect", "error_type": "口径", "evidence": "| Total | 100.0% | 3.0% | 0.0% |", "reason": "该行疑为价格跌幅分布表(占比100%起)，0.0%所在列含义无法确认为环比涨跌幅"}
+{"metric_id": 4175, "verdict": "suspect", "error_type": "口径", "evidence": "| -8.4% | -13.8% |", "reason": "同一分布表行，-13.8%所在列含义无法确认为同比涨跌幅"}
+{"metric_id": 4179, "verdict": "suspect", "error_type": "数值", "evidence": "expects &lt;9% downside", "reason": "摘录为\"<9%\"不等式，记录为点值-9.0；且摘录未给出2026-H2期间"}
+{"metric_id": 4187, "verdict": "pass", "error_type": null, "evidence": "potentially bottom in late 2026", "reason": ""}
+{"metric_id": 4199, "verdict": "suspect", "error_type": null, "evidence": ".1%       | 0.4%       | 0.1%       | -0.6%      |", "reason": "行标签为价格档(7-10mn)非城市，缺表头，0.4%无法确认为上海二手2026-07环比"}
+{"metric_id": 4204, "verdict": "suspect", "error_type": null, "evidence": "0.3%      | -5.2%      | -26.4%     |", "reason": "行标签为价格档(15-30mn)非城市，缺表头，-5.2%无法确认为上海二手2026-07同比"}
+{"metric_id": 4213, "verdict": "suspect", "error_type": null, "evidence": "0.1%      | -0.4%      | -0.3%      | -0.6%      |", "reason": "行标签为价格档(5-7mn)非城市，缺表头，-0.4%无法确认为深圳二手2026-07环比"}
+{"metric_id": 4226, "verdict": "pass", "error_type": null, "evidence": "owed  from  -1.26%  in  December  to  -1.13%  in  ", "reason": ""}
+{"metric_id": 4228, "verdict": "pass", "error_type": null, "evidence": ",  with  a  21%  Y/Y  decline  (report).", "reason": ""}
+{"metric_id": 4235, "verdict": "pass", "error_type": null, "evidence": "(38K/15K units in 2025/5M26, -21%/-21% yoy)", "reason": ""}
+{"metric_id": 4240, "verdict": "fail", "error_type": "预测标记", "evidence": "has recovered by &gt;2% since Jan-26", "reason": "摘录为已发生观察(1月以来已回升、见底)，is_forecast应为0，记录为1"}
+{"metric_id": 4248, "verdict": "pass", "error_type": null, "evidence": "still see a 9% downside, if we benchmark to the bo", "reason": ""}
+{"metric_id": 4254, "verdict": "pass", "error_type": null, "evidence": "The city average is 2.2%", "reason": ""}
+{"metric_id": 4264, "verdict": "suspect", "error_type": "期间", "evidence": " -0.5%    | 0.2%     |", "reason": "12列网格缺表头，列-月份映射无法从摘录确认（与第三批一致：末列对应2026-03）"}
+{"metric_id": 4265, "verdict": "suspect", "error_type": "期间", "evidence": " -0.4%    | 0.4%     |", "reason": "12列网格缺表头，列-月份映射无法从摘录确认（与第三批一致：末列对应2026-03）"}
+{"metric_id": 4267, "verdict": "suspect", "error_type": "期间", "evidence": "-1.6%    | -1.5%    | -1.8%    | -2.1%    | -1.9% ", "reason": "12列网格缺表头，列-月份映射无法从摘录确认（与第三批一致：末列对应2026-03）"}
+{"metric_id": 4276, "verdict": "suspect", "error_type": "期间", "evidence": "| -1.7%   | -0.1%      | -7.0%      |", "reason": "7列序列缺表头，无法确认-0.1%对应2026Q1（行标签Tier-1 average与一线对齐）"}
+{"metric_id": 4282, "verdict": "suspect", "error_type": "期间", "evidence": "| -6.9%   | -0.2%      | -17.7%     |", "reason": "7列序列缺表头，无法确认-0.2%对应2026Q1（行标签Tier-1 average与一线对齐）"}
+{"metric_id": 4295, "verdict": "fail", "error_type": "城市", "evidence": "home prices in non-tier 1 cities: down 5%", "reason": "摘录明确限定\"非一线城市\"房价跌5%，记录city=全国，范围不符"}
+{"metric_id": 4326, "verdict": "suspect", "error_type": "期间", "evidence": "% | 0.4%  | 0.3%                                  ", "reason": "行OCR混乱且缺表头，末列0.3%无法确认对应2026-05"}
+{"metric_id": 4334, "verdict": "pass", "error_type": null, "evidence": "secondary sales marginally rose 1% Y/Y", "reason": ""}
+{"metric_id": 4349, "verdict": "pass", "error_type": null, "evidence": "(vs. +1% yy in 2M26)", "reason": ""}
+{"metric_id": 4361, "verdict": "pass", "error_type": null, "evidence": "versus -13.1% y-y in 3M26", "reason": ""}
+{"metric_id": 4370, "verdict": "pass", "error_type": null, "evidence": "-4.9% in 2024, and -3.8% in 2025", "reason": ""}
+{"metric_id": 4371, "verdict": "pass", "error_type": null, "evidence": "improved to 2.70% in April 2026", "reason": ""}
+{"metric_id": 4376, "verdict": "pass", "error_type": null, "evidence": "grew 0.1% m-m in April, versus +1.9% in February", "reason": ""}
+{"metric_id": 4382, "verdict": "pass", "error_type": null, "evidence": "versus +0.3% in February and +1.0% in March", "reason": ""}
+{"metric_id": 4394, "verdict": "pass", "error_type": null, "evidence": ", including 23 months in Tier 1 cities, 30 months ", "reason": ""}
+{"metric_id": 4397, "verdict": "suspect", "error_type": "期间", "evidence": "Inventory month (completed + under-constructions)", "reason": "行标签确认指标/单位，但36.3/35.3/38.7缺期间表头，无法确认35.3对应2025-H1"}
+{"metric_id": 4409, "verdict": "pass", "error_type": null, "evidence": "to flat y-y in 2026", "reason": ""}
+{"metric_id": 4413, "verdict": "pass", "error_type": null, "evidence": "-3%, -3% and -5% yy growth in property prices", "reason": ""}
+{"metric_id": 4421, "verdict": "suspect", "error_type": "城市", "evidence": "an-26  66%  64%  78%  66%  37%  37%  78%  103%  12", "reason": "24城网格缺表头，列-城市映射无法确认（跨月记录列位自洽：沪=第2列）"}
+{"metric_id": 4445, "verdict": "suspect", "error_type": "城市", "evidence": "ar-26  13%  15%  -6%  2%  8%  13%  30%  25%  17%  ", "reason": "24城网格缺表头，列-城市映射无法确认（沪=第2列，与4421自洽）"}
+{"metric_id": 4447, "verdict": "suspect", "error_type": "城市", "evidence": "  13%  15%  -6%  2%  8%  13%  30%  25%  17%  32%  ", "reason": "24城网格缺表头，列-城市映射无法确认（深=第3列，跨月自洽）"}
+{"metric_id": 4463, "verdict": "suspect", "error_type": "城市", "evidence": "  33%  46%  -15%  60%  57%  39%  26%  70%  41%  47", "reason": "24城网格缺表头，列-城市映射无法确认（杭=第15列，跨月自洽）"}
+{"metric_id": 4479, "verdict": "suspect", "error_type": "单位", "evidence": "  |         | 78      | 173     | 169     | 3%    ", "reason": "78→780亿的十亿量级换算无表头佐证；该行多列含义不明"}
+{"metric_id": 4490, "verdict": "suspect", "error_type": "单位", "evidence": "| 181     | 159     | 2% -12%  |         | 580    ", "reason": "159→1590亿的量级换算无表头佐证；13+列无期间表头，无法确认159对应2026-04"}
+{"metric_id": 4501, "verdict": "suspect", "error_type": null, "evidence": "          | -2.6%   | 6.7%       | 2.8%           ", "reason": "HK仪表盘行缺表头，-2.6%所在列是否为房价环比无法确认"}
+{"metric_id": 4508, "verdict": "suspect", "error_type": null, "evidence": "23        | 288%      | -11%       | -13%         ", "reason": "首列288%疑为成交量同比，缺表头无法确认是否为价格同比"}
+{"metric_id": 4538, "verdict": "suspect", "error_type": null, "evidence": "24        | 353%      | 20%        | 75%          ", "reason": "首列353%疑为成交量同比，缺表头无法确认是否为价格同比"}
+{"metric_id": 4542, "verdict": "suspect", "error_type": null, "evidence": "          | 3.63%                             | 3.", "reason": "缺表头，3.63%所在列是否为按揭利率无法确认"}
+{"metric_id": 4546, "verdict": "suspect", "error_type": null, "evidence": "          | -0.7%   | 5.9%       | 7.3%           ", "reason": "HK仪表盘行缺表头，-0.7%所在列是否为房价环比无法确认"}
+{"metric_id": 4548, "verdict": "suspect", "error_type": null, "evidence": "          | 3.50%                             | 3.", "reason": "缺表头，3.50%所在列是否为按揭利率无法确认"}
+{"metric_id": 4558, "verdict": "suspect", "error_type": null, "evidence": "          | -0.1%   | 4.0%       | 9.3%           ", "reason": "HK仪表盘行缺表头，-0.1%所在列是否为房价环比无法确认"}
+{"metric_id": 4562, "verdict": "suspect", "error_type": null, "evidence": "25        | 119%      | -13%       | 32%          ", "reason": "首列119%疑为成交量同比，缺表头无法确认是否为价格同比"}
+{"metric_id": 4583, "verdict": "suspect", "error_type": "期间", "evidence": "          | 3.25%                             | 3.", "reason": "行缺日期标签，period=2026-02无摘录出处；3.25%列含义亦无法确认"}
+{"metric_id": 4586, "verdict": "pass", "error_type": null, "evidence": "widened to 13% y-y in June", "reason": ""}
+{"metric_id": 4589, "verdict": "pass", "error_type": null, "evidence": "declines slightly to 14% for the top 50", "reason": ""}
+{"metric_id": 4611, "verdict": "pass", "error_type": null, "evidence": "(vs. flat and -0.1% in February)", "reason": ""}
+{"metric_id": 4612, "verdict": "pass", "error_type": null, "evidence": "widened slightly to -11.3% y-y in March", "reason": ""}
+{"metric_id": 4614, "verdict": "pass", "error_type": null, "evidence": "softened to 9.2% y-y MTD as of June 10", "reason": ""}
+{"metric_id": 4616, "verdict": "pass", "error_type": null, "evidence": "(vs. 30% in April, 26% in May)", "reason": ""}
+{"metric_id": 4620, "verdict": "pass", "error_type": null, "evidence": "improved to 4.7% y-o-y in April", "reason": ""}
+{"metric_id": 4621, "verdict": "pass", "error_type": null, "evidence": "rose to 13.9% y-o-y in April", "reason": ""}
+{"metric_id": 4622, "verdict": "pass", "error_type": null, "evidence": "at -29.9% y-o-y and -30.5%", "reason": ""}
+{"metric_id": 4624, "verdict": "pass", "error_type": null, "evidence": "was -24.5% y-o-y in JanuaryFebruary", "reason": ""}
+{"metric_id": 4629, "verdict": "pass", "error_type": null, "evidence": "0.6% m-o-m in Beijing", "reason": ""}
+{"metric_id": 4632, "verdict": "pass", "error_type": null, "evidence": "0.2% in Guangzhou and 0.4% in Shenzhen", "reason": ""}
+{"metric_id": 4639, "verdict": "pass", "error_type": null, "evidence": "in tier 2 cities to still decline by 5%", "reason": ""}
+{"metric_id": 4643, "verdict": "pass", "error_type": null, "evidence": "tier 2 cities property price may stabilize in 2H26", "reason": ""}
+{"metric_id": 4665, "verdict": "suspect", "error_type": null, "evidence": "          | 9%                    | 8,522         ", "reason": "UBS表行缺表头，9%所在列无法确认为二手相关同比"}
+{"metric_id": 4673, "verdict": "suspect", "error_type": "期间", "evidence": "reached 25.2 months", "reason": "摘录无日期，period=2026-03无出处"}
+{"metric_id": 4679, "verdict": "fail", "error_type": "数值", "evidence": "is 2.6%, vs tier 1 cities' average yield of 1.8%", "reason": "2.6%为模型隐含\"合理收益率\"，摘录实际均值为1.8%，数值取错对象"}
+{"metric_id": 4683, "verdict": "pass", "error_type": null, "evidence": "decrease 2.3% YoY and 0.7% MoM, as of Jan 2026", "reason": ""}
+{"metric_id": 4693, "verdict": "suspect", "error_type": "期间", "evidence": "          | -11.2           | -11.1           | -1", "reason": "FAI表行缺表头，4列(-29.4/-11.2/-11.1/-11.3)期间归属无法确认，-11.2未必对应2026Q1"}
+{"metric_id": 4694, "verdict": "suspect", "error_type": "期间", "evidence": "          | -11.1           | -11.3           |   ", "reason": "同上，-11.1对应2026-02(1-2月累计)仅为推断，缺表头确认"}
+{"metric_id": 4701, "verdict": "pass", "error_type": null, "evidence": "declined at 3.1% YoY as of June 2026", "reason": ""}
+{"metric_id": 4705, "verdict": "pass", "error_type": null, "evidence": "slowing to +1.4% YoY in Aug 2026", "reason": ""}
+{"metric_id": 4709, "verdict": "pass", "error_type": null, "evidence": "declined by 2% YoY in Dec 2025", "reason": ""}
+{"metric_id": 4712, "verdict": "pass", "error_type": null, "evidence": "mortgage rate (3.1%) in tier 1 cities", "reason": ""}
+{"metric_id": 4713, "verdict": "pass", "error_type": null, "evidence": "10%/5% YoY decline for secondary property price", "reason": ""}
+{"metric_id": 4715, "verdict": "pass", "error_type": null, "evidence": "grew by 2.3% YoY as of June 2026", "reason": ""}
+{"metric_id": 4716, "verdict": "pass", "error_type": null, "evidence": "fell by 9.3% YoY", "reason": ""}
+{"metric_id": 4729, "verdict": "suspect", "error_type": "口径", "evidence": "at around 32 months", "reason": "摘录为\"约32个月\"且未注明二手口径与日期；32.0/secondary/2026-01均无摘录依据"}
+{"metric_id": 4730, "verdict": "pass", "error_type": null, "evidence": "declined by 20.9% YoY as of Jan 2026", "reason": ""}
+{"metric_id": 4732, "verdict": "pass", "error_type": null, "evidence": "declined by 20% YoY in Feb 2026", "reason": ""}
+{"metric_id": 4742, "verdict": "suspect", "error_type": "单位", "evidence": "| CMSK                          | 7.8 ", "reason": "7.8→78亿的十亿量级换算无表头佐证"}
+{"metric_id": 4757, "verdict": "suspect", "error_type": "口径", "evidence": "          | -42%             |          |         ", "reason": "-37%/-42%两列无表头，无法确认哪个是环比哪个是同比"}
+{"metric_id": 4774, "verdict": "suspect", "error_type": "单位", "evidence": "| Hopson                        | 0.7 ", "reason": "0.7→7亿的十亿量级换算无表头佐证"}
+{"metric_id": 4777, "verdict": "suspect", "error_type": "口径", "evidence": "          | -36%             |          |         ", "reason": "-19%/-36%两列无表头，无法确认环比/同比归属"}
+{"metric_id": 4784, "verdict": "suspect", "error_type": "单位", "evidence": "| SCE                           | 0.5 ", "reason": "0.5→5亿的十亿量级换算无表头佐证"}
+{"metric_id": 4795, "verdict": "pass", "error_type": null, "evidence": "/ 平⽅⽶， 环⽐下跌 0.04% ， 同⽐上涨 2.37% 。", "reason": ""}
+{"metric_id": 4808, "verdict": "pass", "error_type": null, "evidence": "0.42% ，同⽐下跌 7.85% ；⼆ 线 城市环⽐下跌 0.57% ，同⽐下跌 9.44% ； ", "reason": ""}
+{"metric_id": 4824, "verdict": "suspect", "error_type": null, "evidence": "州         | 0.57%  | 9.11%  |              33477 |", "reason": "表行缺表头，数值所在列含义(环比/同比)无法确认（与同文件文字段列序一致，待表头确认）"}
+{"metric_id": 4827, "verdict": "suspect", "error_type": null, "evidence": "京         | -0.66% | -8.97%  |              62731 ", "reason": "表行缺表头，数值所在列含义(环比/同比)无法确认（与同文件文字段列序一致，待表头确认）"}
+{"metric_id": 4833, "verdict": "suspect", "error_type": null, "evidence": "州         | -0.41% | -9.06%  |              33283 ", "reason": "表行缺表头，数值所在列含义(环比/同比)无法确认（与同文件文字段列序一致，待表头确认）"}
+{"metric_id": 4836, "verdict": "suspect", "error_type": null, "evidence": "圳         | -0.18% | -6.05%  |              63578 ", "reason": "表行缺表头，数值所在列含义(环比/同比)无法确认（与同文件文字段列序一致，待表头确认）"}
+{"metric_id": 4851, "verdict": "pass", "error_type": null, "evidence": "stood at about 3.1 percent", "reason": ""}
+{"metric_id": 4853, "verdict": "suspect", "error_type": "预测标记", "evidence": "has entered a bottoming phase", "reason": "\"has entered\"为已发生的现状判断，is_forecast宜为0；value_text非时间点，期间归属弱"}
+{"metric_id": 4866, "verdict": "pass", "error_type": null, "evidence": "同比分别下跌7.72%、9.17%、8.27%", "reason": ""}
+{"metric_id": 4872, "verdict": "suspect", "error_type": "数值", "evidence": "， 3 月二手商品房成交超3万套，创近五年新高，3月二手房量价齐升。 合肥 3 月二手房挂牌均价环比", "reason": "摘录为\"超3万套\"下限表述，记录为精确30000"}
+{"metric_id": 4886, "verdict": "suspect", "error_type": null, "evidence": "| 深圳   | 0.41%↑  |            82.20 |          ", "reason": "租金表行缺表头，0.41%列含义(环比)待表头确认"}
+{"metric_id": 4891, "verdict": "suspect", "error_type": null, "evidence": "            81.61 |              73.78 | 常州      |", "reason": "租金表行缺表头，81.61列含义(租金水平)待表头确认；comparison_type=mom亦无直接支撑"}
+{"metric_id": 3593, "verdict": "fail", "error_type": "数值", "evidence": "全国100个城市二手住宅平均价格同比下跌8.55%", "reason": "摘录仅有同比跌幅8.55%，无均价12792的数字，数值无出处"}
+{"metric_id": 3596, "verdict": "pass", "error_type": null, "evidence": "一线城市新建住宅价格环比上涨0.24%", "reason": ""}
+{"metric_id": 4896, "verdict": "pass", "error_type": null, "evidence": "环比下降约7%，同比下降约7%", "reason": ""}
+{"metric_id": 4905, "verdict": "pass", "error_type": null, "evidence": "上海二手商品房分别成交1.4万、2.3万套", "reason": ""}
+{"metric_id": 4920, "verdict": "suspect", "error_type": "口径", "evidence": "二线城市环比上涨0.09%", "reason": "摘录未说明该0.09%属于新房还是二手口径"}
+{"metric_id": 4932, "verdict": "pass", "error_type": null, "evidence": "成交总价分别达149.70亿元和140.50亿元", "reason": ""}
+{"metric_id": 4934, "verdict": "pass", "error_type": null, "evidence": "成交19061套/235.04万㎡", "reason": ""}
+{"metric_id": 4949, "verdict": "pass", "error_type": null, "evidence": "环比上涨22%、同比上涨12%", "reason": ""}
+{"metric_id": 4956, "verdict": "pass", "error_type": null, "evidence": "6月份平均溢价率达到13.7%", "reason": ""}
+{"metric_id": 4963, "verdict": "pass", "error_type": null, "evidence": "成交48.50万㎡（环比-16.98%、同比-4.92%）", "reason": ""}
+{"metric_id": 4964, "verdict": "pass", "error_type": null, "evidence": "成交48.50万㎡（环比-16.98%、同比-4.92%）", "reason": ""}
+{"metric_id": 4968, "verdict": "suspect", "error_type": "口径", "evidence": "较6月（54.18万㎡）明显回落", "reason": "摘录仅较6月回落表述、无同比数据，comparison_type=yoy无支撑"}
+{"metric_id": 4970, "verdict": "suspect", "error_type": "口径", "evidence": "成交均价48563元/㎡创近13个月新高", "reason": "摘录无环比表述(\"近13个月新高\"非环比)，comparison_type=mom无支撑"}
+{"metric_id": 4979, "verdict": "fail", "error_type": "口径", "evidence": "楼面价高达5.16万元/㎡，溢价率79.03%", "reason": "摘录为滨江单个地块溢价率，记录为杭州全市2026-H1溢价率，范围口径不符"}
+{"metric_id": 4989, "verdict": "pass", "error_type": null, "evidence": "兴耀房产集团以133.23亿元位居第三", "reason": ""}
+{"metric_id": 4996, "verdict": "pass", "error_type": null, "evidence": "2024年同期（成交17幅、416亿元、溢价率7%）", "reason": ""}
+{"metric_id": 5006, "verdict": "pass", "error_type": null, "evidence": "6月成交25,158套，同比去年6月上涨21.1%", "reason": ""}
+{"metric_id": 5017, "verdict": "pass", "error_type": null, "evidence": "较2025H1的35.74%、2025p的32.03%显著攀升", "reason": ""}
+{"metric_id": 5022, "verdict": "pass", "error_type": null, "evidence": "成交均价66032元/㎡。同比2025H1", "reason": ""}
+{"metric_id": 5030, "verdict": "pass", "error_type": null, "evidence": "总成交37378套，同比+6.7%，环比+11.5%", "reason": ""}
+{"metric_id": 5041, "verdict": "pass", "error_type": null, "evidence": "本地龙头鸿荣源（107.80亿）", "reason": ""}
