@@ -5,58 +5,20 @@
 <title>房地产研报研判 · 市场总览</title>
 <!-- 本地固定资源：不依赖外部 CDN；加载失败时页面降级为纯表格/状态卡，仍完整可用 -->
 <script src="/static/echarts.min.js"></script>
-<style>
-  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:1200px;margin:0 auto;padding:16px;color:#222;font-size:14px}
-  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
-  h2{margin:14px 0 8px}
-  h3{margin:20px 0 8px;border-left:4px solid #2563eb;padding-left:8px}
-  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
-  select,input{padding:6px 8px;font-size:14px}
-  button{padding:6px 16px;font-size:14px;cursor:pointer}
-  .card{border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff}
-  .dim{color:#64748b;font-size:12px}
-  .warn{color:#92400e;font-size:12px;margin-top:2px}
-  .quote{color:#475569;font-size:12px;background:#f8fafc;border-left:3px solid #cbd5e1;padding:2px 6px;margin:2px 0 2px 12px}
-  .err{color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:6px 10px;margin:6px 0;display:none}
-  .disclaimer{margin-top:8px;padding:6px 8px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;font-size:12px;color:#78350f}
-  .conf{font-weight:bold;padding:1px 8px;border-radius:10px}
-  .conf-low{background:#fee2e2;color:#b91c1c}
-  .conf-medium{background:#dbeafe;color:#1d4ed8}
-  .conf-high{background:#dcfce7;color:#15803d}
-  .phase-line{font-size:18px;margin-bottom:6px}
-  .phase-meta{margin:3px 0}
-  details.sig{border:1px solid #e2e8f0;border-radius:6px;padding:4px 8px;margin:6px 0}
-  details.sig summary{cursor:pointer;font-size:13px}
-  .sig-body{font-size:13px;padding:4px 2px}
-  .ev{margin:6px 0;border-top:1px dashed #e2e8f0;padding-top:4px}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:800px){.grid2{grid-template-columns:1fr}}
-  .risk{border-radius:6px;padding:8px 10px;margin:6px 0;font-size:13px}
-  .r-red{background:#fef2f2;border:1px solid #fca5a5}
-  .r-yellow{background:#fffbeb;border:1px solid #fcd34d}
-  .r-gray{background:#f1f5f9;border:1px solid #cbd5e1;color:#475569}
-  .r-blue{background:#eff6ff;border:1px solid #93c5fd}
-  .risk-code{font-weight:bold;margin-bottom:2px}
-  .trigger{background:rgba(255,255,255,.6);font-size:11px;padding:4px 6px;margin-top:4px;white-space:pre-wrap;word-break:break-all}
-  .legend{font-size:12px;color:#475569;margin:4px 0}
-  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 10px;vertical-align:middle}
-  .chart{width:100%;height:340px;border:1px solid #e2e8f0;border-radius:8px;margin:8px 0}
-  table{border-collapse:collapse;width:100%;margin:8px 0;font-size:12px}
-  th,td{border:1px solid #e2e8f0;padding:4px 6px;text-align:left}
-  th{background:#f1f5f9}
-  .fc{color:#b45309}
-  .cf{background:#fef2f2}
-  .stat{display:inline-block;border:1px solid #e2e8f0;border-radius:8px;padding:8px 14px;margin:4px 8px 4px 0;background:#fff}
-  .stat b{font-size:20px;display:block}
-  .notice{background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:6px 10px;margin:6px 0;font-size:13px}
-  .limited-band{background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;margin:8px 0 4px;font-weight:bold;font-size:13px}
-  .sub{border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;margin:10px 0}
-  details.warnings{font-size:12px;color:#64748b;margin:4px 0}
-  footer{margin:24px 0 12px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b}
-</style>
+<link rel="stylesheet" href="/static/app.css">
+<!-- 置信度徽章 conf-low / conf-medium / conf-high 样式统一定义于 /static/app.css -->
 </head>
 <body>
-<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<nav class="topnav"><div class="topnav-in">
+  <a class="logo" href="/">研报研判</a>
+  <div class="navlinks">
+    <a href="/">问答</a>
+    <a href="/overview" class="on" aria-current="page">总览</a>
+    <a href="/metrics">指标看板</a>
+    <a href="/docs">报告库</a>
+  </div>
+</div></nav>
+<main class="page page-wide">
 <h2><span id="pageTitle">市场总览</span></h2>
 
 <div class="bar">
@@ -79,10 +41,10 @@
 
 <h3>风险信号</h3>
 <div class="legend">
-  颜色含义：<span class="dot" style="background:#fca5a5"></span>红色＝实际反向信号
-  <span class="dot" style="background:#fcd34d"></span>黄色＝数据不足 / 来源冲突 / 比较受限（limited）
-  <span class="dot" style="background:#cbd5e1"></span>灰色＝指标未覆盖（数据缺失≠市场高风险，仅表示无法评估）
-  <span class="dot" style="background:#93c5fd"></span>蓝色＝下一步观察项（见“覆盖与观察项”）
+  颜色含义：<span class="dot dot-red"></span>红色＝实际反向信号
+  <span class="dot dot-yellow"></span>黄色＝数据不足 / 来源冲突 / 比较受限（limited）
+  <span class="dot dot-gray"></span>灰色＝指标未覆盖（数据缺失≠市场高风险，仅表示无法评估）
+  <span class="dot dot-blue"></span>蓝色＝下一步观察项（见“覆盖与观察项”）
 </div>
 <div id="riskBox"></div>
 
@@ -109,6 +71,7 @@
   <div>数据来源：本地研报指标库（只读查询，mode=ro）；页面不调用外部模型 API，不依赖外部 CDN。</div>
   <div>本页只展示事实、规则结果与风险提示，不输出购房结论类表述；观察项只说明继续关注什么数据。</div>
 </footer>
+</main>
 
 <script>
 const $ = (id) => document.getElementById(id);

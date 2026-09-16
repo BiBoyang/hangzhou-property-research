@@ -5,26 +5,26 @@
 <title>房地产研报研判 · 指标看板</title>
 <!-- ECharts 使用 Step 3E 本地固定资源，页面不依赖外部 CDN -->
 <script src="/static/echarts.min.js"></script>
-<style>
-  body{font-family:-apple-system,"PingFang SC",sans-serif;max-width:1100px;margin:0 auto;padding:16px;color:#222}
-  nav a{margin-right:16px;color:#2563eb;text-decoration:none}
-  select{padding:8px;font-size:15px;margin-right:8px}
-  #chart{width:100%;height:420px;border:1px solid #e2e8f0;border-radius:8px;margin-top:12px}
-  table{border-collapse:collapse;width:100%;margin-top:16px;font-size:13px}
-  th,td{border:1px solid #e2e8f0;padding:6px 8px;text-align:left}
-  th{background:#f1f5f9}
-  .fc{color:#b45309}
-  .muted{color:#64748b;font-size:12px}
-</style>
+<link rel="stylesheet" href="/static/app.css">
 </head>
 <body>
-<nav><a href="/">问答</a><a href="/overview">总览</a><a href="/metrics">指标看板</a><a href="/docs">报告库</a></nav>
+<nav class="topnav"><div class="topnav-in">
+  <a class="logo" href="/">研报研判</a>
+  <div class="navlinks">
+    <a href="/">问答</a>
+    <a href="/overview">总览</a>
+    <a href="/metrics" class="on" aria-current="page">指标看板</a>
+    <a href="/docs">报告库</a>
+  </div>
+</div></nav>
+<main class="page page-wide">
 <h2>指标看板</h2>
 <select id="m"><option value="">选择指标</option>{% for n in metric_names %}<option value="{{n}}">{{n}}</option>{% endfor %}</select>
 <select id="c"><option value="">全部城市</option>{% for c in cities %}<option>{{c}}</option>{% endfor %}</select>
-<div id="minfo" class="muted" style="margin-top:8px"></div>
+<div id="minfo" class="muted"></div>
 <div id="chart"></div>
 <table id="tbl" data-metric=""></table>
+</main>
 <script>
 // ===== 展示层中文化映射：只改显示，查询仍用原英文 code；LABELS-MAPS-BEGIN 供契约测试按 JSON 提取 =====
 const METRIC_LABELS = {
