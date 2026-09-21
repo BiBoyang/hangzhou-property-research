@@ -1,6 +1,6 @@
 # 房地产研报研判系统（rag-app）
 
-基于 61 份中英文投行/机构研报（53 PDF + 8 网页采集）+ 1477 条结构化指标的本地 RAG 系统：研报问答 + 结构化指标看板。
+基于 61 份中英文投行/机构研报（53 PDF + 8 网页采集）+ 1517 条结构化指标的本地 RAG 系统：研报问答 + 结构化指标看板。
 
 ## 架构
 
@@ -73,7 +73,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - **代理坑**：本机 socks/http 代理导致 HF 模型下载 SSL EOF；`env -u *_proxy + HF_ENDPOINT=hf-mirror.com` 解决
 - **向量化性能**：Qwen3-Embedding-0.6B 在 CPU 上约 8 chunks/min（3 小时量级），切 MPS + `max_seq_length=1024` 后 ~85 chunks/min（20 分钟）
 - **检索质量三个关键改进**：① 索引文本必须带报告标题+章节标题（否则"公积金报告"类查询沉底）；② 中英同义词扩展（瑞银↔UBS、北京↔Beijing、新政↔easing）；③ 文档级先验 boost（标题命中机构/城市 + 日期对齐）
-- **披露页噪声**：投行报告尾部的 disclosure 段会污染 top-k，查询期过滤（治标）；根治应在切分期按正文特征丢弃（TODO）
+- **披露页噪声**：投行报告尾部的 disclosure 段会污染 top-k，查询期过滤只算治标，2026-09-16 已下沉到切分期按强特征整段丢弃治本（清出 39 段，chunks 1671→1632），run_eval 期望词同步做同义归一
 - **累计期混入趋势图**：H1/Q1 累计值会让 ECharts 月度趋势线失真，前端过滤 `YYYY-MM` 以外的 period
 
 ## 指标导入可靠性（Step 2A，2026-09）
@@ -82,7 +82,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - 整文件替换后 metric_id 会重新分配——不要把 metric_id 当稳定标识。
 - source_file 只证明内容对应本地文件，不代表原始机构来源已核实，也不代表同内容的两份文件是独立证据。
 - 阻断保护（拒绝且零写入）：旧 schema、存在 source_file 为空的历史行、来源文件在盘上缺失、空文件、校验失败。文件须为合法 UTF-8（不做编码探测，解码失败按文件拒绝并报文件名与字节位置）；校验契约：必填字段非空；period 合法（`2026-08` / `2026Q3` / `2026-H1` / `2026`）；value 只接受数字或字符串（拒绝布尔、对象、数组、纯空白、NaN·Infinity；文本值存 value_text，"2027" 这类数字字符串仍转数值）；is_forecast 只接受确切的 0/1（缺省视为 0，兼容布尔与 "0"/"1"，拒绝 0.9 之类会被截断的值）；JSONL 顶层每条必须是对象，单文件失败不影响批次其余文件。
-- 当前正式库状态：Step 2B 历史归属与清理已于 2026-09-08 完成执行（保留 1477 行 / 删除重复 1892 行，source_file 全部回填，执行与预检报告见 `plans/reports/`），指标导入正常工作。
+- 当前正式库状态：Step 2B 历史归属与清理已于 2026-09-08 完成执行（保留 1477 行 / 删除重复 1892 行，source_file 全部回填，执行与预检报告见 `plans/reports/`），指标导入正常工作；此后的二次治理与口径补充（2026-09-16：冰山 CNY 量/价归位、中指院月度渠道文件、schema 量价分家）后，指标库现为 1517 条（2026-09-21 核对）。
 - 历史核对与清理（Step 2B，已完成）：`.venv/bin/python scripts/metrics_maintenance.py preview [--report 路径]`，另有 `fingerprint` / `inspect-source` / `inspect-db` 子命令；全部以 mode=ro 只读打开数据库，无任何写操作入口。治理结论：历史 3369 行全部按 15 字段匹配到现有源文件，其中 1905 行为同内容重复导入的重复行，清理后指标库为 1477 条。
 - 正式迁移与清理的安全骨架（Step 2B-2A，2026-09-08，临时库验证完成，正式库未动）：`metrics_maintenance.py` 增加只读 `plan` 子命令与内部执行函数（`execute_plan` 须显式 `confirmed=True` 且按文件身份（os.path.samefile，同 inode）拒绝正式库本体/硬链接/软链接；单事务内显式 ALTER + UPDATE source_file + DELETE 同文件重复，失败整体回滚；执行前重算指纹、事务内重算目标集；执行后旧计划失效须重新生成）。指纹含 docs/chunks/FTS/vec 内容摘要，chunks_vec 覆盖 chunk_id + embedding 原始字节，读不出时计划阻断。跨文件相同内容的 metric_id 归属是确定性技术分配（文件 POSIX 升序 × metric_id 升序，尊重已有一致归属），不代表真实来源，也不代表独立证据。
 - 正式执行前预检与备份（Step 2B-2B-Preflight，2026-09-08，**只读+备份，正式写入仍未批准**）：新增正式备份入口 `formal_backup`（须显式 `formal_backup_confirmed=True`；源 mode=ro；目标必须是不存在的新文件且不得为正式库/源库本体或链接；同秒冲突拒绝不覆盖；备份后自动验证 integrity_check/行数/schema/内容摘要，embedding 不可验证时不声称"已充分验证"）与预检编排 `run_preflight`（指纹→进程→计划→备份→复核→报告；检测到 ingest/build_index/load_external_metrics/run_eval 运行时停止备份并阻断）。本轮产物：正式备份 `data/backups/rag-2b2-preflight-20260908-062313.db`（integrity ok，全部内容摘要与源库一致，含 1671 行 embedding 内容摘要）、最新计划 `plans/reports/step2b2b-plan-formal-20260908-062312.json`（保留 1477/删除 1892/跨文件 13，无阻断）、预检报告 `plans/reports/step2b2b-preflight-20260908-062312.json`；正式库 sha256/mtime/inode 前后不变。备份授权≠写入授权：正式迁移/回填/删除仍需单独批准，`execute_plan` 对正式库依旧无条件拒绝。
@@ -131,7 +131,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - **预测隔离**：阶段仅由实际观测（is_forecast=0）计算；`include_forecasts=True` 时机构预测单独成 `forecast_outlook` 前瞻信号（附"非市场事实"警示），不混入阶段与支持/反向证据。
 - **置信度**：只有 low/medium/high，表示证据充分程度（序列数/覆盖期数/来源数/冲突数/核心指标齐全度），不是判断正确的概率。
 - **风险信号与阶段分离**：`data_gap`、`source_conflict`、`low_sample_size`、`forecast_dominant`、`price_volume_divergence`、`inventory_pressure`、`listing_pressure`、`new_secondary_divergence`、`city_comparison_limited`、`granularity_mismatch`、`source_coverage_asymmetry`——每条带触发指标/时期/原始值/来源，无分数，不映射为买房建议。
-- **当前正式库实况**（2026-09-08，as_of 2026-08）：杭州 = `bottom_fluctuation`（底部震荡）/ 置信度 low——价格信号 J.P. Morgan 同比（2 期）与 Morgan Stanley 同比（5 期）方向冲突、二手房成交走弱、大摩同口径四城联动走弱；输出随数据变化，以当次运行为准。
+- **当前正式库实况**（2026-09-21 实跑，as_of 2026-08）：杭州 = `continued_decline`（持续下行）/ 置信度 low——二手房成交 2026-01~08 连续走弱（strong）、核心城市联动走弱、新房价格环比微升但核心价格序列连续观测不足 3 期；输出随数据变化，以当次运行为准。
 - **历史快照**：传入 `as_of` 后，阶段信号、coverage、核心城市共同覆盖期和可选预测前瞻统一截断到该时期；返回 `filters.effective_period_end`，避免历史复盘混入截止期之后的数据。
 - 只读：全程 mode=ro，零外部 API（socket 拦截 + import AST 扫描双测试）。任务记录：`plans/TASK-market-phase.md`。
 
@@ -154,7 +154,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 ## 已知边界 / TODO
 
 - 0.6B embedding 跨语言能力一般：中英混合长查询召回仍可能混入无关中文报告，生成层靠 top-k 冗余 + 强模型兜底
-- 指标库人审尚未完成（当前依赖抽取时的程序化断言：quote 必须是原文子串且含数字）
+- 指标库抽样人审已完成（185 条 / 约 13%，错误率 4.9%，四类系统性错误已修复，终审记录见 `data/metrics_review_adjudication.md`）；全量人审未做，日常仍靠程序化断言（quote 必须是原文子串且含数字）兜底
 - rerank 已探针否决：bge-reranker-base 在 6 题对比中为负优化（中文中心模型压英文 chunk 分、不理解机构/日期约束），维持现有管线；重试条件与 Ollama 损坏情况见 `plans/rerank-spike.md`
 
 ## 数据更新
