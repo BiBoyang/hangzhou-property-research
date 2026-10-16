@@ -1,6 +1,6 @@
-# TASK-agentic-rag:单引擎双配置 Agentic RAG——M3 已完成
+# TASK-agentic-rag:单引擎双配置 Agentic RAG——M4 已完成
 
-**状态**:M3 已完成(2026-10-16):多轮 session + 指代消解真机验证通过。本文件是唯一事实来源。
+**状态**:M4 已完成(2026-10-16):研判报告真机首份通过。本文件是唯一事实来源。
 
 ## 需求规格(用户确认)
 
@@ -18,6 +18,7 @@
 | 3 | 双 agent 形态 | **单引擎双配置**(房地产 agent = 同循环 + topic 过滤 + 专用 prompt;全量 agent = 无过滤) |
 | 4 | planner 模型 | **已定(2026-10-16):Kimi 按量计费 key 已写入 ~/.zshrc(`LLM_API_KEY`),模型 `kimi-k2.6`(lib_llm 默认即此,零改动;`LLM_MODEL` 可切换)。/models 已验证该 key 可用 |
 | 5 | claim 观点层 | 按推荐 **A:开发期抽取**(用户未显式否决;M0 spike 先验证质量,不过关则回炉) |
+| 10 | M4 拍板(2026-10-16) | **分节多调用**(复用 M2 循环,不搞单次长 prompt);观点矩阵**规则渲染**;输出落 `plans/reports/研判-*.md`;web 界面不在 M4 |
 | 9 | M3 拍板(2026-10-16) | 改写用 kimi-k2.6 思考关(~1 分钱/轮);历史上下文**规则拼装**(非 LLM 滚动摘要:零成本无失真);改写失败兜底=原问题直进循环 |
 | 8 | M2 拍板(2026-10-16) | 原生 **tools API**(不退化文本 JSON);**首轮必查**(tool_choice=required)+之后自足判断(min_tool_rounds 可调 2 = 固定两轮保底);thinking 默认关;M2 不动 web 界面 |
 | 7 | M1 抽取引擎(2026-10-16) | **deepseek-flash 非思考**(SPIKE_EFFORT=none);kimi-k2.6 思考关质量降级出局;回退档:kimi 思考开(~85 元,人审发现系统性极性错误时启用) |
@@ -53,7 +54,7 @@ agent 运行时: 手写循环[拆解 → 并行检索三层 → 自足判断(可
 - **M1**(✅ 2026-10-16):三方 A/B 定引擎(`plans/reports/m0-claim-ab.md`:kimi 思考关出局——枚举违规+硬凑看多;**ds-flash 非思考中选**,校验 0 异常、保守偏中性、最快最便宜)→ 全量 228 篇 4.9 分钟抽完,**2126 条入库 / 丢 ~200 / 失败 0**,tokens in 2.82M out 0.26M,**闲时价 ~4 元**(原估个位数元达成)。claims 表 + claims_extraction_log(幂等增量)+ `lib_claims.py`(query_claims/stance_matrix,时间轴不投票)+ `extract_claims.py`(4 并发/校验丢弃/失败不阻断)。丢弃主因=9 篇网页采集稿 PUA 字体混淆(数字是乱码,模型"读对"了但 quote 对不上原文,按完整性原则丢弃)——2 篇因此 0 claim,后续应在入库层修(重采集/字体映射)。→ **等人工 gate:`plans/reports/m1-claim-sample-review.md`(10 份分层抽样)**
 - **M2**(✅ 2026-10-16):`lib_agent.py` 手写循环(原生 tools API,4 工具:search_docs/query_metrics/query_claims/read_doc;首轮 tool_choice=required 必查,末轮强制无工具合成保证 ≤4 次调用;同轮 tool_calls 并行;trace 落 `data/traces/`)+ `agent_query.py` CLI + `tests/test_agent.py` 7 项 mock 剧本单测(机制零成本验证)。真机验证(kimi-k2.6 思考关,3 题):tool_choice=required 兼容 ✓;观点类(GS 见底判断)/数据类(杭州 3 月 9356 套,自动并列大摩 8728 口径分歧)/演化类(UBS 看空→中性偏多全程时间轴,7 次工具调用)全过;每题 tokens in ~6-12k out ~0.5-1.1k ≈ 5 分钱/题
 - **M3**(✅ 2026-10-16):`lib_session.py`(agent_sessions/agent_turns 两表 + 规则实体注册表[机构/城市/时期] + 最近 2 轮截断 + 早轮一行摘要,零额外 LLM 调用)+ `lib_agent.resolve_query`(改写 1 次调用不计入 4 次上限,失败退化单轮不阻断)+ CLI `--session/--last`。11 项单测;真机 2 轮验证:"那瑞银呢?"→正确展开为"瑞银(UBS)对一线城市房价何时见底的看法",answer 还抓出 bottoming≠bottomed 的措辞分寸
-- **M4**:结构化研判报告模板
+- **M4**(✅ 2026-10-16):`lib_report.py` 编排器(planner 拆题 1 次 → 五节并行跑 M2 循环[每节 ≤3 次调用,system_extra 注入节指令] → 合成 1 次;实测 17 次调用/份,tokens in 7.6w out 1.4w ≈ 0.9 元)+ `make_report.py` CLI;观点矩阵 stance_matrix **规则渲染**(数字不经模型手);planner/节/合成三级失败各自降级(模板兜底/占位标注/规则拼装)。坑:线程内懒加载 openai→httpx 部分初始化竞态(Python 3.13 无全局 import 锁),改顶部 eager import 修复。首份真机报告 `plans/reports/研判-20261016-上海房价是否已见底.md`;已知瑕疵:合成器自拟标题时间框偏旧("2024-2025"),内容本身引 2026 数据无妨
 - **M5**:双 agent 配置 + 每域 5-10 题小规模真机评测
 
 ## 主要风险(已记录)

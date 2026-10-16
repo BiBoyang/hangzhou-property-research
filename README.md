@@ -58,6 +58,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
   .venv/bin/python scripts/agent_query.py "高盛对一线城市房价何时见底?"   # 单轮深研(默认房地产 agent)
   .venv/bin/python scripts/agent_query.py --last "那瑞银呢?"               # 追问(指代消解+session 记忆)
   .venv/bin/python scripts/agent_query.py --all "……"                       # 全量 agent(不过滤房地产)
+  .venv/bin/python scripts/make_report.py "上海房价是否已见底"             # 结构化研判报告(~17 次调用/份)
   ```
 - `config/metrics_schema.yaml` 指标库 schema；`config/extraction_prompt_template.md` 抽取规范
 - `metrics/*.csv|*.jsonl` 指标数据文件（外部采集 + 研报抽取，带来源）

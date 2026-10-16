@@ -17,6 +17,8 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
+from openai import OpenAI  # noqa: E402  # eager:线程内懒加载会撞部分初始化竞态
+
 from lib_claims import query_claims, stance_matrix  # noqa: E402
 from lib_db import connect  # noqa: E402
 from lib_llm import llm_config  # noqa: E402
@@ -38,6 +40,7 @@ class AgentConfig:
     min_tool_rounds: int = 1         # 首轮必查;2 = 固定两轮检索保底(自足判断关闭)
     model: str | None = None         # None → llm_config() 默认
     trace: bool = True
+    system_extra: str = ""           # M4 节级指令注入(追加到 system prompt 末尾)
 
 
 # ---------- 工具定义(原生 tools API schema) ----------
@@ -184,7 +187,9 @@ def _system_prompt(config: AgentConfig) -> str:
 【我的判断】一句话结论
 【支持的机构】各机构观点+依据,带引用
 【不同意见的机构】各机构观点+依据,带引用(没有就写"语料中未见明确反对")
-【我为什么这么选】取舍理由(数据口径/时效/样本/逻辑)"""
+【我为什么这么选】取舍理由(数据口径/时效/样本/逻辑)
+
+直接输出四段正文,不要"根据检索结果我现在可以…"这类前言。""" + (("\n\n" + config.system_extra) if config.system_extra else "")
 
 
 # ---------- 主循环 ----------
@@ -195,7 +200,6 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
     config = config or AgentConfig()
     cfg = llm_config()
     if client is None:
-        from openai import OpenAI
         client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"])
     model = config.model or cfg["model"]
     thinking_on = os.environ.get("LLM_THINKING") == "1"
@@ -277,7 +281,6 @@ def resolve_query(query: str, context: str, client=None, model: str | None = Non
         return query
     cfg = llm_config()
     if client is None:
-        from openai import OpenAI
         client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"])
     try:
         kwargs: dict = {"model": model or cfg["model"],
@@ -296,7 +299,8 @@ def _dump_trace(query: str, config: AgentConfig, trace: list[dict]) -> str:
     if not config.trace:
         return ""
     TRACES_DIR.mkdir(parents=True, exist_ok=True)
-    path = TRACES_DIR / f"agent-{time.strftime('%Y%m%d-%H%M%S')}.jsonl"
+    import uuid
+    path = TRACES_DIR / f"agent-{time.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}.jsonl"  # 并发防同名
     with open(path, "w", encoding="utf-8") as f:
         f.write(json.dumps({"kind": "meta", "query": query, "topic_filter": config.topic_filter,
                             "max_llm_calls": config.max_llm_calls}, ensure_ascii=False) + "\n")
