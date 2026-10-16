@@ -158,7 +158,7 @@ def run_report(topic: str, topic_filter: str | None = "房地产",
 
     body = synthesized or f"# {topic} 研判\n\n{draft}"
     body += f"\n\n---\n\n## 附表:机构观点矩阵(规则渲染,数据源 claims 表)\n\n{matrix_md}"
-    mins = time.time() - t0
+    mins = (time.time() - t0) / 60
     header = (f"<!-- 生成: {time.strftime('%Y-%m-%d %H:%M')} · 引擎 {llm_config()['model']} · "
               f"耗时 {mins:.1f} 分钟 · LLM 调用 ~{1 + sum(s['llm_calls'] for s in sections) + 1} 次 · "
               f"tokens in={usage['in']:,} out={usage['out']:,} -->\n\n")
