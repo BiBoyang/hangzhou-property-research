@@ -50,6 +50,31 @@ CREATE TABLE IF NOT EXISTS metrics (
                                -- 既有库须走显式迁移 migrate_add_source_file，connect() 不自动补
 );
 CREATE INDEX IF NOT EXISTS idx_metrics_query ON metrics(metric_name, city, period);
+
+CREATE TABLE IF NOT EXISTS claims (
+  claim_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  doc_id TEXT REFERENCES docs(doc_id),
+  institution TEXT,          -- docs.institution 优先,空则标题正则兜底(见 lib_claims)
+  report_date TEXT,
+  subject TEXT,              -- 房价/成交量/库存与去化/政策/开发商与房企/土地市场/租赁/宏观与金融条件/购房者情绪/其他
+  stance TEXT,               -- 看多/看空/中性(枚举刚性,见 lib_claims.STANCES)
+  horizon TEXT,              -- 观点针对的时期,原文未明说则空串
+  city TEXT,
+  segment TEXT,              -- new_home/secondary_home/land/rental/macro/developer
+  claim_text TEXT,           -- 中文一句话观点
+  evidence_quote TEXT,       -- 原文照抄,人审依据
+  is_forecast INTEGER DEFAULT 0,
+  truncated INTEGER DEFAULT 0,  -- 文档超 20 万字符被截断(输入上限),备查
+  extracted_by TEXT          -- 抽取引擎,如 "deepseek-flash/effort=none",溯源用
+);
+CREATE INDEX IF NOT EXISTS idx_claims_query ON claims(subject, stance, report_date);
+
+CREATE TABLE IF NOT EXISTS claims_extraction_log (
+  doc_id TEXT PRIMARY KEY,   -- 抽取留痕:0 条 claim 的文档也算已处理,增量抽取不重复花钱
+  extracted_by TEXT,
+  n_claims INTEGER,
+  extracted_at TEXT
+);
 """
 
 
