@@ -1,6 +1,6 @@
 # TASK-agentic-rag:单引擎双配置 Agentic RAG——M5 已完成(收官)
 
-**状态**:M5 已完成(2026-10-16)——全部里程碑关闭。本文件是唯一事实来源。
+**状态**:M0-M5 收官;YanbaoEval 重度评测集成完成(2026-10-16),PUA 修复完成。本文件是唯一事实来源。
 
 ## 需求规格(用户确认)
 
@@ -65,6 +65,13 @@ agent 运行时: 手写循环[拆解 → 并行检索三层 → 自足判断(可
 3. 多轮+深度模式叠加延迟 → M2 循环内检索必须并行化
 4. 自足性判断(grader)易自信过度 → 做成可关闭开关,固定 2 轮检索保底
 5. **(M1 新增,M5 后已修复 ✅ 2026-10-16)** 9 篇采集稿 PUA 字体混淆 → 侦察分三组:5 篇数字映射 U+F356+d(渲染验证,确定性修复)/ 2 篇文字层 cmap 全错(pypdfium2 渲染 + macOS Vision 整页 OCR)/ 2 篇仅 Wingdings 符号(不动)。`scripts/repair_pua_docs.py` 修复+定向重建索引+重抽,7 篇新增 76 条 claim(政治局/两类增量政策从 0 → 9/7 条),claims 总数 2126→2185。备份 data/backups/pua-20261016/。**顺手修了潜伏 bug:ingest.store_doc 的 INSERT 未适配 topic 列(全库新增入库会炸),已改显式列名+入库即打标**
+
+## 重度评测(YanbaoEval 集成,2026-10-16)
+
+- 进程内适配器(YanbaoEval 侧 `adapters/ragapp.py`)+ 30 题数据集(ragapp-mini)+ 四轮真机
+- 结论:kimi vs flash 引擎全部指标 Wilson 区间重叠(统计打平);错题归因全为 retrieval(Exhibit/表格召回是短板,调优在检索层而非换模型);topic 过滤的双刃剑效应;引用粒度([机构 日期] vs 文档级)结构性稀释精确率
+- 挖出并修复:末轮强制合成复读 bug(轻量评测漏掉的机制层缺陷)
+- 详情:`plans/reports/yanbaoeval-integration.md`(文章底稿)
 
 ## 关联
 

@@ -41,6 +41,7 @@ class AgentConfig:
     model: str | None = None         # None → llm_config() 默认
     trace: bool = True
     system_extra: str = ""           # M4 节级指令注入(追加到 system prompt 末尾)
+    capture_contexts: bool = False   # YanbaoEval 集成:收集工具结果原文(citations/contexts)
 
 
 # 双配置注册表(TASK 决策 3:单引擎双配置)
@@ -133,7 +134,7 @@ def _tool_query_claims(args: dict, config: AgentConfig, db_path: Path) -> str:
                                 city=args.get("city") or None, topic=topic, limit=25)
             out = [{"机构": r["institution"], "日期": r["report_date"], "立场": r["stance"],
                     "主题": r["subject"], "时期": r["horizon"], "观点": r["claim_text"],
-                    "原文": r["evidence_quote"][:300]} for r in rows]
+                    "原文": r["evidence_quote"][:300], "doc_id": r["doc_id"]} for r in rows]
         else:
             # 无具体过滤条件 → 给立场矩阵(机构×时间),防止一次拉 200 条刷屏
             out = stance_matrix(conn, topic=topic)
@@ -212,6 +213,7 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
     thinking_on = os.environ.get("LLM_THINKING") == "1"
 
     trace: list[dict] = []
+    contexts: list[dict] = []        # capture_contexts 时收集 {tool, args, content}
     messages = [{"role": "system", "content": _system_prompt(config)},
                 {"role": "user", "content": query}]
     usage = {"in": 0, "out": 0}
@@ -219,6 +221,11 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
 
     for rnd in range(1, config.max_llm_calls + 1):
         is_last = rnd == config.max_llm_calls
+        if is_last:
+            # 预算耗尽的强制合成轮:明确告知模型必须立即作答(实测:不告知会在终答里复读"让我继续搜索")
+            messages = messages + [{"role": "user", "content": (
+                "(系统提示:检索预算已用完。必须基于已获得的信息立即给出最终答案;"
+                "确实未覆盖就按格式明说,禁止说'让我继续搜索'类话头。)")}]
         kwargs: dict = {"model": model, "messages": messages}
         if not is_last:
             kwargs["tools"] = TOOLS
@@ -252,7 +259,7 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
             trace.append({"round": rnd, "kind": "final", "chars": len(answer)})
             return {"answer": answer, "llm_calls": rnd, "tool_calls": n_tool_calls,
                     "usage": usage, "trace_path": _dump_trace(query, config, trace),
-                    "rounds": trace}
+                    "rounds": trace, "contexts": contexts}
 
         # 有工具调用:并行执行,结果按序塞回
         messages.append({"role": "assistant", "content": msg.content,
@@ -269,6 +276,8 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
                           "result_chars": len(results[tc_id]),
                           "result_head": results[tc_id][:200]})
             messages.append({"role": "tool", "tool_call_id": tc_id, "content": results[tc_id]})
+            if config.capture_contexts:
+                contexts.append({"tool": name, "args": args, "content": results[tc_id]})
 
     raise RuntimeError("unreachable")  # 最后一轮强制无工具,必有终答
 
