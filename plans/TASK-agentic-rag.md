@@ -52,7 +52,7 @@ agent 运行时: 手写循环[拆解 → 并行检索三层 → 自足判断(可
 ## 分阶段计划
 
 - **M0**(✅ 2026-10-16):docs.topic 多标签规则回填完成(228 篇:房地产 71/宏观 90/消费 55/商品外汇 19/其他 33;`scripts/lib_topic.py`+`backfill_topic.py`,13 项测试);claim 抽取 prompt(`config/claim_extraction_prompt.md`)+ 3 份 spike 完成(28 条,程序校验 28/28,tokens in 5.5w/out 2.8w,粗估<1 元)→ **等人工 gate:`plans/reports/m0-claim-spike.md` + 人审稿**
-- **M1**(✅ 2026-10-16):三方 A/B 定引擎(`plans/reports/m0-claim-ab.md`:kimi 思考关出局——枚举违规+硬凑看多;**ds-flash 非思考中选**,校验 0 异常、保守偏中性、最快最便宜)→ 全量 228 篇 4.9 分钟抽完,**2126 条入库 / 丢 ~200 / 失败 0**,tokens in 2.82M out 0.26M,**闲时价 ~4 元**(原估个位数元达成)。claims 表 + claims_extraction_log(幂等增量)+ `lib_claims.py`(query_claims/stance_matrix,时间轴不投票)+ `extract_claims.py`(4 并发/校验丢弃/失败不阻断)。丢弃主因=9 篇网页采集稿 PUA 字体混淆(数字是乱码,模型"读对"了但 quote 对不上原文,按完整性原则丢弃)——2 篇因此 0 claim,后续应在入库层修(重采集/字体映射)。→ **等人工 gate:`plans/reports/m1-claim-sample-review.md`(10 份分层抽样)**
+- **M1**(✅ 2026-10-16):三方 A/B 定引擎(`plans/reports/m0-claim-ab.md`:kimi 思考关出局——枚举违规+硬凑看多;**ds-flash 非思考中选**,校验 0 异常、保守偏中性、最快最便宜)→ 全量 228 篇 4.9 分钟抽完,**2126 条入库 / 丢 ~200 / 失败 0**,tokens in 2.82M out 0.26M,**闲时价 ~4 元**(原估个位数元达成)。claims 表(现 2185 条)+ claims_extraction_log(幂等增量)+ `lib_claims.py`(query_claims/stance_matrix,时间轴不投票)+ `extract_claims.py`(4 并发/校验丢弃/失败不阻断)。丢弃主因=9 篇网页采集稿 PUA 字体混淆(数字是乱码,模型"读对"了但 quote 对不上原文,按完整性原则丢弃)——2 篇因此 0 claim,后续应在入库层修(重采集/字体映射)。→ **等人工 gate:`plans/reports/m1-claim-sample-review.md`(10 份分层抽样)**
 - **M2**(✅ 2026-10-16):`lib_agent.py` 手写循环(原生 tools API,4 工具:search_docs/query_metrics/query_claims/read_doc;首轮 tool_choice=required 必查,末轮强制无工具合成保证 ≤4 次调用;同轮 tool_calls 并行;trace 落 `data/traces/`)+ `agent_query.py` CLI + `tests/test_agent.py` 7 项 mock 剧本单测(机制零成本验证)。真机验证(kimi-k2.6 思考关,3 题):tool_choice=required 兼容 ✓;观点类(GS 见底判断)/数据类(杭州 3 月 9356 套,自动并列大摩 8728 口径分歧)/演化类(UBS 看空→中性偏多全程时间轴,7 次工具调用)全过;每题 tokens in ~6-12k out ~0.5-1.1k ≈ 5 分钱/题
 - **M3**(✅ 2026-10-16):`lib_session.py`(agent_sessions/agent_turns 两表 + 规则实体注册表[机构/城市/时期] + 最近 2 轮截断 + 早轮一行摘要,零额外 LLM 调用)+ `lib_agent.resolve_query`(改写 1 次调用不计入 4 次上限,失败退化单轮不阻断)+ CLI `--session/--last`。11 项单测;真机 2 轮验证:"那瑞银呢?"→正确展开为"瑞银(UBS)对一线城市房价何时见底的看法",answer 还抓出 bottoming≠bottomed 的措辞分寸
 - **M4**(✅ 2026-10-16):`lib_report.py` 编排器(planner 拆题 1 次 → 五节并行跑 M2 循环[每节 ≤3 次调用,system_extra 注入节指令] → 合成 1 次;实测 17 次调用/份,tokens in 7.6w out 1.4w ≈ 0.9 元)+ `make_report.py` CLI;观点矩阵 stance_matrix **规则渲染**(数字不经模型手);planner/节/合成三级失败各自降级(模板兜底/占位标注/规则拼装)。坑:线程内懒加载 openai→httpx 部分初始化竞态(Python 3.13 无全局 import 锁),改顶部 eager import 修复。首份真机报告 `plans/reports/研判-20261016-上海房价是否已见底.md`;已知瑕疵:合成器自拟标题时间框偏旧("2024-2025"),内容本身引 2026 数据无妨
@@ -64,7 +64,7 @@ agent 运行时: 手写循环[拆解 → 并行检索三层 → 自足判断(可
 2. 机构观点随时间反转 → 观点矩阵按时间轴呈现,禁止简单多数投票
 3. 多轮+深度模式叠加延迟 → M2 循环内检索必须并行化
 4. 自足性判断(grader)易自信过度 → 做成可关闭开关,固定 2 轮检索保底
-5. **(M1 新增)** 9 篇网页采集稿数字被 PUA 字体混淆,quote 无法验源 → 相关 claim 已按完整性原则丢弃(2 篇 0 claim);根治需在入库层修采集,已记 TODO
+5. **(M1 新增,M5 后已修复 ✅ 2026-10-16)** 9 篇采集稿 PUA 字体混淆 → 侦察分三组:5 篇数字映射 U+F356+d(渲染验证,确定性修复)/ 2 篇文字层 cmap 全错(pypdfium2 渲染 + macOS Vision 整页 OCR)/ 2 篇仅 Wingdings 符号(不动)。`scripts/repair_pua_docs.py` 修复+定向重建索引+重抽,7 篇新增 76 条 claim(政治局/两类增量政策从 0 → 9/7 条),claims 总数 2126→2185。备份 data/backups/pua-20261016/。**顺手修了潜伏 bug:ingest.store_doc 的 INSERT 未适配 topic 列(全库新增入库会炸),已改显式列名+入库即打标**
 
 ## 关联
 

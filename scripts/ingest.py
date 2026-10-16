@@ -37,10 +37,13 @@ def parse_pdf(converter, pdf: Path) -> str:
 
 
 def store_doc(conn, meta, md: str) -> int:
+    from lib_topic import classify  # 入库即打 topic 标签(规则,免费)
     conn.execute(
-        "INSERT OR REPLACE INTO docs VALUES (?,?,?,?,?,?,?)",
+        "INSERT OR REPLACE INTO docs(doc_id, file_path, title, institution, report_date, lang, cities, topic)"
+        " VALUES (?,?,?,?,?,?,?,?)",
         (meta.doc_id, meta.file_path, meta.title, meta.institution,
-         meta.report_date, meta.lang, json.dumps(meta.cities, ensure_ascii=False)),
+         meta.report_date, meta.lang, json.dumps(meta.cities, ensure_ascii=False),
+         json.dumps(classify(meta.title, md), ensure_ascii=False)),
     )
     chunks = split_markdown(md)
     conn.execute("DELETE FROM chunks WHERE doc_id=?", (meta.doc_id,))
