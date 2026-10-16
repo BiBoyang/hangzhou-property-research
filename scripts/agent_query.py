@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from lib_agent import AgentConfig, resolve_query, run_agent  # noqa: E402
+from lib_agent import AGENTS, AgentConfig, resolve_query, run_agent  # noqa: E402
 from lib_db import connect  # noqa: E402
 from lib_paths import DB  # noqa: E402
 from lib_session import append_turn, build_context, latest_session, list_turns, new_session  # noqa: E402
@@ -22,14 +22,17 @@ from lib_session import append_turn, build_context, latest_session, list_turns, 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("query")
-    ap.add_argument("--all", action="store_true", help="全量 agent(默认房地产 agent)")
+    ap.add_argument("--all", action="store_true", help="全量 agent(默认房地产 agent),等价 --agent all")
+    ap.add_argument("--agent", choices=["property", "all"], help="双配置注册表选择")
     ap.add_argument("--max-calls", type=int, default=4)
     ap.add_argument("--session", metavar="ID", help="继续指定 session")
     ap.add_argument("--last", action="store_true", help="继续最近一次 session")
     args = ap.parse_args()
 
-    config = AgentConfig(topic_filter=None if args.all else "房地产", max_llm_calls=args.max_calls)
-    agent_name = "全量" if args.all else "房地产"
+    name = args.agent or ("all" if args.all else "property")
+    config = AGENTS[name]
+    config.max_llm_calls = args.max_calls
+    agent_name = "全量" if name == "all" else "房地产"
 
     conn = connect(DB)
     sid = args.session or (latest_session(conn) if args.last else None)

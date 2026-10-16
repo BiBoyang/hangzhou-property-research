@@ -43,6 +43,13 @@ class AgentConfig:
     system_extra: str = ""           # M4 节级指令注入(追加到 system prompt 末尾)
 
 
+# 双配置注册表(TASK 决策 3:单引擎双配置)
+AGENTS = {
+    "property": AgentConfig(topic_filter="房地产"),   # 房地产 agent
+    "all": AgentConfig(topic_filter=None),            # 全量 agent
+}
+
+
 # ---------- 工具定义(原生 tools API schema) ----------
 
 def _props(**kw):

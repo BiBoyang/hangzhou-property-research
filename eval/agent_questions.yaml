@@ -1,0 +1,75 @@
+# M5 agent 小规模评测集:房地产域 8 题 + 全量域 5 题
+# 评分(纯规则,零 LLM judge):
+#   structure    四段式【我的判断/支持的机构/不同意见的机构/我为什么这么选】齐全
+#   must_include_any  答案命中任一期望词
+#   must_cite_any     引用格式 [机构 日期] 且机构命中任一期望机构
+#   calls_le4    LLM 调用 ≤4
+#   uncovered    (仅 qtype=uncovered)必须明说未覆盖,且不得给出编造数字
+- id: re-1
+  agent: property
+  qtype: data
+  question: 杭州2026年3月二手房成交多少套?
+  must_include_any: ["9356", "8728"]   # 贝壳/大摩口径并存是有意的
+- id: re-2
+  agent: property
+  qtype: opinion
+  question: 高盛对一线城市房价何时见底?
+  must_cite_any: ["Goldman Sachs"]
+  must_include_any: ["2026", "2027"]
+- id: re-3
+  agent: property
+  qtype: evolution
+  question: 瑞银2026年以来对中国楼市的态度有什么变化?
+  must_cite_any: ["UBS"]
+  must_include_any: ["企稳", "上调", "修正"]
+- id: re-4
+  agent: property
+  qtype: divergence
+  question: 高盛和瑞银对一线城市房价判断的分歧在哪?
+  must_cite_any: ["Goldman Sachs"]   # 评分时另查 UBS 是否同现
+  must_include_any: ["UBS"]
+- id: re-5
+  agent: property
+  qtype: data
+  question: 上海2026年1月二手房成交多少套?
+  must_include_any: ["22,800", "22800", "24,350", "24350", "22834", "2.03万"]  # 2026-10-16 修正:语料实为 JPM 22,800/MS 24,350 双口径,原锚点取自库外文章
+- id: re-6
+  agent: property
+  qtype: opinion
+  question: 摩根大通对2026年开发商销售表现怎么评价?
+  must_cite_any: ["J.P. Morgan"]
+- id: re-7
+  agent: property
+  qtype: uncovered   # 成都=指标库 UNSUPPORTED,语料大概率无覆盖
+  question: 成都2026年9月二手房成交均价是多少?
+- id: re-8
+  agent: property
+  qtype: data
+  question: 2026年3月百城二手房价格环比表现如何?
+  must_include_any: ["收窄", "0.34", "0.42", "0.16"]
+- id: any-1
+  agent: all
+  qtype: opinion
+  question: 摩根大通对黄金2026年底的目标价是多少?
+  must_cite_any: ["J.P. Morgan"]
+  must_include_any: ["6300", "6,300"]
+- id: any-2
+  agent: all
+  qtype: macro
+  question: 2026年中国两会设定的GDP增长目标是多少?
+  must_include_any: ["5%", "4.5", "左右"]
+- id: any-3
+  agent: all
+  qtype: industry
+  question: 2026年初中国新能源汽车(EV)市场表现如何?
+  must_cite_any: ["Nomura"]
+  must_include_any: ["疲软", "疲弱", "weak", "Weak", "不佳", "承压"]
+- id: any-4
+  agent: all
+  qtype: industry
+  question: 2026年一季度中国消费者支出呈现什么特征?
+  must_include_any: ["分化", "divergence", "Divergence"]
+- id: any-5
+  agent: all
+  qtype: uncovered   # 语料不覆盖诺贝尔奖
+  question: 2026年诺贝尔经济学奖得主的研究对房地产市场有什么启示?

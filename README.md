@@ -62,7 +62,7 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
   ```
 - `config/metrics_schema.yaml` 指标库 schema；`config/extraction_prompt_template.md` 抽取规范
 - `metrics/*.csv|*.jsonl` 指标数据文件（外部采集 + 研报抽取，带来源）
-- `eval/questions.yaml` 25 题验收集；`eval/report_*.json` 历次评测报告
+- `eval/questions.yaml` 25 题验收集；`eval/report_*.json` 历次评测报告；`eval/agent_questions.yaml` agent 13 题轻量评测集(`.venv/bin/python scripts/run_agent_eval.py`,纯规则评分;重度评测走 YanbaoEval)
 - `data/raw_md/` 解析出的 Markdown；`data/rag.db` 单文件数据库
 - 网页采集研报源文件在上一级 `web研报/` 目录；所有脚本和 Web 的路径由 `scripts/lib_paths.py` 统一推导（项目根=rag-app，数据根默认为其上一级），项目整体搬目录无需改代码。源 PDF / `web研报/` 挪到别处时，设 `RAG_DATA_ROOT` 指向新数据根即可
 
