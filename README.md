@@ -53,7 +53,12 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 ## 目录
 
 - `scripts/` ingest(解析入库，PDF+web研报双通道) / build_index(索引) / lib_search(混合检索) / lib_llm(生成，流式) / lib_meta / lib_chunk / lib_db / lib_metrics_query / lib_paths(统一路径推导) / load_external_metrics(指标导入，source_file 幂等替换) / metrics_maintenance(历史指标只读核对预览) / lib_topic+backfill_topic(docs.topic 规则打标) / lib_claims+extract_claims(claims 观点层:LLM 抽取+校验+幂等增量,引擎 ds-flash) / spike_claims(抽取 spike 与 A/B)
-- 开发中:agentic RAG(单引擎双配置 agent,基于 docs.topic + claims 观点层),唯一事实来源 `plans/TASK-agentic-rag.md`
+- 开发中:agentic RAG(单引擎双配置 agent,基于 docs.topic + claims 观点层),唯一事实来源 `plans/TASK-agentic-rag.md`。CLI 已可用(需 `LLM_API_KEY`):
+  ```bash
+  .venv/bin/python scripts/agent_query.py "高盛对一线城市房价何时见底?"   # 单轮深研(默认房地产 agent)
+  .venv/bin/python scripts/agent_query.py --last "那瑞银呢?"               # 追问(指代消解+session 记忆)
+  .venv/bin/python scripts/agent_query.py --all "……"                       # 全量 agent(不过滤房地产)
+  ```
 - `config/metrics_schema.yaml` 指标库 schema；`config/extraction_prompt_template.md` 抽取规范
 - `metrics/*.csv|*.jsonl` 指标数据文件（外部采集 + 研报抽取，带来源）
 - `eval/questions.yaml` 25 题验收集；`eval/report_*.json` 历次评测报告

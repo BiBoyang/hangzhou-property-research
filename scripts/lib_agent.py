@@ -262,6 +262,36 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
     raise RuntimeError("unreachable")  # 最后一轮强制无工具,必有终答
 
 
+REWRITE_PROMPT = """把用户的新问题改写成脱离对话历史也能独立理解的完整问题。
+规则:
+1. 补全指代与省略(如"那瑞银呢"→结合历史展开成完整问句;实体以历史中的注册实体为准)
+2. 保留原意与原问题范围,不新增子问题,不回答问题
+3. 问题本身已自足、或无历史时,原样输出
+4. 只输出改写后的问题本身,一行,不要任何解释"""
+
+
+def resolve_query(query: str, context: str, client=None, model: str | None = None) -> str:
+    """指代消解:context 为空(首轮)直接返回原问题,零调用;
+    改写失败/超时 → 原样返回原问题(多轮退化单轮,不阻断)。"""
+    if not context:
+        return query
+    cfg = llm_config()
+    if client is None:
+        from openai import OpenAI
+        client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"])
+    try:
+        kwargs: dict = {"model": model or cfg["model"],
+                        "messages": [{"role": "system", "content": REWRITE_PROMPT},
+                                     {"role": "user", "content": f"{context}\n\n【新问题】{query}"}]}
+        if os.environ.get("LLM_THINKING") != "1":
+            kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
+        resp = client.chat.completions.create(**kwargs)
+        rewritten = (resp.choices[0].message.content or "").strip()
+        return rewritten or query
+    except Exception:  # noqa: BLE001 兜底:多轮退化单轮
+        return query
+
+
 def _dump_trace(query: str, config: AgentConfig, trace: list[dict]) -> str:
     if not config.trace:
         return ""

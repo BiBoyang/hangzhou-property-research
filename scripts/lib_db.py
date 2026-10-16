@@ -69,6 +69,24 @@ CREATE TABLE IF NOT EXISTS claims (
 );
 CREATE INDEX IF NOT EXISTS idx_claims_query ON claims(subject, stance, report_date);
 
+CREATE TABLE IF NOT EXISTS agent_sessions (
+  session_id TEXT PRIMARY KEY,
+  agent_topic TEXT,            -- 房地产 agent = '房地产';全量 = NULL
+  created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS agent_turns (
+  session_id TEXT REFERENCES agent_sessions(session_id),
+  turn INTEGER,
+  question TEXT,               -- 用户原问题
+  standalone_question TEXT,    -- 指代消解改写后
+  answer TEXT,
+  llm_calls INTEGER,
+  tool_calls INTEGER,
+  trace_path TEXT,
+  PRIMARY KEY (session_id, turn)
+);
+
 CREATE TABLE IF NOT EXISTS claims_extraction_log (
   doc_id TEXT PRIMARY KEY,   -- 抽取留痕:0 条 claim 的文档也算已处理,增量抽取不重复花钱
   extracted_by TEXT,
