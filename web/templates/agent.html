@@ -93,7 +93,7 @@ document.getElementById('f').onsubmit = async (e) => {
         if (ev.error) { ans.innerHTML = `<p class="dim">出错:${esc(ev.error)}</p>`; }
         if (ev.done && ev.answer) {
           ans.innerHTML = renderMd(ev.answer)
-            + `<p class="dim" style="font-size:12px">模型调用 ${esc(ev.llm_calls)} 次 · 工具调用 ${esc(ev.tool_calls)} 次</p>`;
+            + `<p class="dim" style="font-size:12px">模型 ${esc(ev.model)} · 模型调用 ${esc(ev.llm_calls)} 次 · 工具调用 ${esc(ev.tool_calls)} 次 · 约 ¥${esc(ev.cost_yuan)}(刊例估算)</p>`;
         }
       }
     }

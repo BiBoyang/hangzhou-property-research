@@ -203,7 +203,9 @@ def api_agent_ask(q: str = Query(..., min_length=2), agent: str = Query("propert
                 conn.close()
                 yield _json.dumps({"done": True, "answer": res["answer"], "session": sid,
                                    "llm_calls": res["llm_calls"],
-                                   "tool_calls": res["tool_calls"]}) + "\n"
+                                   "tool_calls": res["tool_calls"],
+                                   "model": res.get("model", ""),
+                                   "cost_yuan": round(res.get("cost_yuan", 0), 4)}) + "\n"
                 return
             if isinstance(item, tuple) and item[0] == "__error__":
                 conn.close()

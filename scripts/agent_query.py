@@ -52,7 +52,8 @@ def main() -> None:
     append_turn(conn, sid, args.query, standalone, res["answer"],
                 res["llm_calls"], res["tool_calls"], res["trace_path"])
     conn.close()
-    print(f"\n---\nLLM 调用 {res['llm_calls']} 次 · 工具调用 {res['tool_calls']} 次 · "
+    print(f"\n---\n模型 {res.get('model', '?')} · LLM 调用 {res['llm_calls']} 次 · "
+          f"工具调用 {res['tool_calls']} 次 · 约 ¥{res.get('cost_yuan', 0):.3f}(刊例估算) · "
           f"tokens in={res['usage']['in']:,} out={res['usage']['out']:,}\ntrace: {res['trace_path']}")
 
 

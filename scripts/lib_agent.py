@@ -13,6 +13,7 @@ import json
 import os
 import threading
 import time
+import time as _time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
@@ -209,6 +210,28 @@ def _system_prompt(config: AgentConfig) -> str:
 直接输出四段正文,不要"根据检索结果我现在可以…"这类前言。""" + (("\n\n" + config.system_extra) if config.system_extra else "")
 
 
+# ---------- 成本估算(刊例价,2026-10 查;真实账单以平台为准) ----------
+# kimi-k2.6: 输入 ¥6.5/M 输出 ¥27/M(无峰谷)
+# deepseek-flash: 峰谷价——工作日 9:00-12:00/14:00-18:00 高峰(in ¥2 out ¥8),其余闲时半价
+PRICE_TABLE = {
+    "kimi-k2.6": (6.5, 27.0),
+}
+
+
+def estimate_cost(model: str, usage: dict, at: float | None = None) -> float:
+    """刊例价估算花费(元)。unknown 模型按 kimi 价兜底(偏保守高估)。"""
+    import datetime as _dt
+    if model in PRICE_TABLE:
+        pin, pout = PRICE_TABLE[model]
+    elif "flash" in model:  # deepseek 峰谷
+        now = _dt.datetime.fromtimestamp(at or _time.time())
+        peak = now.weekday() < 5 and (9 <= now.hour < 12 or 14 <= now.hour < 18)
+        pin, pout = (2.0, 8.0) if peak else (1.0, 4.0)
+    else:
+        pin, pout = PRICE_TABLE["kimi-k2.6"]
+    return usage.get("in", 0) * pin / 1e6 + usage.get("out", 0) * pout / 1e6
+
+
 # ---------- 主循环 ----------
 
 def run_agent(query: str, config: AgentConfig | None = None, client=None,
@@ -274,7 +297,8 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
             trace.append({"round": rnd, "kind": "final", "chars": len(answer)})
             return {"answer": answer, "llm_calls": rnd, "tool_calls": n_tool_calls,
                     "usage": usage, "trace_path": _dump_trace(query, config, trace),
-                    "rounds": trace, "contexts": contexts}
+                    "rounds": trace, "contexts": contexts,
+                    "model": model, "cost_yuan": estimate_cost(model, usage)}
 
         # 有工具调用:并行执行,结果按序塞回
         messages.append({"role": "assistant", "content": msg.content,
