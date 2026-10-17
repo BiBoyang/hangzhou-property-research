@@ -113,6 +113,25 @@ NOISE = ("disclosure statements", "All rights reserved", "analyst certification"
          "法律声明", "免责声明", "SAC Registration")
 
 
+# 查询规范化(2026-10-18,评测实锤的查询改写方差对策):
+# agent 写的 query 每次措辞不同导致检索结果飘;规范化剥掉疑问 scaffolding,
+# 让"高盛对一线房价何时见底"与"一线房价见底时间 高盛"收敛到同一检索面
+_Q_STOP = re.compile(
+    r"(请问|一下|告诉我|怎么看|什么样|怎么样|如何|为什么|是什么|有什么|哪些|哪个|多少|何时|"
+    r"什么|怎么|吗|呢|了|的|是|在|\?|？|"
+    r"\bwhat\b|\bhow\b|\bwhich\b|\bwhy\b|\bdoes\b|\bdid\b|\bis\b|\bare\b|"
+    r"\bthe\b|\ba\b|\ban\b|\bof\b|\bin\b|\bon\b|\bfor\b|\bwas\b|\bwere\b)",
+    re.I,
+)
+
+
+def normalize_query(q: str) -> str:
+    """剥疑问词/语气词,留实体+指标+时间词;规范化后与原文相同则返回原文。"""
+    out = _Q_STOP.sub(" ", q)
+    out = re.sub(r"\s+", " ", out).strip(" ,,;:;、")
+    return out or q
+
+
 TABLE_INTENT = re.compile(r"exhibit|fig(?:ure)?\.?\s*\d|表\s*\d|表格|下表|图中", re.I)
 
 

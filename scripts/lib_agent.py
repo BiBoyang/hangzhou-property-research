@@ -62,7 +62,7 @@ TOOLS = [
     {"type": "function", "function": {
         "name": "search_docs",
         "description": "研报全文混合检索(语义+关键词+文档先验)。找具体数据、原文表述、事件细节用我。query 用自然语言,可含机构/城市/时间词。",
-        "parameters": {**_props(query={"type": "string", "description": "检索query,自然语言"},
+        "parameters": {**_props(query={"type": "string", "description": "检索 query:用关键词短语(主体+指标+时间),不要完整问句"},
                                  k={"type": "integer", "description": "返回条数,默认8"}),
                        "required": ["query"]}}},
     {"type": "function", "function": {
@@ -95,9 +95,16 @@ def _doc_id_of(chunk_id: str) -> str:
 
 
 def _tool_search_docs(args: dict, config: AgentConfig, db_path: Path) -> str:
+    from lib_search import normalize_query
     k = min(int(args.get("k") or 8), 12)
+    query = args["query"]
+    nq = normalize_query(query)
     with _search_lock:
-        rows = search(args["query"], k=k * 2 if config.topic_filter else k, db_path=db_path)
+        rows = search(query, k=k * 2 if config.topic_filter else k, db_path=db_path)
+        if nq != query:  # 双路:规范化版本补充召回,原文结果优先
+            extra = search(nq, k=k, db_path=db_path)
+            seen = {r["chunk_id"] for r in rows}
+            rows += [r for r in extra if r["chunk_id"] not in seen]
     if config.topic_filter:
         conn = connect(db_path)
         keep = set()
