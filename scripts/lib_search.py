@@ -1,6 +1,7 @@
 """混合检索：FTS5 BM25 + sqlite-vec 向量，RRF 融合。"""
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from lib_db import connect
@@ -112,6 +113,9 @@ NOISE = ("disclosure statements", "All rights reserved", "analyst certification"
          "法律声明", "免责声明", "SAC Registration")
 
 
+TABLE_INTENT = re.compile(r"exhibit|fig(?:ure)?\.?\s*\d|表\s*\d|表格|下表|图中", re.I)
+
+
 def _is_noise(text: str) -> bool:
     return any(m in text for m in NOISE)
 
@@ -134,4 +138,7 @@ def search(query: str, k: int = 8, db_path: Path = DB) -> list[dict]:
     ).fetchall()
     by_id = {r["chunk_id"]: dict(r) for r in rows}
     out = [by_id[cid] for cid in merged if cid in by_id and not _is_noise(by_id[cid]["text"])]
+    # 表格意图问题:表格 chunk 稳定优先(投行 Exhibit/Table 数据只在 is_table 块里)
+    if TABLE_INTENT.search(query):
+        out.sort(key=lambda r: 0 if r["is_table"] else 1)  # stable:同组内保持原排名
     return out[:k]

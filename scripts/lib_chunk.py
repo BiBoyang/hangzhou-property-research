@@ -19,9 +19,10 @@ TABLE_LINE = re.compile(r"^\s*\|")
 SENT_END = re.compile(r"(?<=[。！？.!?；;])\s*")
 
 DROP_HEADINGS = re.compile(
-    r"disclaimer|disclosure|analyst certification|法律声明|免责声明|重要声明|appendix",
+    r"disclaimer|disclosure|analyst certification|法律声明|免责声明|重要声明",
     re.IGNORECASE,
 )
+# 2026-10-17 治本:appendix 从丢弃名单移除(投行附录全是数据表,扩容评测集实测此处丢内容)
 
 # 披露页噪声（文本级，2026-09-16 治本）：投行尾页 boilerplate 强特征。
 # 这些模式出现在正文里的概率极低，命中 2 个即判定整段为披露页；
@@ -59,8 +60,24 @@ class Chunk:
 
 def _flush(buf: list[str], heading: str, out: list[Chunk], is_table: bool) -> None:
     text = "\n".join(buf).strip()
-    if len(text) >= MIN_CHARS or (is_table and text):
-        out.append(Chunk(ord=len(out), heading=heading, text=text, is_table=is_table))
+    if not text:
+        return
+    # 巨型表格按行组拆分,表头(首行+分隔行)重复进每个子块(2026-10-17:
+    # 18k 字符整表一块,单元格根本检索不到——扩容评测集错题归因实锤)
+    if is_table and len(text) > MAX_CHARS:
+        header_n = 2 if len(buf) > 1 and set(buf[1].strip()) <= set("|-+ :") else 1
+        header = buf[:header_n]
+        cur = list(header)
+        for row in buf[header_n:]:
+            cur.append(row)
+            if sum(len(x) for x in cur) >= MAX_CHARS:
+                out.append(Chunk(ord=len(out), heading=heading, text="\n".join(cur), is_table=True))
+                cur = list(header)
+        if len(cur) > header_n:
+            out.append(Chunk(ord=len(out), heading=heading,
+                             text="\n".join(cur).strip(), is_table=True))
+        return
+    out.append(Chunk(ord=len(out), heading=heading, text=text, is_table=is_table))
 
 
 def split_markdown(md: str) -> list[Chunk]:
@@ -108,6 +125,37 @@ def split_markdown(md: str) -> list[Chunk]:
             _flush(buf, head, out, False)
     # 3) 披露页噪声整段丢弃（治本；查询期过滤兜底）
     out = [c for c in out if not is_boilerplate(c.text, c.heading)]
+    out = _merge_short(out)
     for i, c in enumerate(out):
         c.ord = i
     return out
+
+
+def _merge_short(out: list[Chunk]) -> list[Chunk]:
+    """短段(<MIN_CHARS)合并进相邻段,不丢弃(2026-10-17 治本:
+    原实现短段直接扔,172/228 篇文档覆盖率不足 80%,Nomura 快评类低至 9%)。
+    表格保持原子不合并;实在没邻居可并的短段保留(总比丢了好)。"""
+    res: list[Chunk] = []
+    pending: Chunk | None = None
+    for c in out:
+        if pending is not None:
+            if not c.is_table:
+                c = Chunk(ord=c.ord, heading=c.heading or pending.heading,
+                          text=pending.text + "\n" + c.text, is_table=False)
+            else:
+                # 表格原子:pending 并入前一个文本块;没有则保留
+                if res and not res[-1].is_table:
+                    res[-1].text += "\n" + pending.text
+                else:
+                    res.append(pending)
+            pending = None
+        if not c.is_table and len(c.text) < MIN_CHARS:
+            pending = c
+        else:
+            res.append(c)
+    if pending is not None:
+        if res and not res[-1].is_table:
+            res[-1].text += "\n" + pending.text
+        else:
+            res.append(pending)
+    return res

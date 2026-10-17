@@ -42,6 +42,7 @@ class AgentConfig:
     trace: bool = True
     system_extra: str = ""           # M4 节级指令注入(追加到 system prompt 末尾)
     capture_contexts: bool = False   # YanbaoEval 集成:收集工具结果原文(citations/contexts)
+    temperature: float | None = None  # None=不传(kimi 锁 1);flash 评测传 0 降采样方差
 
 
 # 双配置注册表(TASK 决策 3:单引擎双配置)
@@ -227,6 +228,8 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
                 "(系统提示:检索预算已用完。必须基于已获得的信息立即给出最终答案;"
                 "确实未覆盖就按格式明说,禁止说'让我继续搜索'类话头。)")}]
         kwargs: dict = {"model": model, "messages": messages}
+        if config.temperature is not None:
+            kwargs["temperature"] = config.temperature
         if not is_last:
             kwargs["tools"] = TOOLS
             if rnd <= config.min_tool_rounds:
