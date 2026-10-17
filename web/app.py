@@ -130,6 +130,95 @@ def api_ask_stream(q: str = Query(..., min_length=2)):
     return StreamingResponse(gen(), media_type="application/x-ndjson")
 
 
+TOOL_NAMES = {"search_docs": "检索文档库", "query_metrics": "查询指标库",
+              "query_claims": "查询观点库", "read_doc": "阅读原文"}
+
+
+def _agent_db() -> Path:
+    import os
+    from lib_paths import DB
+    return Path(os.environ.get("RAG_AGENT_DB", str(DB)))  # 测试用临时库覆盖,正式库指纹保护
+
+
+@app.get("/agent", response_class=HTMLResponse)
+def agent_page(request: Request):
+    return templates.TemplateResponse(request, "agent.html")
+
+
+@app.post("/api/agent/ask")
+def api_agent_ask(q: str = Query(..., min_length=2), agent: str = Query("property"),
+                  session: str = Query("")):
+    """agent 深研(NDJSON 流式):指代消解 → 逐轮取证进度 → 四段式答案。"""
+    if agent not in ("property", "all"):
+        return JSONResponse({"error": f"未知 agent: {agent}(可选 property/all)"}, status_code=422)
+    import json as _json
+    import queue
+    import threading
+
+    from fastapi.responses import StreamingResponse
+
+    def gen():
+        import dataclasses
+        from lib_agent import AGENTS, resolve_query, run_agent
+        from lib_db import connect
+        from lib_session import (append_turn, build_context, latest_session,
+                                 list_turns, new_session)
+
+        db = _agent_db()
+        conn = connect(db)
+        sid = session or None
+        if sid:
+            exists = conn.execute("SELECT 1 FROM agent_sessions WHERE session_id=?",
+                                  (sid,)).fetchone()
+            if not exists:
+                conn.close()
+                yield _json.dumps({"error": f"session 不存在: {sid}"}) + "\n"
+                return
+        turns = list_turns(conn, sid) if sid else []
+        if not sid:
+            sid = new_session(conn, AGENTS[agent].topic_filter)
+        yield _json.dumps({"stage": "理解问题中…", "session": sid}) + "\n"
+        standalone = resolve_query(q, build_context(turns))
+        if standalone != q:
+            yield _json.dumps({"stage": f"指代消解:{standalone}"}) + "\n"
+
+        events: queue.Queue = queue.Queue()
+        config = dataclasses.replace(AGENTS[agent])  # AGENTS 是模块级共享实例,必须拷贝
+
+        def work():
+            try:
+                config.on_event = events.put
+                res = run_agent(standalone, config, db_path=db)
+                events.put(("__done__", res))
+            except Exception as e:  # noqa: BLE001
+                events.put(("__error__", e))
+
+        threading.Thread(target=work, daemon=True).start()
+        while True:
+            item = events.get()
+            if isinstance(item, tuple) and item[0] == "__done__":
+                res = item[1]
+                append_turn(conn, sid, q, standalone, res["answer"],
+                            res["llm_calls"], res["tool_calls"], res["trace_path"])
+                conn.close()
+                yield _json.dumps({"done": True, "answer": res["answer"], "session": sid,
+                                   "llm_calls": res["llm_calls"],
+                                   "tool_calls": res["tool_calls"]}) + "\n"
+                return
+            if isinstance(item, tuple) and item[0] == "__error__":
+                conn.close()
+                yield _json.dumps({"done": True,
+                                   "error": f"{type(item[1]).__name__}: {item[1]}"}) + "\n"
+                return
+            if item.get("type") == "llm_round":
+                yield _json.dumps({"stage": f"第 {item['round']}/{item['max']} 轮思考与查证…"}) + "\n"
+            elif item.get("type") == "tool_done":
+                yield _json.dumps({"stage": f"{TOOL_NAMES.get(item['tool'], item['tool'])} 完成"
+                                            f"({item['result_chars']} 字符)"}) + "\n"
+
+    return StreamingResponse(gen(), media_type="application/x-ndjson")
+
+
 @app.get("/metrics", response_class=HTMLResponse)
 def metrics_page(request: Request):
     conn = connect(DB)

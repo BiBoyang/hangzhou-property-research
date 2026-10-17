@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>房地产研报研判 · 深研</title>
+<link rel="stylesheet" href="/static/app.css">
+<style>
+.turn { margin-bottom: 28px; }
+.turn .q { font-weight: 600; margin-bottom: 6px; }
+.turn .q::before { content: "问:"; color: #888; font-weight: 400; margin-right: 6px; }
+details.trace { margin: 6px 0 10px; font-size: 13px; color: #666; }
+details.trace summary { cursor: pointer; user-select: none; }
+details.trace ul { margin: 6px 0 0; padding-left: 18px; }
+.agentbar { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.agentbar select { padding: 4px 8px; }
+#newchat { margin-left: auto; }
+</style>
+</head>
+<body>
+<nav class="topnav"><div class="topnav-in">
+  <a class="logo" href="/">研报研判</a>
+  <div class="navlinks">
+    <a href="/">问答</a>
+    <a href="/agent" class="on" aria-current="page">深研</a>
+    <a href="/overview">总览</a>
+    <a href="/metrics">指标看板</a>
+    <a href="/docs">报告库</a>
+  </div>
+</div></nav>
+<main class="page page-ask">
+<header class="hero"><h2>Agent 深研</h2></header>
+<div class="agentbar">
+  <label>语料范围
+    <select id="agent">
+      <option value="property" selected>房地产</option>
+      <option value="all">全量</option>
+    </select>
+  </label>
+  <span class="dim" style="font-size:12px">拆解 → 并行查证(文档/指标/观点三层)→ 四段式判断;每问 ≤4 次模型调用</span>
+  <button id="newchat" type="button">新对话</button>
+</div>
+<form id="f">
+  <input id="q" placeholder="例:瑞银 2026 年以来对楼市的态度有什么变化?(可追问)" autofocus>
+  <p><button type="submit">提问</button></p>
+</form>
+<div id="chat"></div>
+</main>
+<script src="/static/marked.min.js"></script>
+<script src="/static/purify.min.js"></script>
+<script>
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const renderMd = (t) => DOMPurify.sanitize(marked.parse(t));
+const chat = document.getElementById('chat');
+let sessionId = '';
+let asking = false;
+
+document.getElementById('newchat').onclick = () => { sessionId = ''; };
+
+document.getElementById('f').onsubmit = async (e) => {
+  e.preventDefault();
+  if (asking) return;
+  const qEl = document.getElementById('q');
+  const q = qEl.value.trim();
+  if (q.length < 2) return;
+  asking = true; qEl.value = '';
+  const agent = document.getElementById('agent').value;
+  const turn = document.createElement('div');
+  turn.className = 'turn';
+  turn.innerHTML = `<div class="q">${esc(q)}</div>`
+    + `<details class="trace"><summary>取证过程</summary><ul class="steps"></ul></details>`
+    + `<div class="a"></div>`;
+  chat.appendChild(turn);
+  const steps = turn.querySelector('.steps');
+  const ans = turn.querySelector('.a');
+  const addStep = (t) => { const li = document.createElement('li'); li.textContent = t; steps.appendChild(li); };
+  try {
+    const resp = await fetch(`/api/agent/ask?q=${encodeURIComponent(q)}&agent=${agent}&session=${encodeURIComponent(sessionId)}`, {method: 'POST'});
+    if (!resp.ok) { addStep(`请求失败: HTTP ${resp.status}`); asking = false; return; }
+    const reader = resp.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream: true});
+      let idx;
+      while ((idx = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, idx); buf = buf.slice(idx + 1);
+        if (!line.trim()) continue;
+        const ev = JSON.parse(line);
+        if (ev.session) sessionId = ev.session;
+        if (ev.stage) addStep(ev.stage);
+        if (ev.error) { ans.innerHTML = `<p class="dim">出错:${esc(ev.error)}</p>`; }
+        if (ev.done && ev.answer) {
+          ans.innerHTML = renderMd(ev.answer)
+            + `<p class="dim" style="font-size:12px">模型调用 ${esc(ev.llm_calls)} 次 · 工具调用 ${esc(ev.tool_calls)} 次</p>`;
+        }
+      }
+    }
+  } catch (err) {
+    addStep(`网络错误: ${err}`);
+  }
+  asking = false;
+};
+</script>
+</body>
+</html>

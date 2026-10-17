@@ -43,6 +43,7 @@ class AgentConfig:
     system_extra: str = ""           # M4 节级指令注入(追加到 system prompt 末尾)
     capture_contexts: bool = False   # YanbaoEval 集成:收集工具结果原文(citations/contexts)
     temperature: float | None = None  # None=不传(kimi 锁 1);flash 评测传 0 降采样方差
+    on_event: object = None           # 可选回调 dict 事件(web 流式进度):llm_round/tool_calls/final
 
 
 # 双配置注册表(TASK 决策 3:单引擎双配置)
@@ -221,6 +222,8 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
     n_tool_calls = 0
 
     for rnd in range(1, config.max_llm_calls + 1):
+        if config.on_event:
+            config.on_event({"type": "llm_round", "round": rnd, "max": config.max_llm_calls})
         is_last = rnd == config.max_llm_calls
         if is_last:
             # 预算耗尽的强制合成轮:明确告知模型必须立即作答(实测:不告知会在终答里复读"让我继续搜索")
@@ -258,6 +261,8 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
                       "tokens": {"in": u.prompt_tokens, "out": u.completion_tokens} if u else None})
 
         if not tool_calls:
+            if config.on_event:
+                config.on_event({"type": "final", "llm_calls": rnd, "tool_calls": n_tool_calls})
             answer = (msg.content or "").strip()
             trace.append({"round": rnd, "kind": "final", "chars": len(answer)})
             return {"answer": answer, "llm_calls": rnd, "tool_calls": n_tool_calls,
@@ -279,6 +284,9 @@ def run_agent(query: str, config: AgentConfig | None = None, client=None,
                           "result_chars": len(results[tc_id]),
                           "result_head": results[tc_id][:200]})
             messages.append({"role": "tool", "tool_call_id": tc_id, "content": results[tc_id]})
+            if config.on_event:
+                config.on_event({"type": "tool_done", "tool": name,
+                                 "result_chars": len(results[tc_id])})
             if config.capture_contexts:
                 contexts.append({"tool": name, "args": args, "content": results[tc_id]})
 
