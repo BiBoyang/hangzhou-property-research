@@ -53,6 +53,24 @@ class TestClassify(unittest.TestCase):
         self.assertEqual(TOPICS[-1], "其他")
 
 
+class TestFreshDbHasTopic(unittest.TestCase):
+    def test_fresh_db_has_topic_column(self):
+        """新库直接带 topic 列(2026-10-18 bug:SCHEMA 缺列导致全新空库 ingest 必炸)。"""
+        tmp = tempfile.TemporaryDirectory()
+        conn = connect(Path(tmp.name) / "fresh.db")
+        cols = {r["name"] for r in conn.execute("PRAGMA table_info(docs)")}
+        conn.close()
+        tmp.cleanup()
+        self.assertIn("topic", cols)
+
+    def test_migrate_noop_on_fresh_db(self):
+        tmp = tempfile.TemporaryDirectory()
+        conn = connect(Path(tmp.name) / "fresh.db")
+        self.assertFalse(backfill_topic.migrate_add_topic(conn))  # 已有列,幂等不动
+        conn.close()
+        tmp.cleanup()
+
+
 class TestBackfill(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -68,10 +86,13 @@ class TestBackfill(unittest.TestCase):
         self.tmp.cleanup()
 
     def test_migrate_idempotent(self):
+        # 新库 SCHEMA 自带 topic 列;migrate 只服务老库——先 DROP 模拟老库
         conn = connect(self.db)
+        conn.execute("ALTER TABLE docs DROP COLUMN topic")
+        conn.commit()
         self.assertTrue(backfill_topic.migrate_add_topic(conn))
         conn.commit()
-        self.assertFalse(backfill_topic.migrate_add_topic(conn))
+        self.assertFalse(backfill_topic.migrate_add_topic(conn))  # 幂等
         conn.close()
 
     def test_backfill_writes_tags(self):

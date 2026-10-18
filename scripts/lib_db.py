@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS docs (
   institution TEXT,
   report_date TEXT,
   lang TEXT,
-  cities TEXT          -- JSON array
+  cities TEXT,         -- JSON array
+  topic TEXT           -- 主题标签 JSON array(2026-10 M0 加;老库用 backfill_topic.migrate_add_topic 补)
 );
 
 CREATE TABLE IF NOT EXISTS chunks (
